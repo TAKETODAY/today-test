@@ -47,42 +47,42 @@ import cn.taketoday.context.ApplicationContext;
  */
 public interface ContextLoader {
 
-	/**
-	 * Processes application context resource locations for a specified class.
-	 * <p>Concrete implementations may choose to modify the supplied locations,
-	 * generate new locations, or simply return the supplied locations unchanged.
-	 *
-	 * @param clazz the class with which the locations are associated: used to
-	 * determine how to process the supplied locations
-	 * @param locations the unmodified locations to use for loading the
-	 * application context (can be {@code null} or empty)
-	 * @return an array of application context resource locations
-	 */
-	String[] processLocations(Class<?> clazz, String... locations);
+  /**
+   * Processes application context resource locations for a specified class.
+   * <p>Concrete implementations may choose to modify the supplied locations,
+   * generate new locations, or simply return the supplied locations unchanged.
+   *
+   * @param clazz the class with which the locations are associated: used to
+   * determine how to process the supplied locations
+   * @param locations the unmodified locations to use for loading the
+   * application context (can be {@code null} or empty)
+   * @return an array of application context resource locations
+   */
+  String[] processLocations(Class<?> clazz, String... locations);
 
-	/**
-	 * Loads a new {@link ApplicationContext context} based on the supplied
-	 * {@code locations}, configures the context, and finally returns
-	 * the context in fully <em>refreshed</em> state.
-	 * <p>Configuration locations are generally considered to be classpath
-	 * resources by default.
-	 * <p>Concrete implementations should register annotation configuration
-	 * processors with bean factories of {@link ApplicationContext application
-	 * contexts} loaded by this ContextLoader. Beans will therefore automatically
-	 * be candidates for annotation-based dependency injection using
-	 * {@link cn.taketoday.lang.Autowired @Autowired},
-	 * {@link javax.annotation.Resource @Resource}, and
-	 * {@link javax.inject.Inject @Inject}.
-	 * <p>Any ApplicationContext loaded by a ContextLoader <strong>must</strong>
-	 * register a JVM shutdown hook for itself. Unless the context gets closed
-	 * early, all context instances will be automatically closed on JVM
-	 * shutdown. This allows for freeing external resources held by beans within
-	 * the context, e.g. temporary files.
-	 *
-	 * @param locations the resource locations to use to load the application context
-	 * @return a new application context
-	 * @throws Exception if context loading failed
-	 */
-	ApplicationContext loadContext(String... locations) throws Exception;
+  /**
+   * Loads a new {@link ApplicationContext context} based on the supplied
+   * {@code locations}, configures the context, and finally returns
+   * the context in fully <em>refreshed</em> state.
+   * <p>Configuration locations are generally considered to be classpath
+   * resources by default.
+   * <p>Concrete implementations should register annotation configuration
+   * processors with bean factories of {@link ApplicationContext application
+   * contexts} loaded by this ContextLoader. Beans will therefore automatically
+   * be candidates for annotation-based dependency injection using
+   * {@link cn.taketoday.lang.Autowired @Autowired},
+   * {@link javax.annotation.Resource @Resource}, and
+   * {@link javax.inject.Inject @Inject}.
+   * <p>Any ApplicationContext loaded by a ContextLoader <strong>must</strong>
+   * register a JVM shutdown hook for itself. Unless the context gets closed
+   * early, all context instances will be automatically closed on JVM
+   * shutdown. This allows for freeing external resources held by beans within
+   * the context, e.g. temporary files.
+   *
+   * @param locations the resource locations to use to load the application context
+   * @return a new application context
+   * @throws Exception if context loading failed
+   */
+  ApplicationContext loadContext(String... locations) throws Exception;
 
 }

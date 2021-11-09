@@ -31,51 +31,51 @@ import java.io.InputStream;
  */
 public class MockClientHttpResponse extends MockHttpInputMessage implements ClientHttpResponse {
 
-	private final HttpStatus status;
+  private final HttpStatus status;
 
 
-	/**
-	 * Constructor with response body as a byte array.
-	 */
-	public MockClientHttpResponse(byte[] body, HttpStatus statusCode) {
-		super(body);
-		Assert.notNull(statusCode, "HttpStatus is required");
-		this.status = statusCode;
-	}
+  /**
+   * Constructor with response body as a byte array.
+   */
+  public MockClientHttpResponse(byte[] body, HttpStatus statusCode) {
+    super(body);
+    Assert.notNull(statusCode, "HttpStatus is required");
+    this.status = statusCode;
+  }
 
-	/**
-	 * Constructor with response body as InputStream.
-	 */
-	public MockClientHttpResponse(InputStream body, HttpStatus statusCode) {
-		super(body);
-		Assert.notNull(statusCode, "HttpStatus is required");
-		this.status = statusCode;
-	}
+  /**
+   * Constructor with response body as InputStream.
+   */
+  public MockClientHttpResponse(InputStream body, HttpStatus statusCode) {
+    super(body);
+    Assert.notNull(statusCode, "HttpStatus is required");
+    this.status = statusCode;
+  }
 
 
-	@Override
-	public HttpStatus getStatusCode() throws IOException {
-		return this.status;
-	}
+  @Override
+  public HttpStatus getStatusCode() throws IOException {
+    return this.status;
+  }
 
-	@Override
-	public int getRawStatusCode() throws IOException {
-		return this.status.value();
-	}
+  @Override
+  public int getRawStatusCode() throws IOException {
+    return this.status.value();
+  }
 
-	@Override
-	public String getStatusText() throws IOException {
-		return this.status.getReasonPhrase();
-	}
+  @Override
+  public String getStatusText() throws IOException {
+    return this.status.getReasonPhrase();
+  }
 
-	@Override
-	public void close() {
-		try {
-			getBody().close();
-		}
-		catch (IOException ex) {
-			// ignore
-		}
-	}
+  @Override
+  public void close() {
+    try {
+      getBody().close();
+    }
+    catch (IOException ex) {
+      // ignore
+    }
+  }
 
 }

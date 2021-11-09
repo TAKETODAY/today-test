@@ -34,13 +34,13 @@ import cn.taketoday.mock.web.MockHttpServletRequest;
 @FunctionalInterface
 public interface RequestPostProcessor {
 
-	/**
-	 * Post-process the given {@code MockHttpServletRequest} after its creation
-	 * and initialization through a {@code MockHttpServletRequestBuilder}.
-	 *
-	 * @param request the request to initialize
-	 * @return the request to use, either the one passed in or a wrapped one
-	 */
-	MockHttpServletRequest postProcessRequest(MockHttpServletRequest request);
+  /**
+   * Post-process the given {@code MockHttpServletRequest} after its creation
+   * and initialization through a {@code MockHttpServletRequestBuilder}.
+   *
+   * @param request the request to initialize
+   * @return the request to use, either the one passed in or a wrapped one
+   */
+  MockHttpServletRequest postProcessRequest(MockHttpServletRequest request);
 
 }

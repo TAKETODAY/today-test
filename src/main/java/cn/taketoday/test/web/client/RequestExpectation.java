@@ -28,19 +28,19 @@ package cn.taketoday.test.web.client;
  */
 public interface RequestExpectation extends ResponseActions, RequestMatcher, ResponseCreator {
 
-	/**
-	 * Whether there is a remaining count of invocations for this expectation.
-	 */
-	boolean hasRemainingCount();
+  /**
+   * Whether there is a remaining count of invocations for this expectation.
+   */
+  boolean hasRemainingCount();
 
-	/**
-	 * Increase the matched request count and check we haven't passed the max count.
-	 */
-	void incrementAndValidate();
+  /**
+   * Increase the matched request count and check we haven't passed the max count.
+   */
+  void incrementAndValidate();
 
-	/**
-	 * Whether the requirements for this request expectation have been met.
-	 */
-	boolean isSatisfied();
+  /**
+   * Whether the requirements for this request expectation have been met.
+   */
+  boolean isSatisfied();
 
 }

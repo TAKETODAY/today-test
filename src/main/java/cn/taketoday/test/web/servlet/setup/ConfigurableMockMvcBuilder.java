@@ -21,8 +21,8 @@ import cn.taketoday.test.web.servlet.MockMvcBuilder;
 import cn.taketoday.test.web.servlet.RequestBuilder;
 import cn.taketoday.test.web.servlet.ResultHandler;
 import cn.taketoday.test.web.servlet.ResultMatcher;
+import jakarta.servlet.Filter;
 
-import javax.servlet.Filter;
 import java.nio.charset.Charset;
 
 /**
@@ -34,113 +34,113 @@ import java.nio.charset.Charset;
  */
 public interface ConfigurableMockMvcBuilder<B extends ConfigurableMockMvcBuilder<B>> extends MockMvcBuilder {
 
-	/**
-	 * Add filters mapped to any request (i.e. "/*"). For example:
-	 * <pre class="code">
-	 * mockMvcBuilder.addFilters(springSecurityFilterChain);
-	 * </pre>
-	 * <p>It is the equivalent of the following web.xml configuration:
-	 * <pre class="code">
-	 * &lt;filter-mapping&gt;
-	 *     &lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;
-	 *     &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-	 * &lt;/filter-mapping&gt;
-	 * </pre>
-	 * <p>Filters will be invoked in the order in which they are provided.
-	 *
-	 * @param filters the filters to add
-	 */
-	<T extends B> T addFilters(Filter... filters);
+  /**
+   * Add filters mapped to any request (i.e. "/*"). For example:
+   * <pre class="code">
+   * mockMvcBuilder.addFilters(springSecurityFilterChain);
+   * </pre>
+   * <p>It is the equivalent of the following web.xml configuration:
+   * <pre class="code">
+   * &lt;filter-mapping&gt;
+   *     &lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;
+   *     &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+   * &lt;/filter-mapping&gt;
+   * </pre>
+   * <p>Filters will be invoked in the order in which they are provided.
+   *
+   * @param filters the filters to add
+   */
+  <T extends B> T addFilters(Filter... filters);
 
-	/**
-	 * Add a filter mapped to a specific set of patterns. For example:
-	 * <pre class="code">
-	 * mockMvcBuilder.addFilter(myResourceFilter, "/resources/*");
-	 * </pre>
-	 * <p>It is the equivalent of:
-	 * <pre class="code">
-	 * &lt;filter-mapping&gt;
-	 *     &lt;filter-name&gt;myResourceFilter&lt;/filter-name&gt;
-	 *     &lt;url-pattern&gt;/resources/*&lt;/url-pattern&gt;
-	 * &lt;/filter-mapping&gt;
-	 * </pre>
-	 * <p>Filters will be invoked in the order in which they are provided.
-	 *
-	 * @param filter the filter to add
-	 * @param urlPatterns the URL patterns to map to; if empty, "/*" is used by default
-	 */
-	<T extends B> T addFilter(Filter filter, String... urlPatterns);
+  /**
+   * Add a filter mapped to a specific set of patterns. For example:
+   * <pre class="code">
+   * mockMvcBuilder.addFilter(myResourceFilter, "/resources/*");
+   * </pre>
+   * <p>It is the equivalent of:
+   * <pre class="code">
+   * &lt;filter-mapping&gt;
+   *     &lt;filter-name&gt;myResourceFilter&lt;/filter-name&gt;
+   *     &lt;url-pattern&gt;/resources/*&lt;/url-pattern&gt;
+   * &lt;/filter-mapping&gt;
+   * </pre>
+   * <p>Filters will be invoked in the order in which they are provided.
+   *
+   * @param filter the filter to add
+   * @param urlPatterns the URL patterns to map to; if empty, "/*" is used by default
+   */
+  <T extends B> T addFilter(Filter filter, String... urlPatterns);
 
-	/**
-	 * Define default request properties that should be merged into all
-	 * performed requests. In effect this provides a mechanism for defining
-	 * common initialization for all requests such as the content type, request
-	 * parameters, session attributes, and any other request property.
-	 *
-	 * <p>Properties specified at the time of performing a request override the
-	 * default properties defined here.
-	 *
-	 * @param requestBuilder a RequestBuilder; see static factory methods in
-	 * {@link cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders}
-	 */
-	<T extends B> T defaultRequest(RequestBuilder requestBuilder);
+  /**
+   * Define default request properties that should be merged into all
+   * performed requests. In effect this provides a mechanism for defining
+   * common initialization for all requests such as the content type, request
+   * parameters, session attributes, and any other request property.
+   *
+   * <p>Properties specified at the time of performing a request override the
+   * default properties defined here.
+   *
+   * @param requestBuilder a RequestBuilder; see static factory methods in
+   * {@link cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders}
+   */
+  <T extends B> T defaultRequest(RequestBuilder requestBuilder);
 
-	/**
-	 * Define the default character encoding to be applied to every response.
-	 * <p>The default implementation of this method throws an
-	 * {@link UnsupportedOperationException}. Concrete implementations are therefore
-	 * encouraged to override this method.
-	 *
-	 * @param defaultResponseCharacterEncoding the default response character encoding
-	 */
-	default <T extends B> T defaultResponseCharacterEncoding(Charset defaultResponseCharacterEncoding) {
-		throw new UnsupportedOperationException("defaultResponseCharacterEncoding is not supported by this MockMvcBuilder");
-	}
+  /**
+   * Define the default character encoding to be applied to every response.
+   * <p>The default implementation of this method throws an
+   * {@link UnsupportedOperationException}. Concrete implementations are therefore
+   * encouraged to override this method.
+   *
+   * @param defaultResponseCharacterEncoding the default response character encoding
+   */
+  default <T extends B> T defaultResponseCharacterEncoding(Charset defaultResponseCharacterEncoding) {
+    throw new UnsupportedOperationException("defaultResponseCharacterEncoding is not supported by this MockMvcBuilder");
+  }
 
-	/**
-	 * Define a global expectation that should <em>always</em> be applied to
-	 * every response. For example, status code 200 (OK), content type
-	 * {@code "application/json"}, etc.
-	 *
-	 * @param resultMatcher a ResultMatcher; see static factory methods in
-	 * {@link cn.taketoday.test.web.servlet.result.MockMvcResultMatchers}
-	 */
-	<T extends B> T alwaysExpect(ResultMatcher resultMatcher);
+  /**
+   * Define a global expectation that should <em>always</em> be applied to
+   * every response. For example, status code 200 (OK), content type
+   * {@code "application/json"}, etc.
+   *
+   * @param resultMatcher a ResultMatcher; see static factory methods in
+   * {@link cn.taketoday.test.web.servlet.result.MockMvcResultMatchers}
+   */
+  <T extends B> T alwaysExpect(ResultMatcher resultMatcher);
 
-	/**
-	 * Define a global action that should <em>always</em> be applied to every
-	 * response. For example, writing detailed information about the performed
-	 * request and resulting response to {@code System.out}.
-	 *
-	 * @param resultHandler a ResultHandler; see static factory methods in
-	 * {@link cn.taketoday.test.web.servlet.result.MockMvcResultHandlers}
-	 */
-	<T extends B> T alwaysDo(ResultHandler resultHandler);
+  /**
+   * Define a global action that should <em>always</em> be applied to every
+   * response. For example, writing detailed information about the performed
+   * request and resulting response to {@code System.out}.
+   *
+   * @param resultHandler a ResultHandler; see static factory methods in
+   * {@link cn.taketoday.test.web.servlet.result.MockMvcResultHandlers}
+   */
+  <T extends B> T alwaysDo(ResultHandler resultHandler);
 
-	/**
-	 * Whether to enable the DispatcherServlet property
-	 * {@link cn.taketoday.web.servlet.DispatcherServlet#setDispatchOptionsRequest
-	 * dispatchOptionsRequest} which allows processing of HTTP OPTIONS requests.
-	 */
-	<T extends B> T dispatchOptions(boolean dispatchOptions);
+  /**
+   * Whether to enable the DispatcherServlet property
+   * {@link cn.taketoday.web.servlet.DispatcherServlet#setDispatchOptionsRequest
+   * dispatchOptionsRequest} which allows processing of HTTP OPTIONS requests.
+   */
+  <T extends B> T dispatchOptions(boolean dispatchOptions);
 
-	/**
-	 * A more advanced variant of {@link #dispatchOptions(boolean)} that allows
-	 * customizing any {@link cn.taketoday.web.servlet.DispatcherServlet}
-	 * property.
-	 */
-	<T extends B> T addDispatcherServletCustomizer(DispatcherServletCustomizer customizer);
+  /**
+   * A more advanced variant of {@link #dispatchOptions(boolean)} that allows
+   * customizing any {@link cn.taketoday.web.servlet.DispatcherServlet}
+   * property.
+   */
+  <T extends B> T addDispatcherServletCustomizer(DispatcherServletCustomizer customizer);
 
-	/**
-	 * Add a {@code MockMvcConfigurer} that automates MockMvc setup and
-	 * configures it for some specific purpose (e.g. security).
-	 * <p>There is a built-in {@link SharedHttpSessionConfigurer} that can be
-	 * used to re-use the HTTP session across requests. 3rd party frameworks
-	 * like Spring Security also use this mechanism to provide configuration
-	 * shortcuts.
-	 *
-	 * @see SharedHttpSessionConfigurer
-	 */
-	<T extends B> T apply(MockMvcConfigurer configurer);
+  /**
+   * Add a {@code MockMvcConfigurer} that automates MockMvc setup and
+   * configures it for some specific purpose (e.g. security).
+   * <p>There is a built-in {@link SharedHttpSessionConfigurer} that can be
+   * used to re-use the HTTP session across requests. 3rd party frameworks
+   * like Spring Security also use this mechanism to provide configuration
+   * shortcuts.
+   *
+   * @see SharedHttpSessionConfigurer
+   */
+  <T extends B> T apply(MockMvcConfigurer configurer);
 
 }

@@ -33,23 +33,23 @@ import cn.taketoday.test.context.SmartContextLoader;
  */
 public class DelegatingSmartContextLoader extends AbstractDelegatingSmartContextLoader {
 
-	private final SmartContextLoader xmlLoader;
-	private final SmartContextLoader annotationConfigLoader;
+  private final SmartContextLoader xmlLoader;
+  private final SmartContextLoader annotationConfigLoader;
 
-	public DelegatingSmartContextLoader() {
-		this.xmlLoader = new GenericXmlContextLoader();
+  public DelegatingSmartContextLoader() {
+    this.xmlLoader = new GenericXmlContextLoader();
 
-		this.annotationConfigLoader = new AnnotationConfigContextLoader();
-	}
+    this.annotationConfigLoader = new AnnotationConfigContextLoader();
+  }
 
-	@Override
-	protected SmartContextLoader getXmlLoader() {
-		return this.xmlLoader;
-	}
+  @Override
+  protected SmartContextLoader getXmlLoader() {
+    return this.xmlLoader;
+  }
 
-	@Override
-	protected SmartContextLoader getAnnotationConfigLoader() {
-		return this.annotationConfigLoader;
-	}
+  @Override
+  protected SmartContextLoader getAnnotationConfigLoader() {
+    return this.annotationConfigLoader;
+  }
 
 }

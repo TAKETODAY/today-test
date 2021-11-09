@@ -12,16 +12,18 @@
 
 	<properties>
 		<!--    <skipTests>true</skipTests>-->
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
-		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<servlet.version>5.0.0</servlet.version>
 		<junit.version>4.13.2</junit.version>
 		<junit5.version>5.8.1</junit5.version>
 		<mockito.version>3.12.4</mockito.version>
 		<lombok.version>1.18.22</lombok.version>
 		<assertj.version>3.20.2</assertj.version>
+    <embed.tomcat.version>10.0.12</embed.tomcat.version>
 
 	</properties>
 
@@ -118,25 +120,92 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>${mockito.version}</version>
 		</dependency>
+		<!--
+				======================================================
+						 jakarta
+				======================================================
+		-->
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${servlet.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>2.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-api</artifactId>
-			<version>1.1</version>
+			<groupId>jakarta.servlet.jsp</groupId>
+			<artifactId>jakarta.servlet.jsp-api</artifactId>
+			<version>3.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.json.bind</groupId>
+			<artifactId>jakarta.json.bind-api</artifactId>
+			<version>2.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.annotation</groupId>
+			<artifactId>jakarta.annotation-api</artifactId>
+			<version>2.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.inject</groupId>
+			<artifactId>jakarta.inject-api</artifactId>
+			<version>2.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.websocket</groupId>
+			<artifactId>jakarta.websocket-api</artifactId>
+			<version>2.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!--
+				======================================================
+						 reactive
+				======================================================
+		-->
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+			<version>3.4.11</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.tools</groupId>
+			<artifactId>blockhound</artifactId>
+			<version>1.0.6.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.reactivex.rxjava3</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>3.1.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.smallrye.reactive</groupId>
+			<artifactId>mutiny</artifactId>
+			<version>1.1.2</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -145,6 +214,25 @@
 			<artifactId>json-path</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.54.0</version>
+		</dependency>
+
+		    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>${embed.tomcat.version}</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.tomcat</groupId>
+          <artifactId>tomcat-annotations-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
 	</dependencies>
 
@@ -156,8 +244,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<source>8</source>
-					<target>8</target>
+					<source>17</source>
+					<target>17</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -237,8 +325,6 @@
 		<profile>
 			<id>docs</id>
 			<properties>
-				<maven.compiler.source>1.8</maven.compiler.source>
-				<maven.compiler.target>1.8</maven.compiler.target>
 				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 			</properties>
 
@@ -346,8 +432,6 @@
 		<profile>
 			<id>ci</id>
 			<properties>
-				<maven.compiler.source>1.8</maven.compiler.source>
-				<maven.compiler.target>1.8</maven.compiler.target>
 				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 			</properties>
 

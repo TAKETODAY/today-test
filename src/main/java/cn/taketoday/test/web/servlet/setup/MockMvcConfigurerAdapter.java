@@ -27,14 +27,14 @@ import cn.taketoday.web.context.WebApplicationContext;
  */
 public abstract class MockMvcConfigurerAdapter implements MockMvcConfigurer {
 
-	@Override
-	public void afterConfigurerAdded(ConfigurableMockMvcBuilder<?> builder) {
-	}
+  @Override
+  public void afterConfigurerAdded(ConfigurableMockMvcBuilder<?> builder) {
+  }
 
-	@Override
-	@Nullable
-	public RequestPostProcessor beforeMockMvcCreated(ConfigurableMockMvcBuilder<?> builder, WebApplicationContext cxt) {
-		return null;
-	}
+  @Override
+  @Nullable
+  public RequestPostProcessor beforeMockMvcCreated(ConfigurableMockMvcBuilder<?> builder, WebApplicationContext cxt) {
+    return null;
+  }
 
 }

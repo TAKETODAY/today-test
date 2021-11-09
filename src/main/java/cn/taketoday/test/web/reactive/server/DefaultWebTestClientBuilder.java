@@ -26,7 +26,7 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.CollectionUtils;
-import cn.taketoday.util.LinkedMultiValueMap;
+import cn.taketoday.util.DefaultMultiValueMap;
 import cn.taketoday.util.MultiValueMap;
 import cn.taketoday.web.reactive.function.client.ExchangeFilterFunction;
 import cn.taketoday.web.reactive.function.client.ExchangeFunction;
@@ -50,283 +50,283 @@ import java.util.function.Function;
  */
 class DefaultWebTestClientBuilder implements WebTestClient.Builder {
 
-	private static final boolean reactorClientPresent;
+  private static final boolean reactorClientPresent;
 
-	private static final boolean jettyClientPresent;
+  private static final boolean jettyClientPresent;
 
-	private static final boolean httpComponentsClientPresent;
+  private static final boolean httpComponentsClientPresent;
 
-	private static final boolean webFluxPresent;
+  private static final boolean webFluxPresent;
 
-	static {
-		ClassLoader loader = DefaultWebTestClientBuilder.class.getClassLoader();
-		reactorClientPresent = ClassUtils.isPresent("reactor.netty.http.client.HttpClient", loader);
-		jettyClientPresent = ClassUtils.isPresent("org.eclipse.jetty.client.HttpClient", loader);
-		httpComponentsClientPresent =
-						ClassUtils.isPresent("org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient", loader) &&
-										ClassUtils.isPresent("org.apache.hc.core5.reactive.ReactiveDataConsumer", loader);
-		webFluxPresent = ClassUtils.isPresent(
-						"cn.taketoday.web.reactive.function.client.ExchangeFunction", loader);
-	}
-
-
-	@Nullable
-	private final WebHttpHandlerBuilder httpHandlerBuilder;
-
-	@Nullable
-	private final ClientHttpConnector connector;
-
-	@Nullable
-	private String baseUrl;
-
-	@Nullable
-	private UriBuilderFactory uriBuilderFactory;
-
-	@Nullable
-	private HttpHeaders defaultHeaders;
-
-	@Nullable
-	private MultiValueMap<String, String> defaultCookies;
-
-	@Nullable
-	private List<ExchangeFilterFunction> filters;
-
-	private Consumer<EntityExchangeResult<?>> entityResultConsumer = result -> { };
-
-	@Nullable
-	private ExchangeStrategies strategies;
-
-	@Nullable
-	private List<Consumer<ExchangeStrategies.Builder>> strategiesConfigurers;
-
-	@Nullable
-	private Duration responseTimeout;
+  static {
+    ClassLoader loader = DefaultWebTestClientBuilder.class.getClassLoader();
+    reactorClientPresent = ClassUtils.isPresent("reactor.netty.http.client.HttpClient", loader);
+    jettyClientPresent = ClassUtils.isPresent("org.eclipse.jetty.client.HttpClient", loader);
+    httpComponentsClientPresent =
+            ClassUtils.isPresent("org.apache.hc.client5.http.impl.async.CloseableHttpAsyncClient", loader) &&
+                    ClassUtils.isPresent("org.apache.hc.core5.reactive.ReactiveDataConsumer", loader);
+    webFluxPresent = ClassUtils.isPresent(
+            "cn.taketoday.web.reactive.function.client.ExchangeFunction", loader);
+  }
 
 
-	/** Determine connector via classpath detection. */
-	DefaultWebTestClientBuilder() {
-		this(null, null);
-	}
+  @Nullable
+  private final WebHttpHandlerBuilder httpHandlerBuilder;
 
-	/** Use HttpHandlerConnector with mock server. */
-	DefaultWebTestClientBuilder(WebHttpHandlerBuilder httpHandlerBuilder) {
-		this(httpHandlerBuilder, null);
-	}
+  @Nullable
+  private final ClientHttpConnector connector;
 
-	/** Use given connector. */
-	DefaultWebTestClientBuilder(ClientHttpConnector connector) {
-		this(null, connector);
-	}
+  @Nullable
+  private String baseUrl;
 
-	DefaultWebTestClientBuilder(
-					@Nullable WebHttpHandlerBuilder httpHandlerBuilder, @Nullable ClientHttpConnector connector) {
+  @Nullable
+  private UriBuilderFactory uriBuilderFactory;
 
-		Assert.isTrue(httpHandlerBuilder == null || connector == null,
-						"Expected WebHttpHandlerBuilder or ClientHttpConnector but not both.");
+  @Nullable
+  private HttpHeaders defaultHeaders;
 
-		// Helpful message especially for MockMvcWebTestClient users
-		Assert.state(webFluxPresent,
-						"To use WebTestClient, please add spring-webflux to the test classpath.");
+  @Nullable
+  private MultiValueMap<String, String> defaultCookies;
 
-		this.connector = connector;
-		this.httpHandlerBuilder = (httpHandlerBuilder != null ? httpHandlerBuilder.clone() : null);
-	}
+  @Nullable
+  private List<ExchangeFilterFunction> filters;
 
-	/** Copy constructor. */
-	DefaultWebTestClientBuilder(DefaultWebTestClientBuilder other) {
-		this.httpHandlerBuilder = (other.httpHandlerBuilder != null ? other.httpHandlerBuilder.clone() : null);
-		this.connector = other.connector;
-		this.responseTimeout = other.responseTimeout;
+  private Consumer<EntityExchangeResult<?>> entityResultConsumer = result -> { };
 
-		this.baseUrl = other.baseUrl;
-		this.uriBuilderFactory = other.uriBuilderFactory;
-		if (other.defaultHeaders != null) {
-			this.defaultHeaders = new HttpHeaders();
-			this.defaultHeaders.putAll(other.defaultHeaders);
-		}
-		else {
-			this.defaultHeaders = null;
-		}
-		this.defaultCookies = (other.defaultCookies != null ?
-						new LinkedMultiValueMap<>(other.defaultCookies) : null);
-		this.filters = (other.filters != null ? new ArrayList<>(other.filters) : null);
-		this.entityResultConsumer = other.entityResultConsumer;
-		this.strategies = other.strategies;
-		this.strategiesConfigurers = (other.strategiesConfigurers != null ?
-						new ArrayList<>(other.strategiesConfigurers) : null);
-	}
+  @Nullable
+  private ExchangeStrategies strategies;
+
+  @Nullable
+  private List<Consumer<ExchangeStrategies.Builder>> strategiesConfigurers;
+
+  @Nullable
+  private Duration responseTimeout;
 
 
-	@Override
-	public WebTestClient.Builder baseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
-		return this;
-	}
+  /** Determine connector via classpath detection. */
+  DefaultWebTestClientBuilder() {
+    this(null, null);
+  }
 
-	@Override
-	public WebTestClient.Builder uriBuilderFactory(UriBuilderFactory uriBuilderFactory) {
-		this.uriBuilderFactory = uriBuilderFactory;
-		return this;
-	}
+  /** Use HttpHandlerConnector with mock server. */
+  DefaultWebTestClientBuilder(WebHttpHandlerBuilder httpHandlerBuilder) {
+    this(httpHandlerBuilder, null);
+  }
 
-	@Override
-	public WebTestClient.Builder defaultHeader(String header, String... values) {
-		initHeaders().put(header, Arrays.asList(values));
-		return this;
-	}
+  /** Use given connector. */
+  DefaultWebTestClientBuilder(ClientHttpConnector connector) {
+    this(null, connector);
+  }
 
-	@Override
-	public WebTestClient.Builder defaultHeaders(Consumer<HttpHeaders> headersConsumer) {
-		headersConsumer.accept(initHeaders());
-		return this;
-	}
+  DefaultWebTestClientBuilder(
+          @Nullable WebHttpHandlerBuilder httpHandlerBuilder, @Nullable ClientHttpConnector connector) {
 
-	private HttpHeaders initHeaders() {
-		if (this.defaultHeaders == null) {
-			this.defaultHeaders = new HttpHeaders();
-		}
-		return this.defaultHeaders;
-	}
+    Assert.isTrue(httpHandlerBuilder == null || connector == null,
+            "Expected WebHttpHandlerBuilder or ClientHttpConnector but not both.");
 
-	@Override
-	public WebTestClient.Builder defaultCookie(String cookie, String... values) {
-		initCookies().addAll(cookie, Arrays.asList(values));
-		return this;
-	}
+    // Helpful message especially for MockMvcWebTestClient users
+    Assert.state(webFluxPresent,
+            "To use WebTestClient, please add spring-webflux to the test classpath.");
 
-	@Override
-	public WebTestClient.Builder defaultCookies(Consumer<MultiValueMap<String, String>> cookiesConsumer) {
-		cookiesConsumer.accept(initCookies());
-		return this;
-	}
+    this.connector = connector;
+    this.httpHandlerBuilder = (httpHandlerBuilder != null ? httpHandlerBuilder.clone() : null);
+  }
 
-	private MultiValueMap<String, String> initCookies() {
-		if (this.defaultCookies == null) {
-			this.defaultCookies = new LinkedMultiValueMap<>(3);
-		}
-		return this.defaultCookies;
-	}
+  /** Copy constructor. */
+  DefaultWebTestClientBuilder(DefaultWebTestClientBuilder other) {
+    this.httpHandlerBuilder = (other.httpHandlerBuilder != null ? other.httpHandlerBuilder.clone() : null);
+    this.connector = other.connector;
+    this.responseTimeout = other.responseTimeout;
 
-	@Override
-	public WebTestClient.Builder filter(ExchangeFilterFunction filter) {
-		Assert.notNull(filter, "ExchangeFilterFunction is required");
-		initFilters().add(filter);
-		return this;
-	}
+    this.baseUrl = other.baseUrl;
+    this.uriBuilderFactory = other.uriBuilderFactory;
+    if (other.defaultHeaders != null) {
+      this.defaultHeaders = HttpHeaders.create();
+      this.defaultHeaders.putAll(other.defaultHeaders);
+    }
+    else {
+      this.defaultHeaders = null;
+    }
+    this.defaultCookies = (other.defaultCookies != null ?
+            new DefaultMultiValueMap<>(other.defaultCookies) : null);
+    this.filters = (other.filters != null ? new ArrayList<>(other.filters) : null);
+    this.entityResultConsumer = other.entityResultConsumer;
+    this.strategies = other.strategies;
+    this.strategiesConfigurers = (other.strategiesConfigurers != null ?
+            new ArrayList<>(other.strategiesConfigurers) : null);
+  }
 
-	@Override
-	public WebTestClient.Builder filters(Consumer<List<ExchangeFilterFunction>> filtersConsumer) {
-		filtersConsumer.accept(initFilters());
-		return this;
-	}
 
-	private List<ExchangeFilterFunction> initFilters() {
-		if (this.filters == null) {
-			this.filters = new ArrayList<>();
-		}
-		return this.filters;
-	}
+  @Override
+  public WebTestClient.Builder baseUrl(String baseUrl) {
+    this.baseUrl = baseUrl;
+    return this;
+  }
 
-	@Override
-	public WebTestClient.Builder entityExchangeResultConsumer(Consumer<EntityExchangeResult<?>> entityResultConsumer) {
-		Assert.notNull(entityResultConsumer, "`entityResultConsumer` is required");
-		this.entityResultConsumer = this.entityResultConsumer.andThen(entityResultConsumer);
-		return this;
-	}
+  @Override
+  public WebTestClient.Builder uriBuilderFactory(UriBuilderFactory uriBuilderFactory) {
+    this.uriBuilderFactory = uriBuilderFactory;
+    return this;
+  }
 
-	@Override
-	public WebTestClient.Builder codecs(Consumer<ClientCodecConfigurer> configurer) {
-		if (this.strategiesConfigurers == null) {
-			this.strategiesConfigurers = new ArrayList<>(4);
-		}
-		this.strategiesConfigurers.add(builder -> builder.codecs(configurer));
-		return this;
-	}
+  @Override
+  public WebTestClient.Builder defaultHeader(String header, String... values) {
+    initHeaders().put(header, Arrays.asList(values));
+    return this;
+  }
 
-	@Override
-	public WebTestClient.Builder exchangeStrategies(ExchangeStrategies strategies) {
-		this.strategies = strategies;
-		return this;
-	}
+  @Override
+  public WebTestClient.Builder defaultHeaders(Consumer<HttpHeaders> headersConsumer) {
+    headersConsumer.accept(initHeaders());
+    return this;
+  }
 
-	@Override
-	@SuppressWarnings("deprecation")
-	public WebTestClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer) {
-		if (this.strategiesConfigurers == null) {
-			this.strategiesConfigurers = new ArrayList<>(4);
-		}
-		this.strategiesConfigurers.add(configurer);
-		return this;
-	}
+  private HttpHeaders initHeaders() {
+    if (this.defaultHeaders == null) {
+      this.defaultHeaders = HttpHeaders.create();
+    }
+    return this.defaultHeaders;
+  }
 
-	@Override
-	public WebTestClient.Builder apply(WebTestClientConfigurer configurer) {
-		configurer.afterConfigurerAdded(this, this.httpHandlerBuilder, this.connector);
-		return this;
-	}
+  @Override
+  public WebTestClient.Builder defaultCookie(String cookie, String... values) {
+    initCookies().addAll(cookie, Arrays.asList(values));
+    return this;
+  }
 
-	@Override
-	public WebTestClient.Builder responseTimeout(Duration timeout) {
-		this.responseTimeout = timeout;
-		return this;
-	}
+  @Override
+  public WebTestClient.Builder defaultCookies(Consumer<MultiValueMap<String, String>> cookiesConsumer) {
+    cookiesConsumer.accept(initCookies());
+    return this;
+  }
 
-	@Override
-	public WebTestClient build() {
-		ClientHttpConnector connectorToUse = this.connector;
-		if (connectorToUse == null) {
-			if (this.httpHandlerBuilder != null) {
-				connectorToUse = new HttpHandlerConnector(this.httpHandlerBuilder.build());
-			}
-		}
-		if (connectorToUse == null) {
-			connectorToUse = initConnector();
-		}
-		Function<ClientHttpConnector, ExchangeFunction> exchangeFactory = connector -> {
-			ExchangeFunction exchange = ExchangeFunctions.create(connector, initExchangeStrategies());
-			if (CollectionUtils.isEmpty(this.filters)) {
-				return exchange;
-			}
-			return this.filters.stream()
-							.reduce(ExchangeFilterFunction::andThen)
-							.map(filter -> filter.apply(exchange))
-							.orElse(exchange);
+  private MultiValueMap<String, String> initCookies() {
+    if (this.defaultCookies == null) {
+      this.defaultCookies = new DefaultMultiValueMap<>(3);
+    }
+    return this.defaultCookies;
+  }
 
-		};
-		return new DefaultWebTestClient(connectorToUse, exchangeFactory, initUriBuilderFactory(),
-						this.defaultHeaders != null ? HttpHeaders.readOnlyHttpHeaders(this.defaultHeaders) : null,
-						this.defaultCookies != null ? CollectionUtils.unmodifiableMultiValueMap(this.defaultCookies) : null,
-						this.entityResultConsumer, this.responseTimeout, new DefaultWebTestClientBuilder(this));
-	}
+  @Override
+  public WebTestClient.Builder filter(ExchangeFilterFunction filter) {
+    Assert.notNull(filter, "ExchangeFilterFunction is required");
+    initFilters().add(filter);
+    return this;
+  }
 
-	private static ClientHttpConnector initConnector() {
-		if (reactorClientPresent) {
-			return new ReactorClientHttpConnector();
-		}
-		else if (jettyClientPresent) {
-			return new JettyClientHttpConnector();
-		}
-		else if (httpComponentsClientPresent) {
-			return new HttpComponentsClientHttpConnector();
-		}
-		throw new IllegalStateException("No suitable default ClientHttpConnector found");
-	}
+  @Override
+  public WebTestClient.Builder filters(Consumer<List<ExchangeFilterFunction>> filtersConsumer) {
+    filtersConsumer.accept(initFilters());
+    return this;
+  }
 
-	private ExchangeStrategies initExchangeStrategies() {
-		if (CollectionUtils.isEmpty(this.strategiesConfigurers)) {
-			return (this.strategies != null ? this.strategies : ExchangeStrategies.withDefaults());
-		}
-		ExchangeStrategies.Builder builder =
-						(this.strategies != null ? this.strategies.mutate() : ExchangeStrategies.builder());
-		this.strategiesConfigurers.forEach(configurer -> configurer.accept(builder));
-		return builder.build();
-	}
+  private List<ExchangeFilterFunction> initFilters() {
+    if (this.filters == null) {
+      this.filters = new ArrayList<>();
+    }
+    return this.filters;
+  }
 
-	private UriBuilderFactory initUriBuilderFactory() {
-		if (this.uriBuilderFactory != null) {
-			return this.uriBuilderFactory;
-		}
-		return (this.baseUrl != null ?
-						new DefaultUriBuilderFactory(this.baseUrl) : new DefaultUriBuilderFactory());
-	}
+  @Override
+  public WebTestClient.Builder entityExchangeResultConsumer(Consumer<EntityExchangeResult<?>> entityResultConsumer) {
+    Assert.notNull(entityResultConsumer, "`entityResultConsumer` is required");
+    this.entityResultConsumer = this.entityResultConsumer.andThen(entityResultConsumer);
+    return this;
+  }
+
+  @Override
+  public WebTestClient.Builder codecs(Consumer<ClientCodecConfigurer> configurer) {
+    if (this.strategiesConfigurers == null) {
+      this.strategiesConfigurers = new ArrayList<>(4);
+    }
+    this.strategiesConfigurers.add(builder -> builder.codecs(configurer));
+    return this;
+  }
+
+  @Override
+  public WebTestClient.Builder exchangeStrategies(ExchangeStrategies strategies) {
+    this.strategies = strategies;
+    return this;
+  }
+
+  @Override
+  @SuppressWarnings("deprecation")
+  public WebTestClient.Builder exchangeStrategies(Consumer<ExchangeStrategies.Builder> configurer) {
+    if (this.strategiesConfigurers == null) {
+      this.strategiesConfigurers = new ArrayList<>(4);
+    }
+    this.strategiesConfigurers.add(configurer);
+    return this;
+  }
+
+  @Override
+  public WebTestClient.Builder apply(WebTestClientConfigurer configurer) {
+    configurer.afterConfigurerAdded(this, this.httpHandlerBuilder, this.connector);
+    return this;
+  }
+
+  @Override
+  public WebTestClient.Builder responseTimeout(Duration timeout) {
+    this.responseTimeout = timeout;
+    return this;
+  }
+
+  @Override
+  public WebTestClient build() {
+    ClientHttpConnector connectorToUse = this.connector;
+    if (connectorToUse == null) {
+      if (this.httpHandlerBuilder != null) {
+        connectorToUse = new HttpHandlerConnector(this.httpHandlerBuilder.build());
+      }
+    }
+    if (connectorToUse == null) {
+      connectorToUse = initConnector();
+    }
+    Function<ClientHttpConnector, ExchangeFunction> exchangeFactory = connector -> {
+      ExchangeFunction exchange = ExchangeFunctions.create(connector, initExchangeStrategies());
+      if (CollectionUtils.isEmpty(this.filters)) {
+        return exchange;
+      }
+      return this.filters.stream()
+              .reduce(ExchangeFilterFunction::andThen)
+              .map(filter -> filter.apply(exchange))
+              .orElse(exchange);
+
+    };
+    return new DefaultWebTestClient(connectorToUse, exchangeFactory, initUriBuilderFactory(),
+            this.defaultHeaders != null ? HttpHeaders.readOnlyHttpHeaders(this.defaultHeaders) : null,
+            this.defaultCookies != null ? CollectionUtils.unmodifiableMultiValueMap(this.defaultCookies) : null,
+            this.entityResultConsumer, this.responseTimeout, new DefaultWebTestClientBuilder(this));
+  }
+
+  private static ClientHttpConnector initConnector() {
+    if (reactorClientPresent) {
+      return new ReactorClientHttpConnector();
+    }
+    else if (jettyClientPresent) {
+      return new JettyClientHttpConnector();
+    }
+    else if (httpComponentsClientPresent) {
+      return new HttpComponentsClientHttpConnector();
+    }
+    throw new IllegalStateException("No suitable default ClientHttpConnector found");
+  }
+
+  private ExchangeStrategies initExchangeStrategies() {
+    if (CollectionUtils.isEmpty(this.strategiesConfigurers)) {
+      return (this.strategies != null ? this.strategies : ExchangeStrategies.withDefaults());
+    }
+    ExchangeStrategies.Builder builder =
+            (this.strategies != null ? this.strategies.mutate() : ExchangeStrategies.builder());
+    this.strategiesConfigurers.forEach(configurer -> configurer.accept(builder));
+    return builder.build();
+  }
+
+  private UriBuilderFactory initUriBuilderFactory() {
+    if (this.uriBuilderFactory != null) {
+      return this.uriBuilderFactory;
+    }
+    return (this.baseUrl != null ?
+            new DefaultUriBuilderFactory(this.baseUrl) : new DefaultUriBuilderFactory());
+  }
 }

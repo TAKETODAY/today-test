@@ -34,45 +34,45 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class FlashAttributeResultMatchers {
 
-	/**
-	 * Protected constructor.
-	 * Use {@link MockMvcResultMatchers#flash()}.
-	 */
-	protected FlashAttributeResultMatchers() {
-	}
+  /**
+   * Protected constructor.
+   * Use {@link MockMvcResultMatchers#flash()}.
+   */
+  protected FlashAttributeResultMatchers() {
+  }
 
 
-	/**
-	 * Assert a flash attribute's value with the given Hamcrest {@link Matcher}.
-	 */
-	@SuppressWarnings("unchecked")
-	public <T> ResultMatcher attribute(String name, Matcher<? super T> matcher) {
-		return result -> assertThat("Flash attribute '" + name + "'", (T) result.getFlashMap().get(name), matcher);
-	}
+  /**
+   * Assert a flash attribute's value with the given Hamcrest {@link Matcher}.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> ResultMatcher attribute(String name, Matcher<? super T> matcher) {
+    return result -> assertThat("Flash attribute '" + name + "'", (T) result.getFlashMap().get(name), matcher);
+  }
 
-	/**
-	 * Assert a flash attribute's value.
-	 */
-	public ResultMatcher attribute(String name, @Nullable Object value) {
-		return result -> assertEquals("Flash attribute '" + name + "'", value, result.getFlashMap().get(name));
-	}
+  /**
+   * Assert a flash attribute's value.
+   */
+  public ResultMatcher attribute(String name, @Nullable Object value) {
+    return result -> assertEquals("Flash attribute '" + name + "'", value, result.getFlashMap().get(name));
+  }
 
-	/**
-	 * Assert the existence of the given flash attributes.
-	 */
-	public ResultMatcher attributeExists(String... names) {
-		return result -> {
-			for (String name : names) {
-				assertNotNull("Flash attribute '" + name + "' does not exist", result.getFlashMap().get(name));
-			}
-		};
-	}
+  /**
+   * Assert the existence of the given flash attributes.
+   */
+  public ResultMatcher attributeExists(String... names) {
+    return result -> {
+      for (String name : names) {
+        assertNotNull("Flash attribute '" + name + "' does not exist", result.getFlashMap().get(name));
+      }
+    };
+  }
 
-	/**
-	 * Assert the number of flash attributes.
-	 */
-	public ResultMatcher attributeCount(int count) {
-		return result -> assertEquals("FlashMap size", count, result.getFlashMap().size());
-	}
+  /**
+   * Assert the number of flash attributes.
+   */
+  public ResultMatcher attributeCount(int count) {
+    return result -> assertEquals("FlashMap size", count, result.getFlashMap().size());
+  }
 
 }

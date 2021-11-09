@@ -65,232 +65,232 @@ import java.time.Duration;
  */
 public final class MockRestServiceServer {
 
-	private final RequestExpectationManager expectationManager;
+  private final RequestExpectationManager expectationManager;
 
 
-	/**
-	 * Private constructor with {@code RequestExpectationManager}.
-	 * See static builder methods and {@code createServer} shortcut methods.
-	 */
-	private MockRestServiceServer(RequestExpectationManager expectationManager) {
-		this.expectationManager = expectationManager;
-	}
+  /**
+   * Private constructor with {@code RequestExpectationManager}.
+   * See static builder methods and {@code createServer} shortcut methods.
+   */
+  private MockRestServiceServer(RequestExpectationManager expectationManager) {
+    this.expectationManager = expectationManager;
+  }
 
 
-	/**
-	 * Set up an expectation for a single HTTP request. The returned
-	 * {@link ResponseActions} can be used to set up further expectations as
-	 * well as to define the response.
-	 * <p>This method may be invoked any number times before starting to make
-	 * request through the underlying {@code RestTemplate} in order to set up
-	 * all expected requests.
-	 *
-	 * @param matcher request matcher
-	 * @return a representation of the expectation
-	 */
-	public ResponseActions expect(RequestMatcher matcher) {
-		return expect(ExpectedCount.once(), matcher);
-	}
+  /**
+   * Set up an expectation for a single HTTP request. The returned
+   * {@link ResponseActions} can be used to set up further expectations as
+   * well as to define the response.
+   * <p>This method may be invoked any number times before starting to make
+   * request through the underlying {@code RestTemplate} in order to set up
+   * all expected requests.
+   *
+   * @param matcher request matcher
+   * @return a representation of the expectation
+   */
+  public ResponseActions expect(RequestMatcher matcher) {
+    return expect(ExpectedCount.once(), matcher);
+  }
 
-	/**
-	 * An alternative to {@link #expect(RequestMatcher)} that also indicates how
-	 * many times the request is expected to be executed.
-	 * <p>When request expectations have an expected count greater than one, only
-	 * the first execution is expected to match the order of declaration. Subsequent
-	 * request executions may be inserted anywhere thereafter.
-	 *
-	 * @param count the expected count
-	 * @param matcher request matcher
-	 * @return a representation of the expectation
-	 */
-	public ResponseActions expect(ExpectedCount count, RequestMatcher matcher) {
-		return this.expectationManager.expectRequest(count, matcher);
-	}
+  /**
+   * An alternative to {@link #expect(RequestMatcher)} that also indicates how
+   * many times the request is expected to be executed.
+   * <p>When request expectations have an expected count greater than one, only
+   * the first execution is expected to match the order of declaration. Subsequent
+   * request executions may be inserted anywhere thereafter.
+   *
+   * @param count the expected count
+   * @param matcher request matcher
+   * @return a representation of the expectation
+   */
+  public ResponseActions expect(ExpectedCount count, RequestMatcher matcher) {
+    return this.expectationManager.expectRequest(count, matcher);
+  }
 
-	/**
-	 * Verify that all expected requests set up via
-	 * {@link #expect(RequestMatcher)} were indeed performed.
-	 *
-	 * @throws AssertionError if not all expectations are met
-	 */
-	public void verify() {
-		this.expectationManager.verify();
-	}
+  /**
+   * Verify that all expected requests set up via
+   * {@link #expect(RequestMatcher)} were indeed performed.
+   *
+   * @throws AssertionError if not all expectations are met
+   */
+  public void verify() {
+    this.expectationManager.verify();
+  }
 
-	/**
-	 * Variant of {@link #verify()} that waits for up to the specified time for
-	 * all expectations to be fulfilled. This can be useful for tests that
-	 * involve asynchronous requests.
-	 *
-	 * @param timeout how long to wait for all expecations to be met
-	 * @throws AssertionError if not all expectations are met by the specified
-	 * timeout, or if any expectation fails at any time before that.
-	 */
-	public void verify(Duration timeout) {
-		this.expectationManager.verify(timeout);
-	}
+  /**
+   * Variant of {@link #verify()} that waits for up to the specified time for
+   * all expectations to be fulfilled. This can be useful for tests that
+   * involve asynchronous requests.
+   *
+   * @param timeout how long to wait for all expecations to be met
+   * @throws AssertionError if not all expectations are met by the specified
+   * timeout, or if any expectation fails at any time before that.
+   */
+  public void verify(Duration timeout) {
+    this.expectationManager.verify(timeout);
+  }
 
-	/**
-	 * Reset the internal state removing all expectations and recorded requests.
-	 */
-	public void reset() {
-		this.expectationManager.reset();
-	}
-
-
-	/**
-	 * Return a builder for a {@code MockRestServiceServer} that should be used
-	 * to reply to the given {@code RestTemplate}.
-	 */
-	public static MockRestServiceServerBuilder bindTo(RestTemplate restTemplate) {
-		return new DefaultBuilder(restTemplate);
-	}
-
-	/**
-	 * Return a builder for a {@code MockRestServiceServer} that should be used
-	 * to reply to the given {@code RestGatewaySupport}.
-	 */
-	public static MockRestServiceServerBuilder bindTo(RestGatewaySupport restGatewaySupport) {
-		Assert.notNull(restGatewaySupport, "'restGatewaySupport' must not be null");
-		return new DefaultBuilder(restGatewaySupport.getRestTemplate());
-	}
+  /**
+   * Reset the internal state removing all expectations and recorded requests.
+   */
+  public void reset() {
+    this.expectationManager.reset();
+  }
 
 
-	/**
-	 * A shortcut for {@code bindTo(restTemplate).build()}.
-	 *
-	 * @param restTemplate the RestTemplate to set up for mock testing
-	 * @return the mock server
-	 */
-	public static MockRestServiceServer createServer(RestTemplate restTemplate) {
-		return bindTo(restTemplate).build();
-	}
+  /**
+   * Return a builder for a {@code MockRestServiceServer} that should be used
+   * to reply to the given {@code RestTemplate}.
+   */
+  public static MockRestServiceServerBuilder bindTo(RestTemplate restTemplate) {
+    return new DefaultBuilder(restTemplate);
+  }
 
-	/**
-	 * A shortcut for {@code bindTo(restGateway).build()}.
-	 *
-	 * @param restGateway the REST gateway to set up for mock testing
-	 * @return the created mock server
-	 */
-	public static MockRestServiceServer createServer(RestGatewaySupport restGateway) {
-		return bindTo(restGateway).build();
-	}
+  /**
+   * Return a builder for a {@code MockRestServiceServer} that should be used
+   * to reply to the given {@code RestGatewaySupport}.
+   */
+  public static MockRestServiceServerBuilder bindTo(RestGatewaySupport restGatewaySupport) {
+    Assert.notNull(restGatewaySupport, "'restGatewaySupport' must not be null");
+    return new DefaultBuilder(restGatewaySupport.getRestTemplate());
+  }
 
 
-	/**
-	 * Builder to create a {@code MockRestServiceServer}.
-	 */
-	public interface MockRestServiceServerBuilder {
+  /**
+   * A shortcut for {@code bindTo(restTemplate).build()}.
+   *
+   * @param restTemplate the RestTemplate to set up for mock testing
+   * @return the mock server
+   */
+  public static MockRestServiceServer createServer(RestTemplate restTemplate) {
+    return bindTo(restTemplate).build();
+  }
 
-		/**
-		 * Whether to allow expected requests to be executed in any order not
-		 * necessarily matching the order of declaration.
-		 * <p>Effectively a shortcut for:<br>
-		 * {@code builder.build(new UnorderedRequestExpectationManager)}.
-		 * <p>By default this is set to {@code false}
-		 *
-		 * @param ignoreExpectOrder whether to ignore the order of expectations
-		 */
-		MockRestServiceServerBuilder ignoreExpectOrder(boolean ignoreExpectOrder);
-
-		/**
-		 * Use the {@link BufferingClientHttpRequestFactory} wrapper to buffer
-		 * the input and output streams, and for example, allow multiple reads
-		 * of the response body.
-		 */
-		MockRestServiceServerBuilder bufferContent();
-
-		/**
-		 * Build the {@code MockRestServiceServer} and set up the underlying
-		 * {@code RestTemplate} with a {@link ClientHttpRequestFactory} that
-		 * creates mock requests.
-		 */
-		MockRestServiceServer build();
-
-		/**
-		 * An overloaded build alternative that accepts a custom
-		 * {@link RequestExpectationManager}.
-		 */
-		MockRestServiceServer build(RequestExpectationManager manager);
-	}
+  /**
+   * A shortcut for {@code bindTo(restGateway).build()}.
+   *
+   * @param restGateway the REST gateway to set up for mock testing
+   * @return the created mock server
+   */
+  public static MockRestServiceServer createServer(RestGatewaySupport restGateway) {
+    return bindTo(restGateway).build();
+  }
 
 
-	private static class DefaultBuilder implements MockRestServiceServerBuilder {
+  /**
+   * Builder to create a {@code MockRestServiceServer}.
+   */
+  public interface MockRestServiceServerBuilder {
 
-		private final RestTemplate restTemplate;
+    /**
+     * Whether to allow expected requests to be executed in any order not
+     * necessarily matching the order of declaration.
+     * <p>Effectively a shortcut for:<br>
+     * {@code builder.build(new UnorderedRequestExpectationManager)}.
+     * <p>By default this is set to {@code false}
+     *
+     * @param ignoreExpectOrder whether to ignore the order of expectations
+     */
+    MockRestServiceServerBuilder ignoreExpectOrder(boolean ignoreExpectOrder);
 
-		private boolean ignoreExpectOrder;
+    /**
+     * Use the {@link BufferingClientHttpRequestFactory} wrapper to buffer
+     * the input and output streams, and for example, allow multiple reads
+     * of the response body.
+     */
+    MockRestServiceServerBuilder bufferContent();
 
-		private boolean bufferContent;
+    /**
+     * Build the {@code MockRestServiceServer} and set up the underlying
+     * {@code RestTemplate} with a {@link ClientHttpRequestFactory} that
+     * creates mock requests.
+     */
+    MockRestServiceServer build();
 
-
-		public DefaultBuilder(RestTemplate restTemplate) {
-			Assert.notNull(restTemplate, "RestTemplate must not be null");
-			this.restTemplate = restTemplate;
-		}
-
-		@Override
-		public MockRestServiceServerBuilder ignoreExpectOrder(boolean ignoreExpectOrder) {
-			this.ignoreExpectOrder = ignoreExpectOrder;
-			return this;
-		}
-
-		@Override
-		public MockRestServiceServerBuilder bufferContent() {
-			this.bufferContent = true;
-			return this;
-		}
-
-		@Override
-		public MockRestServiceServer build() {
-			if (this.ignoreExpectOrder) {
-				return build(new UnorderedRequestExpectationManager());
-			}
-			else {
-				return build(new SimpleRequestExpectationManager());
-			}
-		}
-
-		@Override
-		public MockRestServiceServer build(RequestExpectationManager manager) {
-			MockRestServiceServer server = new MockRestServiceServer(manager);
-			MockClientHttpRequestFactory factory = server.new MockClientHttpRequestFactory();
-			if (this.bufferContent) {
-				this.restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(factory));
-			}
-			else {
-				this.restTemplate.setRequestFactory(factory);
-			}
-			return server;
-		}
-	}
+    /**
+     * An overloaded build alternative that accepts a custom
+     * {@link RequestExpectationManager}.
+     */
+    MockRestServiceServer build(RequestExpectationManager manager);
+  }
 
 
-	/**
-	 * Mock ClientHttpRequestFactory that creates requests by iterating
-	 * over the list of expected {@link DefaultRequestExpectation}'s.
-	 */
-	private class MockClientHttpRequestFactory implements ClientHttpRequestFactory {
+  private static class DefaultBuilder implements MockRestServiceServerBuilder {
 
-		@Override
-		public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
-			return createRequestInternal(uri, httpMethod);
-		}
+    private final RestTemplate restTemplate;
 
-		private MockClientHttpRequest createRequestInternal(URI uri, HttpMethod httpMethod) {
-			Assert.notNull(uri, "'uri' must not be null");
-			Assert.notNull(httpMethod, "'httpMethod' must not be null");
+    private boolean ignoreExpectOrder;
 
-			return new MockClientHttpRequest(httpMethod, uri) {
+    private boolean bufferContent;
 
-				@Override
-				protected ClientHttpResponse executeInternal() throws IOException {
-					ClientHttpResponse response = expectationManager.validateRequest(this);
-					setResponse(response);
-					return response;
-				}
-			};
-		}
-	}
+
+    public DefaultBuilder(RestTemplate restTemplate) {
+      Assert.notNull(restTemplate, "RestTemplate must not be null");
+      this.restTemplate = restTemplate;
+    }
+
+    @Override
+    public MockRestServiceServerBuilder ignoreExpectOrder(boolean ignoreExpectOrder) {
+      this.ignoreExpectOrder = ignoreExpectOrder;
+      return this;
+    }
+
+    @Override
+    public MockRestServiceServerBuilder bufferContent() {
+      this.bufferContent = true;
+      return this;
+    }
+
+    @Override
+    public MockRestServiceServer build() {
+      if (this.ignoreExpectOrder) {
+        return build(new UnorderedRequestExpectationManager());
+      }
+      else {
+        return build(new SimpleRequestExpectationManager());
+      }
+    }
+
+    @Override
+    public MockRestServiceServer build(RequestExpectationManager manager) {
+      MockRestServiceServer server = new MockRestServiceServer(manager);
+      MockClientHttpRequestFactory factory = server.new MockClientHttpRequestFactory();
+      if (this.bufferContent) {
+        this.restTemplate.setRequestFactory(new BufferingClientHttpRequestFactory(factory));
+      }
+      else {
+        this.restTemplate.setRequestFactory(factory);
+      }
+      return server;
+    }
+  }
+
+
+  /**
+   * Mock ClientHttpRequestFactory that creates requests by iterating
+   * over the list of expected {@link DefaultRequestExpectation}'s.
+   */
+  private class MockClientHttpRequestFactory implements ClientHttpRequestFactory {
+
+    @Override
+    public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
+      return createRequestInternal(uri, httpMethod);
+    }
+
+    private MockClientHttpRequest createRequestInternal(URI uri, HttpMethod httpMethod) {
+      Assert.notNull(uri, "'uri' must not be null");
+      Assert.notNull(httpMethod, "'httpMethod' must not be null");
+
+      return new MockClientHttpRequest(httpMethod, uri) {
+
+        @Override
+        protected ClientHttpResponse executeInternal() throws IOException {
+          ClientHttpResponse response = expectationManager.validateRequest(this);
+          setResponse(response);
+          return response;
+        }
+      };
+    }
+  }
 
 }

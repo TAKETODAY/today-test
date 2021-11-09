@@ -27,9 +27,9 @@ import cn.taketoday.http.client.reactive.ClientHttpResponse;
  */
 public interface MockServerClientHttpResponse extends ClientHttpResponse {
 
-	/**
-	 * Return the result object with the server request and response.
-	 */
-	Object getServerResult();
+  /**
+   * Return the result object with the server request and response.
+   */
+  Object getServerResult();
 
 }

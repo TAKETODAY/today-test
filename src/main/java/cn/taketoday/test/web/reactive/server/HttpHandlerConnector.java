@@ -56,124 +56,124 @@ import java.util.function.Function;
  */
 public class HttpHandlerConnector implements ClientHttpConnector {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpHandlerConnector.class);
+  private static final Logger logger = LoggerFactory.getLogger(HttpHandlerConnector.class);
 
-	private final HttpHandler handler;
-
-
-	/**
-	 * Constructor with the {@link HttpHandler} to handle requests with.
-	 */
-	public HttpHandlerConnector(HttpHandler handler) {
-		Assert.notNull(handler, "HttpHandler is required");
-		this.handler = handler;
-	}
+  private final HttpHandler handler;
 
 
-	@Override
-	public Mono<ClientHttpResponse> connect(HttpMethod httpMethod, URI uri,
-																					Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
-
-		return Mono.defer(() -> doConnect(httpMethod, uri, requestCallback))
-						.subscribeOn(Schedulers.parallel());
-	}
-
-	private Mono<ClientHttpResponse> doConnect(
-					HttpMethod httpMethod, URI uri, Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
-
-		// unsafe(): we're intercepting, already serialized Publisher signals
-		Sinks.Empty<Void> requestWriteSink = Sinks.unsafe().empty();
-		Sinks.Empty<Void> handlerSink = Sinks.unsafe().empty();
-		ClientHttpResponse[] savedResponse = new ClientHttpResponse[1];
-
-		MockClientHttpRequest mockClientRequest = new MockClientHttpRequest(httpMethod, uri);
-		MockServerHttpResponse mockServerResponse = new MockServerHttpResponse();
-
-		mockClientRequest.setWriteHandler(requestBody -> {
-			log("Invoking HttpHandler for ", httpMethod, uri);
-			ServerHttpRequest mockServerRequest = adaptRequest(mockClientRequest, requestBody);
-			ServerHttpResponse responseToUse = prepareResponse(mockServerResponse, mockServerRequest);
-			this.handler.handle(mockServerRequest, responseToUse).subscribe(
-							aVoid -> { },
-							handlerSink::tryEmitError,  // Ignore result: signals cannot compete
-							handlerSink::tryEmitEmpty);
-			return Mono.empty();
-		});
-
-		mockServerResponse.setWriteHandler(responseBody ->
-						Mono.fromRunnable(() -> {
-							log("Creating client response for ", httpMethod, uri);
-							savedResponse[0] = adaptResponse(mockServerResponse, responseBody);
-						}));
-
-		log("Writing client request for ", httpMethod, uri);
-		requestCallback.apply(mockClientRequest).subscribe(
-						aVoid -> { },
-						requestWriteSink::tryEmitError,  // Ignore result: signals cannot compete
-						requestWriteSink::tryEmitEmpty);
-
-		return Mono.when(requestWriteSink.asMono(), handlerSink.asMono())
-						.onErrorMap(ex -> {
-							ClientHttpResponse response = savedResponse[0];
-							return response != null ? new FailureAfterResponseCompletedException(response, ex) : ex;
-						})
-						.then(Mono.fromCallable(() -> savedResponse[0] != null ?
-										savedResponse[0] : adaptResponse(mockServerResponse, Flux.empty())));
-	}
-
-	private void log(String message, HttpMethod httpMethod, URI uri) {
-		if (logger.isDebugEnabled()) {
-			logger.debug(String.format("%s %s \"%s\"", message, httpMethod, uri));
-		}
-	}
-
-	private ServerHttpRequest adaptRequest(MockClientHttpRequest request, Publisher<DataBuffer> body) {
-		HttpMethod method = request.getMethod();
-		URI uri = request.getURI();
-		HttpHeaders headers = request.getHeaders();
-		MultiValueMap<String, HttpCookie> cookies = request.getCookies();
-		return MockServerHttpRequest.method(method, uri).headers(headers).cookies(cookies).body(body);
-	}
-
-	private ServerHttpResponse prepareResponse(ServerHttpResponse response, ServerHttpRequest request) {
-		return (request.getMethod() == HttpMethod.HEAD ? new HttpHeadResponseDecorator(response) : response);
-	}
-
-	private ClientHttpResponse adaptResponse(MockServerHttpResponse response, Flux<DataBuffer> body) {
-		Integer status = response.getRawStatusCode();
-		MockClientHttpResponse clientResponse = new MockClientHttpResponse((status != null) ? status : 200);
-		clientResponse.getHeaders().putAll(response.getHeaders());
-		clientResponse.getCookies().putAll(response.getCookies());
-		clientResponse.setBody(body);
-		return clientResponse;
-	}
+  /**
+   * Constructor with the {@link HttpHandler} to handle requests with.
+   */
+  public HttpHandlerConnector(HttpHandler handler) {
+    Assert.notNull(handler, "HttpHandler is required");
+    this.handler = handler;
+  }
 
 
-	/**
-	 * Indicates that an error occurred after the server response was completed,
-	 * via {@link ServerHttpResponse#writeWith} or {@link ServerHttpResponse#setComplete()},
-	 * and can no longer be changed. This exception wraps the error and also
-	 * provides {@link #getCompletedResponse() access} to the response.
-	 * <p>What happens on an actual running server depends on when the server
-	 * commits the response and the error may or may not change the response.
-	 * Therefore in tests without a server the exception is wrapped and allowed
-	 * to propagate so the application is alerted.
-	 */
-	@SuppressWarnings("serial")
-	public static final class FailureAfterResponseCompletedException extends RuntimeException {
+  @Override
+  public Mono<ClientHttpResponse> connect(HttpMethod httpMethod, URI uri,
+                                          Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
 
-		private final ClientHttpResponse completedResponse;
+    return Mono.defer(() -> doConnect(httpMethod, uri, requestCallback))
+            .subscribeOn(Schedulers.parallel());
+  }
+
+  private Mono<ClientHttpResponse> doConnect(
+          HttpMethod httpMethod, URI uri, Function<? super ClientHttpRequest, Mono<Void>> requestCallback) {
+
+    // unsafe(): we're intercepting, already serialized Publisher signals
+    Sinks.Empty<Void> requestWriteSink = Sinks.unsafe().empty();
+    Sinks.Empty<Void> handlerSink = Sinks.unsafe().empty();
+    ClientHttpResponse[] savedResponse = new ClientHttpResponse[1];
+
+    MockClientHttpRequest mockClientRequest = new MockClientHttpRequest(httpMethod, uri);
+    MockServerHttpResponse mockServerResponse = new MockServerHttpResponse();
+
+    mockClientRequest.setWriteHandler(requestBody -> {
+      log("Invoking HttpHandler for ", httpMethod, uri);
+      ServerHttpRequest mockServerRequest = adaptRequest(mockClientRequest, requestBody);
+      ServerHttpResponse responseToUse = prepareResponse(mockServerResponse, mockServerRequest);
+      this.handler.handle(mockServerRequest, responseToUse).subscribe(
+              aVoid -> { },
+              handlerSink::tryEmitError,  // Ignore result: signals cannot compete
+              handlerSink::tryEmitEmpty);
+      return Mono.empty();
+    });
+
+    mockServerResponse.setWriteHandler(responseBody ->
+            Mono.fromRunnable(() -> {
+              log("Creating client response for ", httpMethod, uri);
+              savedResponse[0] = adaptResponse(mockServerResponse, responseBody);
+            }));
+
+    log("Writing client request for ", httpMethod, uri);
+    requestCallback.apply(mockClientRequest).subscribe(
+            aVoid -> { },
+            requestWriteSink::tryEmitError,  // Ignore result: signals cannot compete
+            requestWriteSink::tryEmitEmpty);
+
+    return Mono.when(requestWriteSink.asMono(), handlerSink.asMono())
+            .onErrorMap(ex -> {
+              ClientHttpResponse response = savedResponse[0];
+              return response != null ? new FailureAfterResponseCompletedException(response, ex) : ex;
+            })
+            .then(Mono.fromCallable(() -> savedResponse[0] != null ?
+                    savedResponse[0] : adaptResponse(mockServerResponse, Flux.empty())));
+  }
+
+  private void log(String message, HttpMethod httpMethod, URI uri) {
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("%s %s \"%s\"", message, httpMethod, uri));
+    }
+  }
+
+  private ServerHttpRequest adaptRequest(MockClientHttpRequest request, Publisher<DataBuffer> body) {
+    HttpMethod method = request.getMethod();
+    URI uri = request.getURI();
+    HttpHeaders headers = request.getHeaders();
+    MultiValueMap<String, HttpCookie> cookies = request.getCookies();
+    return MockServerHttpRequest.method(method, uri).headers(headers).cookies(cookies).body(body);
+  }
+
+  private ServerHttpResponse prepareResponse(ServerHttpResponse response, ServerHttpRequest request) {
+    return (request.getMethod() == HttpMethod.HEAD ? new HttpHeadResponseDecorator(response) : response);
+  }
+
+  private ClientHttpResponse adaptResponse(MockServerHttpResponse response, Flux<DataBuffer> body) {
+    Integer status = response.getRawStatusCode();
+    MockClientHttpResponse clientResponse = new MockClientHttpResponse((status != null) ? status : 200);
+    clientResponse.getHeaders().putAll(response.getHeaders());
+    clientResponse.getCookies().putAll(response.getCookies());
+    clientResponse.setBody(body);
+    return clientResponse;
+  }
 
 
-		private FailureAfterResponseCompletedException(ClientHttpResponse response, Throwable cause) {
-			super("Error occurred after response was completed: " + response, cause);
-			this.completedResponse = response;
-		}
+  /**
+   * Indicates that an error occurred after the server response was completed,
+   * via {@link ServerHttpResponse#writeWith} or {@link ServerHttpResponse#setComplete()},
+   * and can no longer be changed. This exception wraps the error and also
+   * provides {@link #getCompletedResponse() access} to the response.
+   * <p>What happens on an actual running server depends on when the server
+   * commits the response and the error may or may not change the response.
+   * Therefore in tests without a server the exception is wrapped and allowed
+   * to propagate so the application is alerted.
+   */
+  @SuppressWarnings("serial")
+  public static final class FailureAfterResponseCompletedException extends RuntimeException {
+
+    private final ClientHttpResponse completedResponse;
 
 
-		public ClientHttpResponse getCompletedResponse() {
-			return this.completedResponse;
-		}
-	}
+    private FailureAfterResponseCompletedException(ClientHttpResponse response, Throwable cause) {
+      super("Error occurred after response was completed: " + response, cause);
+      this.completedResponse = response;
+    }
+
+
+    public ClientHttpResponse getCompletedResponse() {
+      return this.completedResponse;
+    }
+  }
 
 }

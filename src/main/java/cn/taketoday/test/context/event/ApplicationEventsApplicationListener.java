@@ -28,13 +28,13 @@ import cn.taketoday.context.ApplicationListener;
  */
 class ApplicationEventsApplicationListener implements ApplicationListener<ApplicationEvent> {
 
-	@Override
-	public void onApplicationEvent(ApplicationEvent event) {
-		DefaultApplicationEvents applicationEvents =
-						(DefaultApplicationEvents) ApplicationEventsHolder.getApplicationEvents();
-		if (applicationEvents != null) {
-			applicationEvents.addEvent(event);
-		}
-	}
+  @Override
+  public void onApplicationEvent(ApplicationEvent event) {
+    DefaultApplicationEvents applicationEvents =
+            (DefaultApplicationEvents) ApplicationEventsHolder.getApplicationEvents();
+    if (applicationEvents != null) {
+      applicationEvents.addEvent(event);
+    }
+  }
 
 }

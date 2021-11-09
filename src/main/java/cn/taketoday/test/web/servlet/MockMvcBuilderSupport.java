@@ -19,10 +19,9 @@ package cn.taketoday.test.web.servlet;
 import cn.taketoday.core.NestedRuntimeException;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockServletConfig;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.servlet.WebServletApplicationContext;
+import jakarta.servlet.Filter;
 
-import javax.servlet.Filter;
-import javax.servlet.ServletException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -32,7 +31,7 @@ import java.util.List;
  *
  * <p>{@link cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder},
  * which derives from this class, provides a concrete {@code build} method,
- * and delegates to abstract methods to obtain a {@link WebApplicationContext}.
+ * and delegates to abstract methods to obtain a {@link WebServletApplicationContext}.
  *
  * @author Rossen Stoyanchev
  * @author Rob Winch
@@ -41,56 +40,50 @@ import java.util.List;
  */
 public abstract class MockMvcBuilderSupport {
 
-	/**
-	 * Delegates to {@link #createMockMvc(Filter[], MockServletConfig, WebApplicationContext, RequestBuilder, List, List, List)}
-	 * for creation of the {@link MockMvc} instance and configures that instance
-	 * with the supplied {@code defaultResponseCharacterEncoding}.
-	 */
-	protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
-																				WebApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
-																				@Nullable Charset defaultResponseCharacterEncoding,
-																				List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
-																				@Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
+  /**
+   * Delegates to {@link #createMockMvc(Filter[], MockServletConfig, WebServletApplicationContext, RequestBuilder, List, List, List)}
+   * for creation of the {@link MockMvc} instance and configures that instance
+   * with the supplied {@code defaultResponseCharacterEncoding}.
+   */
+  protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
+                                        WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
+                                        @Nullable Charset defaultResponseCharacterEncoding,
+                                        List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
+                                        @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
 
-		MockMvc mockMvc = createMockMvc(filters, servletConfig, webAppContext, defaultRequestBuilder, globalResultMatchers, globalResultHandlers, dispatcherServletCustomizers);
-		mockMvc.setDefaultResponseCharacterEncoding(defaultResponseCharacterEncoding);
-		return mockMvc;
-	}
+    MockMvc mockMvc = createMockMvc(filters, servletConfig, webAppContext, defaultRequestBuilder, globalResultMatchers, globalResultHandlers, dispatcherServletCustomizers);
+    mockMvc.setDefaultResponseCharacterEncoding(defaultResponseCharacterEncoding);
+    return mockMvc;
+  }
 
-	protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
-																				WebApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
-																				List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
-																				@Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
+  protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
+                                        WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
+                                        List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
+                                        @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
 
-		TestDispatcherServlet dispatcherServlet = new TestDispatcherServlet(webAppContext);
-		if (dispatcherServletCustomizers != null) {
-			for (DispatcherServletCustomizer customizers : dispatcherServletCustomizers) {
-				customizers.customize(dispatcherServlet);
-			}
-		}
-		try {
-			dispatcherServlet.init(servletConfig);
-		}
-		catch (ServletException ex) {
-			// should never happen..
-			throw new MockMvcBuildException("Failed to initialize TestDispatcherServlet", ex);
-		}
+    TestDispatcherServlet dispatcherServlet = new TestDispatcherServlet(webAppContext);
+    if (dispatcherServletCustomizers != null) {
+      for (DispatcherServletCustomizer customizers : dispatcherServletCustomizers) {
+        customizers.customize(dispatcherServlet);
+      }
+    }
+    dispatcherServlet.init(servletConfig);
 
-		MockMvc mockMvc = new MockMvc(dispatcherServlet, filters);
-		mockMvc.setDefaultRequest(defaultRequestBuilder);
-		mockMvc.setGlobalResultMatchers(globalResultMatchers);
-		mockMvc.setGlobalResultHandlers(globalResultHandlers);
+    MockMvc mockMvc = new MockMvc(dispatcherServlet, filters);
+    mockMvc.setDefaultRequest(defaultRequestBuilder);
+    mockMvc.setGlobalResultMatchers(globalResultMatchers);
+    mockMvc.setGlobalResultHandlers(globalResultHandlers);
 
-		return mockMvc;
-	}
+    return mockMvc;
+  }
 
 
-	@SuppressWarnings("serial")
-	private static class MockMvcBuildException extends NestedRuntimeException {
+  @SuppressWarnings("serial")
+  private static class MockMvcBuildException extends NestedRuntimeException {
 
-		public MockMvcBuildException(String msg, Throwable cause) {
-			super(msg, cause);
-		}
-	}
+    public MockMvcBuildException(String msg, Throwable cause) {
+      super(msg, cause);
+    }
+  }
 
 }

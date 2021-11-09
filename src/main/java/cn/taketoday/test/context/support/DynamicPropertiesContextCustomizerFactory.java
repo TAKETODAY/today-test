@@ -39,28 +39,28 @@ import java.util.Set;
  */
 class DynamicPropertiesContextCustomizerFactory implements ContextCustomizerFactory {
 
-	@Override
-	@Nullable
-	public DynamicPropertiesContextCustomizer createContextCustomizer(Class<?> testClass,
-																																		List<ContextConfigurationAttributes> configAttributes) {
+  @Override
+  @Nullable
+  public DynamicPropertiesContextCustomizer createContextCustomizer(Class<?> testClass,
+                                                                    List<ContextConfigurationAttributes> configAttributes) {
 
-		Set<Method> methods = new LinkedHashSet<>();
-		findMethods(testClass, methods);
-		if (methods.isEmpty()) {
-			return null;
-		}
-		return new DynamicPropertiesContextCustomizer(methods);
-	}
+    Set<Method> methods = new LinkedHashSet<>();
+    findMethods(testClass, methods);
+    if (methods.isEmpty()) {
+      return null;
+    }
+    return new DynamicPropertiesContextCustomizer(methods);
+  }
 
-	private void findMethods(Class<?> testClass, Set<Method> methods) {
-		methods.addAll(MethodIntrospector.selectMethods(testClass, this::isAnnotated));
-		if (TestContextAnnotationUtils.searchEnclosingClass(testClass)) {
-			findMethods(testClass.getEnclosingClass(), methods);
-		}
-	}
+  private void findMethods(Class<?> testClass, Set<Method> methods) {
+    methods.addAll(MethodIntrospector.selectMethods(testClass, this::isAnnotated));
+    if (TestContextAnnotationUtils.searchEnclosingClass(testClass)) {
+      findMethods(testClass.getEnclosingClass(), methods);
+    }
+  }
 
-	private boolean isAnnotated(Method method) {
-		return MergedAnnotations.from(method).isPresent(DynamicPropertySource.class);
-	}
+  private boolean isAnnotated(Method method) {
+    return MergedAnnotations.from(method).isPresent(DynamicPropertySource.class);
+  }
 
 }

@@ -27,12 +27,12 @@ import cn.taketoday.web.servlet.DispatcherServlet;
 @FunctionalInterface
 public interface DispatcherServletCustomizer {
 
-	/**
-	 * Customize the supplied {@link DispatcherServlet} <em>before</em> it is
-	 * initialized.
-	 *
-	 * @param dispatcherServlet the dispatcher servlet to customize
-	 */
-	void customize(DispatcherServlet dispatcherServlet);
+  /**
+   * Customize the supplied {@link DispatcherServlet} <em>before</em> it is
+   * initialized.
+   *
+   * @param dispatcherServlet the dispatcher servlet to customize
+   */
+  void customize(DispatcherServlet dispatcherServlet);
 
 }

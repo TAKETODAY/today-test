@@ -50,104 +50,104 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class HandlerResultMatchers {
 
-	/**
-	 * Protected constructor.
-	 * Use {@link MockMvcResultMatchers#handler()}.
-	 */
-	protected HandlerResultMatchers() {
-	}
+  /**
+   * Protected constructor.
+   * Use {@link MockMvcResultMatchers#handler()}.
+   */
+  protected HandlerResultMatchers() {
+  }
 
 
-	/**
-	 * Assert the type of the handler that processed the request.
-	 */
-	public ResultMatcher handlerType(Class<?> type) {
-		return result -> {
-			Object handler = result.getHandler();
-			assertNotNull("No handler", handler);
-			Class<?> actual = handler.getClass();
-			if (handler instanceof HandlerMethod) {
-				actual = ((HandlerMethod) handler).getBeanType();
-			}
-			assertEquals("Handler type", type, ClassUtils.getUserClass(actual));
-		};
-	}
+  /**
+   * Assert the type of the handler that processed the request.
+   */
+  public ResultMatcher handlerType(Class<?> type) {
+    return result -> {
+      Object handler = result.getHandler();
+      assertNotNull("No handler", handler);
+      Class<?> actual = handler.getClass();
+      if (handler instanceof HandlerMethod) {
+        actual = ((HandlerMethod) handler).getBeanType();
+      }
+      assertEquals("Handler type", type, ClassUtils.getUserClass(actual));
+    };
+  }
 
-	/**
-	 * Assert the controller method used to process the request.
-	 * <p>The expected method is specified through a "mock" controller method
-	 * invocation similar to {@link MvcUriComponentsBuilder#fromMethodCall(Object)}.
-	 * <p>For example, given this controller:
-	 * <pre class="code">
-	 * &#064;RestController
-	 * public class SimpleController {
-	 *
-	 *     &#064;RequestMapping("/")
-	 *     public ResponseEntity&lt;Void&gt; handle() {
-	 *         return ResponseEntity.ok().build();
-	 *     }
-	 * }
-	 * </pre>
-	 * <p>A test that has statically imported {@link MvcUriComponentsBuilder#on}
-	 * can be performed as follows:
-	 * <pre class="code">
-	 * mockMvc.perform(get("/"))
-	 *     .andExpect(handler().methodCall(on(SimpleController.class).handle()));
-	 * </pre>
-	 *
-	 * @param obj either the value returned from a "mock" controller invocation
-	 * or the "mock" controller itself after an invocation
-	 */
-	public ResultMatcher methodCall(Object obj) {
-		return result -> {
-			if (!(obj instanceof MethodInvocationInfo)) {
-				fail(String.format("The supplied object [%s] is not an instance of %s. " +
-												"Ensure that you invoke the handler method via MvcUriComponentsBuilder.on().",
-								obj, MethodInvocationInfo.class.getName()));
-			}
-			MethodInvocationInfo invocationInfo = (MethodInvocationInfo) obj;
-			Method expected = invocationInfo.getControllerMethod();
-			Method actual = getHandlerMethod(result).getMethod();
-			assertEquals("Handler method", expected, actual);
-		};
-	}
+  /**
+   * Assert the controller method used to process the request.
+   * <p>The expected method is specified through a "mock" controller method
+   * invocation similar to {@link MvcUriComponentsBuilder#fromMethodCall(Object)}.
+   * <p>For example, given this controller:
+   * <pre class="code">
+   * &#064;RestController
+   * public class SimpleController {
+   *
+   *     &#064;RequestMapping("/")
+   *     public ResponseEntity&lt;Void&gt; handle() {
+   *         return ResponseEntity.ok().build();
+   *     }
+   * }
+   * </pre>
+   * <p>A test that has statically imported {@link MvcUriComponentsBuilder#on}
+   * can be performed as follows:
+   * <pre class="code">
+   * mockMvc.perform(get("/"))
+   *     .andExpect(handler().methodCall(on(SimpleController.class).handle()));
+   * </pre>
+   *
+   * @param obj either the value returned from a "mock" controller invocation
+   * or the "mock" controller itself after an invocation
+   */
+  public ResultMatcher methodCall(Object obj) {
+    return result -> {
+      if (!(obj instanceof MethodInvocationInfo)) {
+        fail(String.format("The supplied object [%s] is not an instance of %s. " +
+                        "Ensure that you invoke the handler method via MvcUriComponentsBuilder.on().",
+                obj, MethodInvocationInfo.class.getName()));
+      }
+      MethodInvocationInfo invocationInfo = (MethodInvocationInfo) obj;
+      Method expected = invocationInfo.getControllerMethod();
+      Method actual = getHandlerMethod(result).getMethod();
+      assertEquals("Handler method", expected, actual);
+    };
+  }
 
-	/**
-	 * Assert the name of the controller method used to process the request
-	 * using the given Hamcrest {@link Matcher}.
-	 */
-	public ResultMatcher methodName(Matcher<? super String> matcher) {
-		return result -> {
-			HandlerMethod handlerMethod = getHandlerMethod(result);
-			assertThat("Handler method", handlerMethod.getMethod().getName(), matcher);
-		};
-	}
+  /**
+   * Assert the name of the controller method used to process the request
+   * using the given Hamcrest {@link Matcher}.
+   */
+  public ResultMatcher methodName(Matcher<? super String> matcher) {
+    return result -> {
+      HandlerMethod handlerMethod = getHandlerMethod(result);
+      assertThat("Handler method", handlerMethod.getMethod().getName(), matcher);
+    };
+  }
 
-	/**
-	 * Assert the name of the controller method used to process the request.
-	 */
-	public ResultMatcher methodName(String name) {
-		return result -> {
-			HandlerMethod handlerMethod = getHandlerMethod(result);
-			assertEquals("Handler method", name, handlerMethod.getMethod().getName());
-		};
-	}
+  /**
+   * Assert the name of the controller method used to process the request.
+   */
+  public ResultMatcher methodName(String name) {
+    return result -> {
+      HandlerMethod handlerMethod = getHandlerMethod(result);
+      assertEquals("Handler method", name, handlerMethod.getMethod().getName());
+    };
+  }
 
-	/**
-	 * Assert the controller method used to process the request.
-	 */
-	public ResultMatcher method(Method method) {
-		return result -> {
-			HandlerMethod handlerMethod = getHandlerMethod(result);
-			assertEquals("Handler method", method, handlerMethod.getMethod());
-		};
-	}
+  /**
+   * Assert the controller method used to process the request.
+   */
+  public ResultMatcher method(Method method) {
+    return result -> {
+      HandlerMethod handlerMethod = getHandlerMethod(result);
+      assertEquals("Handler method", method, handlerMethod.getMethod());
+    };
+  }
 
 
-	private static HandlerMethod getHandlerMethod(MvcResult result) {
-		Object handler = result.getHandler();
-		assertTrue("Not a HandlerMethod: " + handler, handler instanceof HandlerMethod);
-		return (HandlerMethod) handler;
-	}
+  private static HandlerMethod getHandlerMethod(MvcResult result) {
+    Object handler = result.getHandler();
+    assertTrue("Not a HandlerMethod: " + handler, handler instanceof HandlerMethod);
+    return (HandlerMethod) handler;
+  }
 
 }

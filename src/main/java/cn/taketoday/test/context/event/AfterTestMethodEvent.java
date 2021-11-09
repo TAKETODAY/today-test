@@ -29,8 +29,8 @@ import cn.taketoday.test.context.TestContext;
 @SuppressWarnings("serial")
 public class AfterTestMethodEvent extends TestContextEvent {
 
-	public AfterTestMethodEvent(TestContext source) {
-		super(source);
-	}
+  public AfterTestMethodEvent(TestContext source) {
+    super(source);
+  }
 
 }

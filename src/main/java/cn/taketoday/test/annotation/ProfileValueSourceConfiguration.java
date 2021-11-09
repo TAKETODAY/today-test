@@ -43,12 +43,12 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface ProfileValueSourceConfiguration {
 
-	/**
-	 * The type of {@link ProfileValueSource} to use when retrieving
-	 * <em>profile values</em>.
-	 *
-	 * @see SystemProfileValueSource
-	 */
-	Class<? extends ProfileValueSource> value() default SystemProfileValueSource.class;
+  /**
+   * The type of {@link ProfileValueSource} to use when retrieving
+   * <em>profile values</em>.
+   *
+   * @see SystemProfileValueSource
+   */
+  Class<? extends ProfileValueSource> value() default SystemProfileValueSource.class;
 
 }

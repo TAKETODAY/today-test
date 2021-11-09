@@ -42,55 +42,55 @@ import static cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders.reque
  */
 public class MockMvcClientHttpRequestFactory implements ClientHttpRequestFactory {
 
-	private final MockMvc mockMvc;
+  private final MockMvc mockMvc;
 
 
-	public MockMvcClientHttpRequestFactory(MockMvc mockMvc) {
-		Assert.notNull(mockMvc, "MockMvc must not be null");
-		this.mockMvc = mockMvc;
-	}
+  public MockMvcClientHttpRequestFactory(MockMvc mockMvc) {
+    Assert.notNull(mockMvc, "MockMvc must not be null");
+    this.mockMvc = mockMvc;
+  }
 
 
-	@Override
-	public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
-		return new MockClientHttpRequest(httpMethod, uri) {
-			@Override
-			public ClientHttpResponse executeInternal() {
-				return getClientHttpResponse(httpMethod, uri, getHeaders(), getBodyAsBytes());
-			}
-		};
-	}
+  @Override
+  public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
+    return new MockClientHttpRequest(httpMethod, uri) {
+      @Override
+      public ClientHttpResponse executeInternal() {
+        return getClientHttpResponse(httpMethod, uri, getHeaders(), getBodyAsBytes());
+      }
+    };
+  }
 
-	private ClientHttpResponse getClientHttpResponse(
-					HttpMethod httpMethod, URI uri, HttpHeaders requestHeaders, byte[] requestBody) {
+  private ClientHttpResponse getClientHttpResponse(
+          HttpMethod httpMethod, URI uri, HttpHeaders requestHeaders, byte[] requestBody) {
 
-		try {
-			MockHttpServletResponse servletResponse = this.mockMvc
-							.perform(request(httpMethod, uri).content(requestBody).headers(requestHeaders))
-							.andReturn()
-							.getResponse();
+    try {
+      MockHttpServletResponse servletResponse = this.mockMvc
+              .perform(request(httpMethod, uri).content(requestBody).headers(requestHeaders))
+              .andReturn()
+              .getResponse();
 
-			HttpStatus status = HttpStatus.valueOf(servletResponse.getStatus());
-			byte[] body = servletResponse.getContentAsByteArray();
-			MockClientHttpResponse clientResponse = new MockClientHttpResponse(body, status);
-			clientResponse.getHeaders().putAll(getResponseHeaders(servletResponse));
-			return clientResponse;
-		}
-		catch (Exception ex) {
-			byte[] body = ex.toString().getBytes(StandardCharsets.UTF_8);
-			return new MockClientHttpResponse(body, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+      HttpStatus status = HttpStatus.valueOf(servletResponse.getStatus());
+      byte[] body = servletResponse.getContentAsByteArray();
+      MockClientHttpResponse clientResponse = new MockClientHttpResponse(body, status);
+      clientResponse.getHeaders().putAll(getResponseHeaders(servletResponse));
+      return clientResponse;
+    }
+    catch (Exception ex) {
+      byte[] body = ex.toString().getBytes(StandardCharsets.UTF_8);
+      return new MockClientHttpResponse(body, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
-	private HttpHeaders getResponseHeaders(MockHttpServletResponse response) {
-		HttpHeaders headers = new HttpHeaders();
-		for (String name : response.getHeaderNames()) {
-			List<String> values = response.getHeaders(name);
-			for (String value : values) {
-				headers.add(name, value);
-			}
-		}
-		return headers;
-	}
+  private HttpHeaders getResponseHeaders(MockHttpServletResponse response) {
+    HttpHeaders headers = HttpHeaders.create();
+    for (String name : response.getHeaderNames()) {
+      List<String> values = response.getHeaders(name);
+      for (String value : values) {
+        headers.add(name, value);
+      }
+    }
+    return headers;
+  }
 
 }

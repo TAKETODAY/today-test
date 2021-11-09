@@ -28,16 +28,16 @@ import cn.taketoday.web.context.WebApplicationContext;
  */
 class ApplicationContextMockMvcSpec extends AbstractMockMvcServerSpec<ApplicationContextMockMvcSpec> {
 
-	private final DefaultMockMvcBuilder mockMvcBuilder;
+  private final DefaultMockMvcBuilder mockMvcBuilder;
 
 
-	public ApplicationContextMockMvcSpec(WebApplicationContext context) {
-		this.mockMvcBuilder = MockMvcBuilders.webAppContextSetup(context);
-	}
+  public ApplicationContextMockMvcSpec(WebApplicationContext context) {
+    this.mockMvcBuilder = MockMvcBuilders.webAppContextSetup(context);
+  }
 
-	@Override
-	protected ConfigurableMockMvcBuilder<?> getMockMvcBuilder() {
-		return this.mockMvcBuilder;
-	}
+  @Override
+  protected ConfigurableMockMvcBuilder<?> getMockMvcBuilder() {
+    return this.mockMvcBuilder;
+  }
 
 }

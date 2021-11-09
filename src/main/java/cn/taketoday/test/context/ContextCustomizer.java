@@ -37,14 +37,14 @@ import cn.taketoday.context.ConfigurableApplicationContext;
 @FunctionalInterface
 public interface ContextCustomizer {
 
-	/**
-	 * Customize the supplied {@code ConfigurableApplicationContext} <em>after</em>
-	 * bean definitions have been loaded into the context but <em>before</em> the
-	 * context has been refreshed.
-	 *
-	 * @param context the context to customize
-	 * @param mergedConfig the merged context configuration
-	 */
-	void customizeContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig);
+  /**
+   * Customize the supplied {@code ConfigurableApplicationContext} <em>after</em>
+   * bean definitions have been loaded into the context but <em>before</em> the
+   * context has been refreshed.
+   *
+   * @param context the context to customize
+   * @param mergedConfig the merged context configuration
+   */
+  void customizeContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig);
 
 }
