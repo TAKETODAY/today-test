@@ -50,7 +50,7 @@ import java.lang.annotation.Target;
  * </pre>
  *
  * @author Sam Brannen
- * @see SpringExtension
+ * @see TodayExtension
  * @see DisabledIf
  * @see org.junit.jupiter.api.Disabled
  */

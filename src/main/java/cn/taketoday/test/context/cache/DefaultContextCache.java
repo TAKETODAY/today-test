@@ -21,6 +21,8 @@ import cn.taketoday.context.ConfigurableApplicationContext;
 import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.annotation.DirtiesContext.HierarchyMode;
 import cn.taketoday.test.context.MergedContextConfiguration;
 
@@ -50,8 +52,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @see ContextCacheUtils#retrieveMaxCacheSize()
  */
 public class DefaultContextCache implements ContextCache {
-
-  private static final Log statsLogger = LogFactory.getLog(CONTEXT_CACHE_LOGGING_CATEGORY);
+  private static final Logger statsLogger = LoggerFactory.getLogger(CONTEXT_CACHE_LOGGING_CATEGORY);
 
   /**
    * Map of context keys to Spring {@code ApplicationContext} instances.

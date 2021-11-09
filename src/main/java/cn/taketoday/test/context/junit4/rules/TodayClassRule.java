@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * {@code SpringClassRule} is a custom JUnit {@link TestRule} that supports
+ * {@code TodayClassRule} is a custom JUnit {@link TestRule} that supports
  * <em>class-level</em> features of the <em>Spring TestContext Framework</em>
  * in standard JUnit tests by means of the {@link TestContextManager} and
  * associated support classes and annotations.
@@ -43,7 +43,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * {@code Parameterized} or third-party runners such as the {@code MockitoJUnitRunner}.
  *
  * <p>In order to achieve the same functionality as the {@code SpringJUnit4ClassRunner},
- * however, a {@code SpringClassRule} must be combined with a {@link SpringMethodRule},
+ * however, a {@code SpringClassRule} must be combined with a {@link TodayMethodRule},
  * since {@code SpringClassRule} only supports the class-level features of the
  * {@code SpringJUnit4ClassRunner}.
  *
@@ -76,13 +76,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Sam Brannen
  * @author Philippe Marschall
  * @see #apply(Statement, Description)
- * @see SpringMethodRule
+ * @see TodayMethodRule
  * @see cn.taketoday.test.context.TestContextManager
  * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
  */
-public class SpringClassRule implements TestRule {
+public class TodayClassRule implements TestRule {
 
-  private static final Logger logger = LoggerFactory.getLogger(SpringClassRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(TodayClassRule.class);
 
   /**
    * Cache of {@code TestContextManagers} keyed by test class.
@@ -94,7 +94,7 @@ public class SpringClassRule implements TestRule {
    * Apply <em>class-level</em> features of the <em>Spring TestContext
    * Framework</em> to the supplied {@code base} statement.
    * <p>Specifically, this method retrieves the {@link TestContextManager}
-   * used by this rule and its associated {@link SpringMethodRule} and
+   * used by this rule and its associated {@link TodayMethodRule} and
    * invokes the {@link TestContextManager#beforeTestClass() beforeTestClass()}
    * and {@link TestContextManager#afterTestClass() afterTestClass()} methods
    * on the {@code TestContextManager}.

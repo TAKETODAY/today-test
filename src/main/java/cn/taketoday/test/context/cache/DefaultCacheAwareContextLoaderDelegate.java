@@ -18,6 +18,7 @@ package cn.taketoday.test.context.cache;
 
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.NonNull;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
@@ -47,7 +48,6 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
   static final ContextCache defaultContextCache = new DefaultContextCache();
 
   private final ContextCache contextCache;
-
 
   /**
    * Construct a new {@code DefaultCacheAwareContextLoaderDelegate} using
@@ -116,7 +116,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
   }
 
   @Override
-  public ApplicationContext loadContext(MergedContextConfiguration mergedContextConfiguration) {
+  public ApplicationContext loadContext(@NonNull MergedContextConfiguration mergedContextConfiguration) {
     synchronized(this.contextCache) {
       ApplicationContext context = this.contextCache.get(mergedContextConfiguration);
       if (context == null) {
@@ -146,7 +146,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
   }
 
   @Override
-  public void closeContext(MergedContextConfiguration mergedContextConfiguration, @Nullable HierarchyMode hierarchyMode) {
+  public void closeContext(@NonNull MergedContextConfiguration mergedContextConfiguration, @Nullable HierarchyMode hierarchyMode) {
     synchronized(this.contextCache) {
       this.contextCache.remove(mergedContextConfiguration, hierarchyMode);
     }

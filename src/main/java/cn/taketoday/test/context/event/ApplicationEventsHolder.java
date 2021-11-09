@@ -18,6 +18,7 @@ package cn.taketoday.test.context.event;
 
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.context.junit.jupiter.TodayExtension;
 
 /**
  * Holder class to expose the application events published during the execution
@@ -30,10 +31,10 @@ import cn.taketoday.lang.Nullable;
  * the <em>Spring TestContext Framework</em> or in the implementation of
  * third-party extensions. Test authors should therefore allow the current
  * instance of {@code ApplicationEvents} to be
- * {@link cn.taketoday.beans.factory.annotation.Autowired @Autowired}
+ * {@link cn.taketoday.lang.Autowired @Autowired}
  * into a field in the test class or injected via a parameter in test and
  * lifecycle methods when using JUnit Jupiter and the {@link
- * cn.taketoday.test.context.junit.jupiter.SpringExtension SpringExtension}.
+ * TodayExtension SpringExtension}.
  *
  * @author Sam Brannen
  * @author Oliver Drotbohm

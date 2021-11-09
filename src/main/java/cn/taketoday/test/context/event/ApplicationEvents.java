@@ -16,7 +16,7 @@
 
 package cn.taketoday.test.context.event;
 
-import cn.taketoday.context.ApplicationEvent;
+import cn.taketoday.context.event.ApplicationEvent;
 
 import java.util.stream.Stream;
 
@@ -34,7 +34,7 @@ import java.util.stream.Stream;
  * {@link cn.taketoday.test.context.TestExecutionListeners @TestExecutionListeners}
  * that does not include the default listeners.</li>
  * <li>Annotate a field of type {@code ApplicationEvents} with
- * {@link cn.taketoday.beans.factory.annotation.Autowired @Autowired} and
+ * {@link cn.taketoday.lang.Autowired @Autowired} and
  * use that instance of {@code ApplicationEvents} in your test and lifecycle methods.</li>
  * <li>With JUnit Jupiter, you may optionally declare a parameter of type
  * {@code ApplicationEvents} in a test or lifecycle method as an alternative to
@@ -45,7 +45,7 @@ import java.util.stream.Stream;
  * @author Oliver Drotbohm
  * @see RecordApplicationEvents
  * @see ApplicationEventsTestExecutionListener
- * @see cn.taketoday.context.ApplicationEvent
+ * @see cn.taketoday.context.event.ApplicationEvent
  */
 public interface ApplicationEvents {
 

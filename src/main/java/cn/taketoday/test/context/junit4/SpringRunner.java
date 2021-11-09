@@ -16,6 +16,8 @@
 
 package cn.taketoday.test.context.junit4;
 
+import cn.taketoday.test.context.junit4.rules.TodayClassRule;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
 import org.junit.runners.model.InitializationError;
 
 /**
@@ -25,15 +27,15 @@ import org.junit.runners.model.InitializationError;
  * {@code @RunWith(SpringRunner.class)}.
  *
  * <p>If you would like to use the Spring TestContext Framework with a runner other than
- * this one, use {@link cn.taketoday.test.context.junit4.rules.SpringClassRule}
- * and {@link cn.taketoday.test.context.junit4.rules.SpringMethodRule}.
+ * this one, use {@link TodayClassRule}
+ * and {@link TodayMethodRule}.
  *
  * <p><strong>NOTE:</strong> This class requires JUnit 4.12 or higher.
  *
  * @author Sam Brannen
  * @see SpringJUnit4ClassRunner
- * @see cn.taketoday.test.context.junit4.rules.SpringClassRule
- * @see cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * @see TodayClassRule
+ * @see TodayMethodRule
  */
 public final class SpringRunner extends SpringJUnit4ClassRunner {
 

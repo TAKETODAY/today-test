@@ -51,7 +51,7 @@ import java.lang.annotation.Target;
  *
  * @author Sam Brannen
  * @author Tadaya Tsuyukubo
- * @see SpringExtension
+ * @see TodayExtension
  * @see EnabledIf
  * @see org.junit.jupiter.api.Disabled
  */

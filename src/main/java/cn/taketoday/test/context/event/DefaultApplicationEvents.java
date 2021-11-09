@@ -16,8 +16,7 @@
 
 package cn.taketoday.test.context.event;
 
-import cn.taketoday.context.ApplicationEvent;
-import cn.taketoday.context.PayloadApplicationEvent;
+import cn.taketoday.context.event.ApplicationEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,6 @@ class DefaultApplicationEvents implements ApplicationEvents {
 
   private final List<ApplicationEvent> events = new ArrayList<>();
 
-
   void addEvent(ApplicationEvent event) {
     this.events.add(event);
   }
@@ -46,7 +44,6 @@ class DefaultApplicationEvents implements ApplicationEvents {
   @Override
   public <T> Stream<T> stream(Class<T> type) {
     return this.events.stream()
-            .map(this::unwrapPayloadEvent)
             .filter(type::isInstance)
             .map(type::cast);
   }
@@ -54,11 +51,6 @@ class DefaultApplicationEvents implements ApplicationEvents {
   @Override
   public void clear() {
     this.events.clear();
-  }
-
-  private Object unwrapPayloadEvent(Object source) {
-    return ((source instanceof PayloadApplicationEvent<?> payloadApplicationEvent) ?
-            payloadApplicationEvent.getPayload() : source);
   }
 
 }

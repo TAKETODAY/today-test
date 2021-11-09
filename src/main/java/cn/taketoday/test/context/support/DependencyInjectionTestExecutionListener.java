@@ -16,7 +16,7 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.beans.factory.config.AutowireCapableBeanFactory;
+import cn.taketoday.beans.factory.AutowireCapableBeanFactory;
 import cn.taketoday.core.Conventions;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
@@ -64,7 +64,7 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
    * Performs dependency injection on the
    * {@link TestContext#getTestInstance() test instance} of the supplied
    * {@link TestContext test context} by
-   * {@link AutowireCapableBeanFactory#autowireBeanProperties(Object, int, boolean) autowiring}
+   * {@link AutowireCapableBeanFactory#autowireBean(Object)} autowiring}
    * and
    * {@link AutowireCapableBeanFactory#initializeBean(Object, String) initializing}
    * the test instance via its own
@@ -115,7 +115,7 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
     Object bean = testContext.getTestInstance();
     Class<?> clazz = testContext.getTestClass();
     AutowireCapableBeanFactory beanFactory = testContext.getApplicationContext().getAutowireCapableBeanFactory();
-    beanFactory.autowireBeanProperties(bean, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+    beanFactory.autowireBean(bean);
     beanFactory.initializeBean(bean, clazz.getName() + AutowireCapableBeanFactory.ORIGINAL_INSTANCE_SUFFIX);
     testContext.removeAttribute(REINJECT_DEPENDENCIES_ATTRIBUTE);
   }

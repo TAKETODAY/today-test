@@ -23,8 +23,8 @@ import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.annotation.ProfileValueUtils;
 import cn.taketoday.test.annotation.TestAnnotationUtils;
 import cn.taketoday.test.context.TestContextManager;
-import cn.taketoday.test.context.junit4.rules.SpringClassRule;
-import cn.taketoday.test.context.junit4.rules.SpringMethodRule;
+import cn.taketoday.test.context.junit4.rules.TodayClassRule;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
 import cn.taketoday.test.context.junit4.statements.RunAfterTestClassCallbacks;
 import cn.taketoday.test.context.junit4.statements.RunAfterTestExecutionCallbacks;
 import cn.taketoday.test.context.junit4.statements.RunAfterTestMethodCallbacks;
@@ -79,7 +79,7 @@ import java.util.concurrent.TimeUnit;
  * </ul>
  *
  * <p>If you would like to use the Spring TestContext Framework with a runner
- * other than this one, use {@link SpringClassRule} and {@link SpringMethodRule}.
+ * other than this one, use {@link TodayClassRule} and {@link TodayMethodRule}.
  *
  * <p><strong>NOTE:</strong> As of Spring Framework 4.3, this class requires JUnit 4.12 or higher.
  *
@@ -88,8 +88,8 @@ import java.util.concurrent.TimeUnit;
  * @see SpringRunner
  * @see TestContextManager
  * @see AbstractJUnit4SpringContextTests
- * @see cn.taketoday.test.context.junit4.rules.SpringClassRule
- * @see cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * @see TodayClassRule
+ * @see TodayMethodRule
  */
 public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 
@@ -114,10 +114,10 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 
   private static void ensureSpringRulesAreNotPresent(Class<?> testClass) {
     for (Field field : testClass.getFields()) {
-      Assert.state(!SpringClassRule.class.isAssignableFrom(field.getType()), () -> String.format(
+      Assert.state(!TodayClassRule.class.isAssignableFrom(field.getType()), () -> String.format(
               "Detected SpringClassRule field in test class [%s], " +
                       "but SpringClassRule cannot be used with the SpringJUnit4ClassRunner.", testClass.getName()));
-      Assert.state(!SpringMethodRule.class.isAssignableFrom(field.getType()), () -> String.format(
+      Assert.state(!TodayMethodRule.class.isAssignableFrom(field.getType()), () -> String.format(
               "Detected SpringMethodRule field in test class [%s], " +
                       "but SpringMethodRule cannot be used with the SpringJUnit4ClassRunner.", testClass.getName()));
     }

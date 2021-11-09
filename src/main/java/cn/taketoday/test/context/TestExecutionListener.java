@@ -16,6 +16,8 @@
 
 package cn.taketoday.test.context;
 
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+
 /**
  * {@code TestExecutionListener} defines a <em>listener</em> API for reacting to
  * test execution events published by the {@link TestContextManager} with which
@@ -24,7 +26,7 @@ package cn.taketoday.test.context;
  * <p>Note that not all testing frameworks support all lifecycle callbacks defined
  * in this API. For example, {@link #beforeTestExecution} and
  * {@link #afterTestExecution} are not supported in conjunction with JUnit 4 when
- * using the {@link cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * using the {@link TodayMethodRule
  * SpringMethodRule}.
  *
  * <p>This interface provides empty {@code default} implementations for all methods.
@@ -89,7 +91,7 @@ public interface TestExecutionListener {
    * dependencies.
    * <p>This method should be called immediately after instantiation of the test
    * class or as soon after instantiation as possible (as is the case with the
-   * {@link cn.taketoday.test.context.junit4.rules.SpringMethodRule
+   * {@link TodayMethodRule
    * SpringMethodRule}). In any case, this method must be called prior to any
    * framework-specific lifecycle callbacks.
    * <p>The default implementation is <em>empty</em>. Can be overridden by

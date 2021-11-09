@@ -19,6 +19,8 @@ package cn.taketoday.test.context;
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.context.ConfigurableApplicationContext;
 import cn.taketoday.core.annotation.AliasFor;
+import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -80,8 +82,8 @@ import java.lang.annotation.Target;
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
  * @author Sam Brannen
- * @see cn.taketoday.test.context.junit.jupiter.SpringJUnitConfig @SpringJUnitConfig
- * @see cn.taketoday.test.context.junit.jupiter.web.SpringJUnitWebConfig @SpringJUnitWebConfig
+ * @see TodayJUnitConfig @SpringJUnitConfig
+ * @see TodayJUnitWebConfig @SpringJUnitWebConfig
  * @see ContextHierarchy @ContextHierarchy
  * @see ActiveProfiles @ActiveProfiles
  * @see TestPropertySource @TestPropertySource

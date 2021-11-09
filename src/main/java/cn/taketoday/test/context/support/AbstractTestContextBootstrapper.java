@@ -16,12 +16,12 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.beans.BeanInstantiationException;
+import cn.taketoday.beans.factory.BeanInstantiationException;
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.core.annotation.AnnotationAwareOrderComparator;
-import cn.taketoday.core.io.support.SpringFactoriesLoader;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
+import cn.taketoday.lang.TodayStrategies;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.BootstrapContext;
@@ -177,7 +177,7 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
     List<TestExecutionListener> listeners = new ArrayList<>(classes.size());
     for (Class<? extends TestExecutionListener> listenerClass : classes) {
       try {
-        listeners.add(BeanUtils.instantiateClass(listenerClass));
+        listeners.add(BeanUtils.newInstance(listenerClass));
       }
       catch (BeanInstantiationException ex) {
         if (ex.getCause() instanceof NoClassDefFoundError) {
@@ -234,16 +234,15 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
    *
    * @return an <em>unmodifiable</em> list of names of default {@code TestExecutionListener}
    * classes
-   * @see SpringFactoriesLoader#loadFactoryNames
    */
-  protected List<String> getDefaultTestExecutionListenerClassNames() {
-    List<String> classNames =
-            SpringFactoriesLoader.loadFactoryNames(TestExecutionListener.class, getClass().getClassLoader());
+  protected Collection<String> getDefaultTestExecutionListenerClassNames() {
+    Collection<String> classNames =
+            TodayStrategies.getDetector().getStrategies(TestExecutionListener.class.getName());
     if (logger.isInfoEnabled()) {
       logger.info(String.format("Loaded default TestExecutionListener class names from location [%s]: %s",
-              SpringFactoriesLoader.FACTORIES_RESOURCE_LOCATION, classNames));
+              TodayStrategies.STRATEGIES_LOCATION, classNames));
     }
-    return Collections.unmodifiableList(classNames);
+    return classNames;
   }
 
   /**
@@ -406,14 +405,12 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
 
   /**
    * Get the {@link ContextCustomizerFactory} instances for this bootstrapper.
-   * <p>The default implementation uses the {@link SpringFactoriesLoader} mechanism
+   * <p>The default implementation uses the {@link TodayStrategies} mechanism
    * for loading factories configured in all {@code META-INF/spring.factories}
    * files on the classpath.
-   *
-   * @see SpringFactoriesLoader#loadFactories
    */
   protected List<ContextCustomizerFactory> getContextCustomizerFactories() {
-    return SpringFactoriesLoader.loadFactories(ContextCustomizerFactory.class, getClass().getClassLoader());
+    return TodayStrategies.getDetector().getStrategies(ContextCustomizerFactory.class);
   }
 
   /**
@@ -450,7 +447,7 @@ public abstract class AbstractTestContextBootstrapper implements TestContextBoot
       logger.trace(String.format("Using ContextLoader class [%s] for test class [%s]",
               contextLoaderClass.getName(), testClass.getName()));
     }
-    return BeanUtils.instantiateClass(contextLoaderClass, ContextLoader.class);
+    return BeanUtils.newInstance(contextLoaderClass);
   }
 
   /**

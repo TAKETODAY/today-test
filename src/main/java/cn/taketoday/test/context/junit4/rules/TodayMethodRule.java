@@ -45,7 +45,7 @@ import java.lang.reflect.Method;
  * {@code Parameterized} or third-party runners such as the {@code MockitoJUnitRunner}.
  *
  * <p>In order to achieve the same functionality as the {@code SpringJUnit4ClassRunner},
- * however, a {@code SpringMethodRule} must be combined with a {@link SpringClassRule},
+ * however, a {@code SpringMethodRule} must be combined with a {@link TodayClassRule},
  * since {@code SpringMethodRule} only supports the instance-level and method-level
  * features of the {@code SpringJUnit4ClassRunner}.
  *
@@ -90,13 +90,13 @@ import java.lang.reflect.Method;
  * @author Sam Brannen
  * @author Philippe Marschall
  * @see #apply(Statement, FrameworkMethod, Object)
- * @see SpringClassRule
+ * @see TodayClassRule
  * @see cn.taketoday.test.context.TestContextManager
  * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
  */
-public class SpringMethodRule implements MethodRule {
+public class TodayMethodRule implements MethodRule {
 
-  private static final Logger logger = LoggerFactory.getLogger(SpringMethodRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(TodayMethodRule.class);
 
 
   /**
@@ -134,7 +134,7 @@ public class SpringMethodRule implements MethodRule {
       logger.debug("Applying SpringMethodRule to test method [" + testMethod + "]");
     }
     Class<?> testClass = testInstance.getClass();
-    TestContextManager testContextManager = SpringClassRule.getTestContextManager(testClass);
+    TestContextManager testContextManager = TodayClassRule.getTestContextManager(testClass);
 
     Statement statement = base;
     statement = withBeforeTestMethodCallbacks(statement, testMethod, testInstance, testContextManager);

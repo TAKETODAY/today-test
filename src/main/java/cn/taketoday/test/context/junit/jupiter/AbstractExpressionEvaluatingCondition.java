@@ -16,12 +16,10 @@
 
 package cn.taketoday.test.context.junit.jupiter;
 
-import cn.taketoday.beans.factory.config.BeanExpressionContext;
-import cn.taketoday.beans.factory.config.BeanExpressionResolver;
-import cn.taketoday.beans.factory.config.ConfigurableBeanFactory;
+import cn.taketoday.beans.factory.ConfigurableBeanFactory;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.ConfigurableApplicationContext;
-import cn.taketoday.context.support.GenericApplicationContext;
+import cn.taketoday.context.DefaultApplicationContext;
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.logging.Logger;
@@ -84,9 +82,10 @@ abstract class AbstractExpressionEvaluatingCondition implements ExecutionConditi
    * @return {@link ConditionEvaluationResult#enabled enabled} if the container
    * or test should be enabled; otherwise {@link ConditionEvaluationResult#disabled disabled}
    */
-  protected <A extends Annotation> ConditionEvaluationResult evaluateAnnotation(Class<A> annotationType,
-                                                                                Function<A, String> expressionExtractor, Function<A, String> reasonExtractor,
-                                                                                Function<A, Boolean> loadContextExtractor, boolean enabledOnTrue, ExtensionContext context) {
+  protected <A extends Annotation> ConditionEvaluationResult evaluateAnnotation(
+          Class<A> annotationType,
+          Function<A, String> expressionExtractor, Function<A, String> reasonExtractor,
+          Function<A, Boolean> loadContextExtractor, boolean enabledOnTrue, ExtensionContext context) {
 
     Assert.state(context.getElement().isPresent(), "No AnnotatedElement");
     AnnotatedElement element = context.getElement().get();
@@ -101,7 +100,7 @@ abstract class AbstractExpressionEvaluatingCondition implements ExecutionConditi
       return ConditionEvaluationResult.enabled(reason);
     }
 
-    String expression = annotation.map(expressionExtractor).map(String::trim).filter(StringUtils::hasLength)
+    String expression = annotation.map(expressionExtractor).map(String::trim).filter(StringUtils::isNotEmpty)
             .orElseThrow(() -> new IllegalStateException(String.format(
                     "The expression in @%s on [%s] must not be blank", annotationType.getSimpleName(), element)));
 
@@ -142,7 +141,7 @@ abstract class AbstractExpressionEvaluatingCondition implements ExecutionConditi
       DirtiesContext dirtiesContext = TestContextAnnotationUtils.findMergedAnnotation(testClass, DirtiesContext.class);
       if (dirtiesContext != null) {
         HierarchyMode hierarchyMode = dirtiesContext.hierarchyMode();
-        SpringExtension.getTestContextManager(context).getTestContext().markApplicationContextDirty(hierarchyMode);
+        TodayExtension.getTestContextManager(context).getTestContext().markApplicationContextDirty(hierarchyMode);
       }
     }
 
@@ -154,14 +153,14 @@ abstract class AbstractExpressionEvaluatingCondition implements ExecutionConditi
 
     Assert.state(context.getElement().isPresent(), "No AnnotatedElement");
     AnnotatedElement element = context.getElement().get();
-    GenericApplicationContext gac = null;
+    DefaultApplicationContext gac = null;
     ApplicationContext applicationContext;
 
     if (loadContext) {
-      applicationContext = SpringExtension.getApplicationContext(context);
+      applicationContext = TodayExtension.getApplicationContext(context);
     }
     else {
-      gac = new GenericApplicationContext();
+      gac = new DefaultApplicationContext();
       gac.refresh();
       applicationContext = gac;
     }

@@ -27,6 +27,8 @@ import cn.taketoday.test.context.TestContextManager;
 import cn.taketoday.test.context.TestExecutionListeners;
 import cn.taketoday.test.context.event.ApplicationEventsTestExecutionListener;
 import cn.taketoday.test.context.event.EventPublishingTestExecutionListener;
+import cn.taketoday.test.context.junit4.rules.TodayClassRule;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
 import cn.taketoday.test.context.support.DependencyInjectionTestExecutionListener;
 import cn.taketoday.test.context.support.DirtiesContextBeforeModesTestExecutionListener;
 import cn.taketoday.test.context.support.DirtiesContextTestExecutionListener;
@@ -68,8 +70,8 @@ import org.junit.runner.RunWith;
  * {@link TestExecutionListeners @TestExecutionListeners}, etc.</li>
  * <li>If you wish to extend this class and use a runner other than the
  * {@link SpringRunner}, you can use
- * {@link cn.taketoday.test.context.junit4.rules.SpringClassRule SpringClassRule} and
- * {@link cn.taketoday.test.context.junit4.rules.SpringMethodRule SpringMethodRule}
+ * {@link TodayClassRule SpringClassRule} and
+ * {@link TodayMethodRule SpringMethodRule}
  * and specify your runner of choice via {@link RunWith @RunWith(...)}.</li>
  * </ul>
  *

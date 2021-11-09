@@ -16,6 +16,8 @@
 
 package cn.taketoday.test.annotation;
 
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -40,7 +42,7 @@ import java.lang.annotation.Target;
  * @author Sam Brannen
  * @see cn.taketoday.test.annotation.Repeat
  * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
- * @see cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * @see TodayMethodRule
  * @see cn.taketoday.test.context.junit4.statements.SpringFailOnTimeout
  */
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })

@@ -16,17 +16,18 @@
 
 package cn.taketoday.test.context.junit.jupiter;
 
-import cn.taketoday.beans.factory.annotation.Autowired;
-import cn.taketoday.beans.factory.annotation.ParameterResolutionDelegate;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.core.annotation.MergedAnnotations;
 import cn.taketoday.core.annotation.MergedAnnotations.SearchStrategy;
 import cn.taketoday.core.annotation.RepeatableContainers;
 import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Autowired;
 import cn.taketoday.lang.Nullable;
+import cn.taketoday.lang.ParameterResolutionDelegate;
 import cn.taketoday.test.context.TestConstructor;
 import cn.taketoday.test.context.TestContextManager;
 import cn.taketoday.test.context.event.ApplicationEvents;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 import cn.taketoday.test.context.support.PropertyProvider;
 import cn.taketoday.test.context.support.TestConstructorUtils;
 import cn.taketoday.util.ReflectionUtils;
@@ -69,26 +70,25 @@ import java.util.List;
  * @author Sam Brannen
  * @see cn.taketoday.test.context.junit.jupiter.EnabledIf
  * @see cn.taketoday.test.context.junit.jupiter.DisabledIf
- * @see cn.taketoday.test.context.junit.jupiter.SpringJUnitConfig
- * @see cn.taketoday.test.context.junit.jupiter.web.SpringJUnitWebConfig
+ * @see TodayJUnitConfig
+ * @see TodayJUnitWebConfig
  * @see cn.taketoday.test.context.TestContextManager
  */
-public class SpringExtension implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor,
-        BeforeEachCallback, AfterEachCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback,
-        ParameterResolver {
+public class TodayExtension implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor,
+        BeforeEachCallback, AfterEachCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
 
   /**
    * {@link Namespace} in which {@code TestContextManagers} are stored, keyed
    * by test class.
    */
-  private static final Namespace TEST_CONTEXT_MANAGER_NAMESPACE = Namespace.create(SpringExtension.class);
+  private static final Namespace TEST_CONTEXT_MANAGER_NAMESPACE = Namespace.create(TodayExtension.class);
 
   /**
    * {@link Namespace} in which {@code @Autowired} validation error messages
    * are stored, keyed by test class.
    */
   private static final Namespace AUTOWIRED_VALIDATION_NAMESPACE =
-          Namespace.create(SpringExtension.class.getName() + "#autowired.validation");
+          Namespace.create(TodayExtension.class.getName() + "#autowired.validation");
 
   private static final String NO_AUTOWIRED_VIOLATIONS_DETECTED = "NO AUTOWIRED VIOLATIONS DETECTED";
 
@@ -100,8 +100,7 @@ public class SpringExtension implements BeforeAllCallback, AfterAllCallback, Tes
   private static final MethodFilter autowiredTestOrLifecycleMethodFilter =
           ReflectionUtils.USER_DECLARED_METHODS
                   .and(method -> !Modifier.isPrivate(method.getModifiers()))
-                  .and(SpringExtension::isAutowiredTestOrLifecycleMethod);
-
+                  .and(TodayExtension::isAutowiredTestOrLifecycleMethod);
 
   /**
    * Delegates to {@link TestContextManager#beforeTestClass}.

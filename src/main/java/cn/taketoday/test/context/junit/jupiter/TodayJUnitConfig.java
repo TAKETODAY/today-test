@@ -19,6 +19,7 @@ package cn.taketoday.test.context.junit.jupiter;
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.core.annotation.AliasFor;
 import cn.taketoday.test.context.ContextConfiguration;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
@@ -36,17 +37,17 @@ import java.lang.annotation.Target;
  *
  * @author Sam Brannen
  * @see ExtendWith
- * @see SpringExtension
+ * @see TodayExtension
  * @see ContextConfiguration
- * @see cn.taketoday.test.context.junit.jupiter.web.SpringJUnitWebConfig
+ * @see TodayJUnitWebConfig
  */
-@ExtendWith(SpringExtension.class)
+@ExtendWith(TodayExtension.class)
 @ContextConfiguration
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface SpringJUnitConfig {
+public @interface TodayJUnitConfig {
 
   /**
    * Alias for {@link ContextConfiguration#classes}.

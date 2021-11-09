@@ -16,6 +16,8 @@
 
 package cn.taketoday.test.annotation;
 
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -29,7 +31,7 @@ import java.lang.annotation.Target;
  * <p>Note that the scope of execution to be repeated includes execution of the
  * test method itself as well as any <em>set up</em> or <em>tear down</em> of
  * the test fixture. When used with the
- * {@link cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * {@link TodayMethodRule
  * SpringMethodRule}, the scope additionally includes
  * {@linkplain cn.taketoday.test.context.TestExecutionListener#prepareTestInstance
  * preparation of the test instance}.
@@ -41,7 +43,7 @@ import java.lang.annotation.Target;
  * @author Sam Brannen
  * @see cn.taketoday.test.annotation.Timed
  * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
- * @see cn.taketoday.test.context.junit4.rules.SpringMethodRule
+ * @see TodayMethodRule
  * @see cn.taketoday.test.context.junit4.statements.SpringRepeat
  */
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })

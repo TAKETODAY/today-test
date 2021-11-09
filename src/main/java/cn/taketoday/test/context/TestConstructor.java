@@ -19,6 +19,9 @@ package cn.taketoday.test.context;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.context.junit.jupiter.TodayExtension;
+import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -37,7 +40,7 @@ import java.lang.annotation.Target;
  * on a test class, the default <em>test constructor autowire mode</em> will be
  * used. See {@link #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME} for details on
  * how to change the default mode. Note, however, that a local declaration of
- * {@link cn.taketoday.beans.factory.annotation.Autowired @Autowired} on
+ * {@link cn.taketoday.lang.Autowired @Autowired} on
  * a constructor takes precedence over both {@code @TestConstructor} and the default
  * mode.
  *
@@ -45,11 +48,11 @@ import java.lang.annotation.Target;
  * <em>composed annotations</em>.
  *
  * <p>As of Spring Framework 5.2, this annotation is only supported in conjunction
- * with the {@link cn.taketoday.test.context.junit.jupiter.SpringExtension
+ * with the {@link TodayExtension
  * SpringExtension} for use with JUnit Jupiter. Note that the {@code SpringExtension} is
  * often automatically registered for you &mdash; for example, when using annotations such as
- * {@link cn.taketoday.test.context.junit.jupiter.SpringJUnitConfig @SpringJUnitConfig} and
- * {@link cn.taketoday.test.context.junit.jupiter.web.SpringJUnitWebConfig @SpringJUnitWebConfig}
+ * {@link TodayJUnitConfig @SpringJUnitConfig} and
+ * {@link TodayJUnitWebConfig @SpringJUnitWebConfig}
  * or various test-related annotations from Spring Boot Test.
  *
  * <p>As of Spring Framework 5.3, this annotation will be inherited from an
@@ -57,10 +60,10 @@ import java.lang.annotation.Target;
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
  * @author Sam Brannen
- * @see cn.taketoday.beans.factory.annotation.Autowired @Autowired
- * @see cn.taketoday.test.context.junit.jupiter.SpringExtension SpringExtension
- * @see cn.taketoday.test.context.junit.jupiter.SpringJUnitConfig @SpringJUnitConfig
- * @see cn.taketoday.test.context.junit.jupiter.web.SpringJUnitWebConfig @SpringJUnitWebConfig
+ * @see cn.taketoday.lang.Autowired @Autowired
+ * @see TodayExtension SpringExtension
+ * @see TodayJUnitConfig @SpringJUnitConfig
+ * @see TodayJUnitWebConfig @SpringJUnitWebConfig
  * @see ContextConfiguration @ContextConfiguration
  * @see ContextHierarchy @ContextHierarchy
  * @see ActiveProfiles @ActiveProfiles
@@ -103,7 +106,7 @@ public @interface TestConstructor {
    *
    * @return an {@link AutowireMode} to take precedence over the global default
    * @see #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME
-   * @see cn.taketoday.beans.factory.annotation.Autowired @Autowired
+   * @see cn.taketoday.lang.Autowired @Autowired
    * @see AutowireMode#ALL
    * @see AutowireMode#ANNOTATED
    */
@@ -121,7 +124,7 @@ public @interface TestConstructor {
     /**
      * All test constructor parameters will be autowired as if the constructor
      * itself were annotated with
-     * {@link cn.taketoday.beans.factory.annotation.Autowired @Autowired}.
+     * {@link cn.taketoday.lang.Autowired @Autowired}.
      *
      * @see #ANNOTATED
      */
@@ -130,9 +133,9 @@ public @interface TestConstructor {
     /**
      * Each individual test constructor parameter will only be autowired if it
      * is annotated with
-     * {@link cn.taketoday.beans.factory.annotation.Autowired @Autowired},
-     * {@link cn.taketoday.beans.factory.annotation.Qualifier @Qualifier},
-     * or {@link cn.taketoday.beans.factory.annotation.Value @Value},
+     * {@link cn.taketoday.lang.Autowired @Autowired},
+     * {@link cn.taketoday.lang.Qualifier @Qualifier},
+     * or {@link cn.taketoday.lang.Value @Value},
      * or if the constructor itself is annotated with {@code @Autowired}.
      *
      * @see #ALL
