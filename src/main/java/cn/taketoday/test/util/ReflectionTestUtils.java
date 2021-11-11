@@ -1,17 +1,21 @@
 /*
- * Copyright 2002-2019 the original author or authors.
+ * Original Author -> Harry Yang (taketoday@foxmail.com) https://taketoday.cn
+ * Copyright © TODAY & 2017 - 2021 All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER
  *
- *      https://www.apache.org/licenses/LICENSE-2.0
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see [http://www.gnu.org/licenses/]
  */
 
 package cn.taketoday.test.util;
@@ -44,12 +48,12 @@ import java.lang.reflect.Method;
  * {@code public} setter methods for properties in a domain entity.</li>
  * <li>Spring's support for annotations such as
  * {@link cn.taketoday.lang.Autowired @Autowired},
- * {@link javax.inject.Inject @Inject}, and
- * {@link javax.annotation.Resource @Resource} which provides dependency
+ * {@link jakarta.inject.Inject @Inject}, and
+ * {@link jakarta.annotation.Resource @Resource} which provides dependency
  * injection for {@code private} or {@code protected} fields, setter methods,
  * and configuration methods.</li>
- * <li>Use of annotations such as {@link javax.annotation.PostConstruct @PostConstruct}
- * and {@link javax.annotation.PreDestroy @PreDestroy} for lifecycle callback
+ * <li>Use of annotations such as {@link jakarta.annotation.PostConstruct @PostConstruct}
+ * and {@link jakarta.annotation.PreDestroy @PreDestroy} for lifecycle callback
  * methods.</li>
  * </ul>
  *
