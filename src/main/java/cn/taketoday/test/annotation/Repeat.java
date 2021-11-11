@@ -55,9 +55,9 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Repeat {
 
-  /**
-   * The number of times that the annotated test method should be repeated.
-   */
-  int value() default 1;
+	/**
+	 * The number of times that the annotated test method should be repeated.
+	 */
+	int value() default 1;
 
 }

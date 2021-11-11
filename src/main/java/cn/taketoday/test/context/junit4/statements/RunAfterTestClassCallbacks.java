@@ -41,49 +41,49 @@ import java.util.List;
  */
 public class RunAfterTestClassCallbacks extends Statement {
 
-  private final Statement next;
+	private final Statement next;
 
-  private final TestContextManager testContextManager;
-
-
-  /**
-   * Construct a new {@code RunAfterTestClassCallbacks} statement.
-   *
-   * @param next the next {@code Statement} in the execution chain
-   * @param testContextManager the TestContextManager upon which to call
-   * {@code afterTestClass()}
-   */
-  public RunAfterTestClassCallbacks(Statement next, TestContextManager testContextManager) {
-    this.next = next;
-    this.testContextManager = testContextManager;
-  }
+	private final TestContextManager testContextManager;
 
 
-  /**
-   * Evaluate the next {@link Statement} in the execution chain (typically an instance of
-   * {@link org.junit.internal.runners.statements.RunAfters RunAfters}), catching any
-   * exceptions thrown, and then invoke {@link TestContextManager#afterTestClass()}.
-   * <p>If the invocation of {@code afterTestClass()} throws an exception, it will also
-   * be tracked. Multiple exceptions will be combined into a {@link MultipleFailureException}.
-   */
-  @Override
-  public void evaluate() throws Throwable {
-    List<Throwable> errors = new ArrayList<>();
-    try {
-      this.next.evaluate();
-    }
-    catch (Throwable ex) {
-      errors.add(ex);
-    }
+	/**
+	 * Construct a new {@code RunAfterTestClassCallbacks} statement.
+	 *
+	 * @param next the next {@code Statement} in the execution chain
+	 * @param testContextManager the TestContextManager upon which to call
+	 * {@code afterTestClass()}
+	 */
+	public RunAfterTestClassCallbacks(Statement next, TestContextManager testContextManager) {
+		this.next = next;
+		this.testContextManager = testContextManager;
+	}
 
-    try {
-      this.testContextManager.afterTestClass();
-    }
-    catch (Throwable ex) {
-      errors.add(ex);
-    }
 
-    MultipleFailureException.assertEmpty(errors);
-  }
+	/**
+	 * Evaluate the next {@link Statement} in the execution chain (typically an instance of
+	 * {@link org.junit.internal.runners.statements.RunAfters RunAfters}), catching any
+	 * exceptions thrown, and then invoke {@link TestContextManager#afterTestClass()}.
+	 * <p>If the invocation of {@code afterTestClass()} throws an exception, it will also
+	 * be tracked. Multiple exceptions will be combined into a {@link MultipleFailureException}.
+	 */
+	@Override
+	public void evaluate() throws Throwable {
+		List<Throwable> errors = new ArrayList<>();
+		try {
+			this.next.evaluate();
+		}
+		catch (Throwable ex) {
+			errors.add(ex);
+		}
+
+		try {
+			this.testContextManager.afterTestClass();
+		}
+		catch (Throwable ex) {
+			errors.add(ex);
+		}
+
+		MultipleFailureException.assertEmpty(errors);
+	}
 
 }

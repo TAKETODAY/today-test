@@ -35,53 +35,53 @@ import jakarta.servlet.http.MappingMatch;
  */
 public class MockHttpServletMapping implements HttpServletMapping {
 
-  private final String matchValue;
+	private final String matchValue;
 
-  private final String pattern;
+	private final String pattern;
 
-  private final String servletName;
+	private final String servletName;
 
-  @Nullable
-  private final MappingMatch mappingMatch;
-
-
-  public MockHttpServletMapping(
-          String matchValue, String pattern, String servletName, @Nullable MappingMatch match) {
-
-    this.matchValue = matchValue;
-    this.pattern = pattern;
-    this.servletName = servletName;
-    this.mappingMatch = match;
-  }
+	@Nullable
+	private final MappingMatch mappingMatch;
 
 
-  @Override
-  public String getMatchValue() {
-    return this.matchValue;
-  }
+	public MockHttpServletMapping(
+					String matchValue, String pattern, String servletName, @Nullable MappingMatch match) {
 
-  @Override
-  public String getPattern() {
-    return this.pattern;
-  }
-
-  @Override
-  public String getServletName() {
-    return this.servletName;
-  }
-
-  @Override
-  @Nullable
-  public MappingMatch getMappingMatch() {
-    return this.mappingMatch;
-  }
+		this.matchValue = matchValue;
+		this.pattern = pattern;
+		this.servletName = servletName;
+		this.mappingMatch = match;
+	}
 
 
-  @Override
-  public String toString() {
-    return "MockHttpServletMapping [matchValue=\"" + this.matchValue + "\", " +
-            "pattern=\"" + this.pattern + "\", servletName=\"" + this.servletName + "\", " +
-            "mappingMatch=" + this.mappingMatch + "]";
-  }
+	@Override
+	public String getMatchValue() {
+		return this.matchValue;
+	}
+
+	@Override
+	public String getPattern() {
+		return this.pattern;
+	}
+
+	@Override
+	public String getServletName() {
+		return this.servletName;
+	}
+
+	@Override
+	@Nullable
+	public MappingMatch getMappingMatch() {
+		return this.mappingMatch;
+	}
+
+
+	@Override
+	public String toString() {
+		return "MockHttpServletMapping [matchValue=\"" + this.matchValue + "\", " +
+						"pattern=\"" + this.pattern + "\", servletName=\"" + this.servletName + "\", " +
+						"mappingMatch=" + this.mappingMatch + "]";
+	}
 
 }

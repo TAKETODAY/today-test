@@ -35,25 +35,25 @@ import java.util.function.Supplier;
  */
 class DynamicValuesPropertySource extends EnumerablePropertySource<Map<String, Supplier<Object>>> {
 
-  DynamicValuesPropertySource(String name, Map<String, Supplier<Object>> valueSuppliers) {
-    super(name, valueSuppliers);
-  }
+	DynamicValuesPropertySource(String name, Map<String, Supplier<Object>> valueSuppliers) {
+		super(name, valueSuppliers);
+	}
 
 
-  @Override
-  public Object getProperty(String name) {
-    Supplier<Object> valueSupplier = this.source.get(name);
-    return (valueSupplier != null ? valueSupplier.get() : null);
-  }
+	@Override
+	public Object getProperty(String name) {
+		Supplier<Object> valueSupplier = this.source.get(name);
+		return (valueSupplier != null ? valueSupplier.get() : null);
+	}
 
-  @Override
-  public boolean containsProperty(String name) {
-    return this.source.containsKey(name);
-  }
+	@Override
+	public boolean containsProperty(String name) {
+		return this.source.containsKey(name);
+	}
 
-  @Override
-  public String[] getPropertyNames() {
-    return StringUtils.toStringArray(this.source.keySet());
-  }
+	@Override
+	public String[] getPropertyNames() {
+		return StringUtils.toStringArray(this.source.keySet());
+	}
 
 }

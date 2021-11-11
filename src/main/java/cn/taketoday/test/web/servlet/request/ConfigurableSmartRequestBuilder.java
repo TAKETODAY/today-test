@@ -30,11 +30,11 @@ import cn.taketoday.test.web.servlet.SmartRequestBuilder;
  * @author Rossen Stoyanchev
  */
 public interface ConfigurableSmartRequestBuilder<B extends ConfigurableSmartRequestBuilder<B>>
-        extends SmartRequestBuilder {
+				extends SmartRequestBuilder {
 
-  /**
-   * Add the given {@code RequestPostProcessor}.
-   */
-  B with(RequestPostProcessor requestPostProcessor);
+	/**
+	 * Add the given {@code RequestPostProcessor}.
+	 */
+	B with(RequestPostProcessor requestPostProcessor);
 
 }

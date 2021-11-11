@@ -35,30 +35,30 @@ import java.io.InputStream;
  */
 public class MockHttpInputMessage implements HttpInputMessage {
 
-  private final HttpHeaders headers = HttpHeaders.create();
+	private final HttpHeaders headers = HttpHeaders.create();
 
-  private final InputStream body;
-
-
-  public MockHttpInputMessage(byte[] content) {
-    Assert.notNull(content, "Byte array must not be null");
-    this.body = new ByteArrayInputStream(content);
-  }
-
-  public MockHttpInputMessage(InputStream body) {
-    Assert.notNull(body, "InputStream must not be null");
-    this.body = body;
-  }
+	private final InputStream body;
 
 
-  @Override
-  public HttpHeaders getHeaders() {
-    return this.headers;
-  }
+	public MockHttpInputMessage(byte[] content) {
+		Assert.notNull(content, "Byte array must not be null");
+		this.body = new ByteArrayInputStream(content);
+	}
 
-  @Override
-  public InputStream getBody() throws IOException {
-    return this.body;
-  }
+	public MockHttpInputMessage(InputStream body) {
+		Assert.notNull(body, "InputStream must not be null");
+		this.body = body;
+	}
+
+
+	@Override
+	public HttpHeaders getHeaders() {
+		return this.headers;
+	}
+
+	@Override
+	public InputStream getBody() throws IOException {
+		return this.body;
+	}
 
 }

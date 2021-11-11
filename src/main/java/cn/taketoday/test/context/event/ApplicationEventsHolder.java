@@ -48,65 +48,65 @@ import cn.taketoday.test.context.junit.jupiter.TodayExtension;
  */
 public abstract class ApplicationEventsHolder {
 
-  private static final ThreadLocal<DefaultApplicationEvents> applicationEvents = new ThreadLocal<>();
+	private static final ThreadLocal<DefaultApplicationEvents> applicationEvents = new ThreadLocal<>();
 
 
-  private ApplicationEventsHolder() {
-    // no-op to prevent instantiation of this holder class
-  }
+	private ApplicationEventsHolder() {
+		// no-op to prevent instantiation of this holder class
+	}
 
 
-  /**
-   * Get the {@link ApplicationEvents} for the current thread.
-   *
-   * @return the current {@code ApplicationEvents}, or {@code null} if not registered
-   */
-  @Nullable
-  public static ApplicationEvents getApplicationEvents() {
-    return applicationEvents.get();
-  }
+	/**
+	 * Get the {@link ApplicationEvents} for the current thread.
+	 *
+	 * @return the current {@code ApplicationEvents}, or {@code null} if not registered
+	 */
+	@Nullable
+	public static ApplicationEvents getApplicationEvents() {
+		return applicationEvents.get();
+	}
 
-  /**
-   * Get the {@link ApplicationEvents} for the current thread.
-   *
-   * @return the current {@code ApplicationEvents}
-   * @throws IllegalStateException if an instance of {@code ApplicationEvents}
-   * has not been registered for the current thread
-   */
-  public static ApplicationEvents getRequiredApplicationEvents() {
-    ApplicationEvents events = applicationEvents.get();
-    Assert.state(events != null, "Failed to retrieve ApplicationEvents for the current thread. " +
-            "Ensure that your test class is annotated with @RecordApplicationEvents " +
-            "and that the ApplicationEventsTestExecutionListener is registered.");
-    return events;
-  }
+	/**
+	 * Get the {@link ApplicationEvents} for the current thread.
+	 *
+	 * @return the current {@code ApplicationEvents}
+	 * @throws IllegalStateException if an instance of {@code ApplicationEvents}
+	 * has not been registered for the current thread
+	 */
+	public static ApplicationEvents getRequiredApplicationEvents() {
+		ApplicationEvents events = applicationEvents.get();
+		Assert.state(events != null, "Failed to retrieve ApplicationEvents for the current thread. " +
+						"Ensure that your test class is annotated with @RecordApplicationEvents " +
+						"and that the ApplicationEventsTestExecutionListener is registered.");
+		return events;
+	}
 
 
-  /**
-   * Register a new {@link DefaultApplicationEvents} instance to be used for the
-   * current thread, if necessary.
-   * <p>If {@link #registerApplicationEvents()} has already been called for the
-   * current thread, this method does not do anything.
-   */
-  static void registerApplicationEventsIfNecessary() {
-    if (getApplicationEvents() == null) {
-      registerApplicationEvents();
-    }
-  }
+	/**
+	 * Register a new {@link DefaultApplicationEvents} instance to be used for the
+	 * current thread, if necessary.
+	 * <p>If {@link #registerApplicationEvents()} has already been called for the
+	 * current thread, this method does not do anything.
+	 */
+	static void registerApplicationEventsIfNecessary() {
+		if (getApplicationEvents() == null) {
+			registerApplicationEvents();
+		}
+	}
 
-  /**
-   * Register a new {@link DefaultApplicationEvents} instance to be used for the
-   * current thread.
-   */
-  static void registerApplicationEvents() {
-    applicationEvents.set(new DefaultApplicationEvents());
-  }
+	/**
+	 * Register a new {@link DefaultApplicationEvents} instance to be used for the
+	 * current thread.
+	 */
+	static void registerApplicationEvents() {
+		applicationEvents.set(new DefaultApplicationEvents());
+	}
 
-  /**
-   * Remove the registration of the {@link ApplicationEvents} for the current thread.
-   */
-  static void unregisterApplicationEvents() {
-    applicationEvents.remove();
-  }
+	/**
+	 * Remove the registration of the {@link ApplicationEvents} for the current thread.
+	 */
+	static void unregisterApplicationEvents() {
+		applicationEvents.remove();
+	}
 
 }

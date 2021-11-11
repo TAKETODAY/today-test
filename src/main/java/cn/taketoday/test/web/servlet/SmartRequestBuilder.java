@@ -31,13 +31,13 @@ import cn.taketoday.mock.web.MockHttpServletRequest;
  */
 public interface SmartRequestBuilder extends RequestBuilder {
 
-  /**
-   * Apply request post processing. Typically that means invoking one or more
-   * {@link cn.taketoday.test.web.servlet.request.RequestPostProcessor cn.taketoday.test.web.servlet.request.RequestPostProcessors}.
-   *
-   * @param request the request to initialize
-   * @return the request to use, either the one passed in or a wrapped one
-   */
-  MockHttpServletRequest postProcessRequest(MockHttpServletRequest request);
+	/**
+	 * Apply request post processing. Typically that means invoking one or more
+	 * {@link cn.taketoday.test.web.servlet.request.RequestPostProcessor cn.taketoday.test.web.servlet.request.RequestPostProcessors}.
+	 *
+	 * @param request the request to initialize
+	 * @return the request to use, either the one passed in or a wrapped one
+	 */
+	MockHttpServletRequest postProcessRequest(MockHttpServletRequest request);
 
 }

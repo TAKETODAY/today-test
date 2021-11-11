@@ -40,39 +40,39 @@ import java.util.Iterator;
  */
 public class SimpleRequestExpectationManager extends AbstractRequestExpectationManager {
 
-  /** Expectations in the order of declaration (count may be > 1). */
-  @Nullable
-  private Iterator<RequestExpectation> expectationIterator;
+	/** Expectations in the order of declaration (count may be > 1). */
+	@Nullable
+	private Iterator<RequestExpectation> expectationIterator;
 
-  /** Track expectations that have a remaining count. */
-  private final RequestExpectationGroup repeatExpectations = new RequestExpectationGroup();
+	/** Track expectations that have a remaining count. */
+	private final RequestExpectationGroup repeatExpectations = new RequestExpectationGroup();
 
 
-  @Override
-  protected void afterExpectationsDeclared() {
-    Assert.state(this.expectationIterator == null, "Expectations already declared");
-    this.expectationIterator = getExpectations().iterator();
-  }
+	@Override
+	protected void afterExpectationsDeclared() {
+		Assert.state(this.expectationIterator == null, "Expectations already declared");
+		this.expectationIterator = getExpectations().iterator();
+	}
 
-  @Override
-  protected RequestExpectation matchRequest(ClientHttpRequest request) throws IOException {
-    RequestExpectation expectation = this.repeatExpectations.findExpectation(request);
-    if (expectation == null) {
-      if (this.expectationIterator == null || !this.expectationIterator.hasNext()) {
-        throw createUnexpectedRequestError(request);
-      }
-      expectation = this.expectationIterator.next();
-      expectation.match(request);
-    }
-    this.repeatExpectations.update(expectation);
-    return expectation;
-  }
+	@Override
+	protected RequestExpectation matchRequest(ClientHttpRequest request) throws IOException {
+		RequestExpectation expectation = this.repeatExpectations.findExpectation(request);
+		if (expectation == null) {
+			if (this.expectationIterator == null || !this.expectationIterator.hasNext()) {
+				throw createUnexpectedRequestError(request);
+			}
+			expectation = this.expectationIterator.next();
+			expectation.match(request);
+		}
+		this.repeatExpectations.update(expectation);
+		return expectation;
+	}
 
-  @Override
-  public void reset() {
-    super.reset();
-    this.expectationIterator = null;
-    this.repeatExpectations.reset();
-  }
+	@Override
+	public void reset() {
+		super.reset();
+		this.expectationIterator = null;
+		this.repeatExpectations.reset();
+	}
 
 }

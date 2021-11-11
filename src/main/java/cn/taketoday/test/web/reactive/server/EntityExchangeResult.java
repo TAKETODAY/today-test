@@ -32,22 +32,22 @@ import cn.taketoday.lang.Nullable;
  */
 public class EntityExchangeResult<T> extends ExchangeResult {
 
-  @Nullable
-  private final T body;
+	@Nullable
+	private final T body;
 
 
-  EntityExchangeResult(ExchangeResult result, @Nullable T body) {
-    super(result);
-    this.body = body;
-  }
+	EntityExchangeResult(ExchangeResult result, @Nullable T body) {
+		super(result);
+		this.body = body;
+	}
 
 
-  /**
-   * Return the entity extracted from the response body.
-   */
-  @Nullable
-  public T getResponseBody() {
-    return this.body;
-  }
+	/**
+	 * Return the entity extracted from the response body.
+	 */
+	@Nullable
+	public T getResponseBody() {
+		return this.body;
+	}
 
 }

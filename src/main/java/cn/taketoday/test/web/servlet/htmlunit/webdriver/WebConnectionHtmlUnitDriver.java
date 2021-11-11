@@ -42,76 +42,76 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
  */
 public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
 
-  public WebConnectionHtmlUnitDriver() {
-  }
+	public WebConnectionHtmlUnitDriver() {
+	}
 
-  public WebConnectionHtmlUnitDriver(BrowserVersion browserVersion) {
-    super(browserVersion);
-  }
+	public WebConnectionHtmlUnitDriver(BrowserVersion browserVersion) {
+		super(browserVersion);
+	}
 
-  public WebConnectionHtmlUnitDriver(boolean enableJavascript) {
-    super(enableJavascript);
-  }
+	public WebConnectionHtmlUnitDriver(boolean enableJavascript) {
+		super(enableJavascript);
+	}
 
-  public WebConnectionHtmlUnitDriver(Capabilities capabilities) {
-    super(capabilities);
-  }
+	public WebConnectionHtmlUnitDriver(Capabilities capabilities) {
+		super(capabilities);
+	}
 
 
-  /**
-   * Modify the supplied {@link WebClient} and retain a reference to it so that its
-   * {@link WebConnection} is {@linkplain #getWebConnection accessible} for later use.
-   * <p>Delegates to {@link HtmlUnitDriver#modifyWebClient} for default behavior
-   * and to {@link #modifyWebClientInternal} for further customization.
-   *
-   * @param webClient the client to modify
-   * @return the modified client
-   * @see HtmlUnitDriver#modifyWebClient(WebClient)
-   * @see #modifyWebClientInternal(WebClient)
-   */
-  @Override
-  protected final WebClient modifyWebClient(WebClient webClient) {
-    return modifyWebClientInternal(super.modifyWebClient(webClient));
-  }
+	/**
+	 * Modify the supplied {@link WebClient} and retain a reference to it so that its
+	 * {@link WebConnection} is {@linkplain #getWebConnection accessible} for later use.
+	 * <p>Delegates to {@link HtmlUnitDriver#modifyWebClient} for default behavior
+	 * and to {@link #modifyWebClientInternal} for further customization.
+	 *
+	 * @param webClient the client to modify
+	 * @return the modified client
+	 * @see HtmlUnitDriver#modifyWebClient(WebClient)
+	 * @see #modifyWebClientInternal(WebClient)
+	 */
+	@Override
+	protected final WebClient modifyWebClient(WebClient webClient) {
+		return modifyWebClientInternal(super.modifyWebClient(webClient));
+	}
 
-  /**
-   * Modify the supplied {@link WebClient}.
-   * <p>The default implementation simply returns the supplied client unmodified.
-   * <p>Subclasses can override this method to customize the {@code WebClient}
-   * that the {@link HtmlUnitDriver} uses.
-   *
-   * @param webClient the client to modify
-   * @return the modified client
-   */
-  protected WebClient modifyWebClientInternal(WebClient webClient) {
-    return webClient;
-  }
+	/**
+	 * Modify the supplied {@link WebClient}.
+	 * <p>The default implementation simply returns the supplied client unmodified.
+	 * <p>Subclasses can override this method to customize the {@code WebClient}
+	 * that the {@link HtmlUnitDriver} uses.
+	 *
+	 * @param webClient the client to modify
+	 * @return the modified client
+	 */
+	protected WebClient modifyWebClientInternal(WebClient webClient) {
+		return webClient;
+	}
 
-  /**
-   * Return the current {@link WebClient} in a public fashion.
-   */
-  @Override
-  public WebClient getWebClient() {
-    return super.getWebClient();
-  }
+	/**
+	 * Return the current {@link WebClient} in a public fashion.
+	 */
+	@Override
+	public WebClient getWebClient() {
+		return super.getWebClient();
+	}
 
-  /**
-   * Set the {@link WebConnection} to be used with the {@link WebClient}.
-   *
-   * @param webConnection the {@code WebConnection} to use
-   */
-  public void setWebConnection(WebConnection webConnection) {
-    Assert.notNull(webConnection, "WebConnection must not be null");
-    getWebClient().setWebConnection(webConnection);
-  }
+	/**
+	 * Set the {@link WebConnection} to be used with the {@link WebClient}.
+	 *
+	 * @param webConnection the {@code WebConnection} to use
+	 */
+	public void setWebConnection(WebConnection webConnection) {
+		Assert.notNull(webConnection, "WebConnection must not be null");
+		getWebClient().setWebConnection(webConnection);
+	}
 
-  /**
-   * Access the current {@link WebConnection} for the {@link WebClient}.
-   *
-   * @return the current {@code WebConnection}
-   */
-  public WebConnection getWebConnection() {
-    return getWebClient().getWebConnection();
-  }
+	/**
+	 * Access the current {@link WebConnection} for the {@link WebClient}.
+	 *
+	 * @return the current {@code WebConnection}
+	 */
+	public WebConnection getWebConnection() {
+		return getWebClient().getWebConnection();
+	}
 
 }

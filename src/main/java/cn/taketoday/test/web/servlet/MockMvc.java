@@ -70,183 +70,183 @@ import java.util.List;
  */
 public final class MockMvc {
 
-  static final String MVC_RESULT_ATTRIBUTE = MockMvc.class.getName().concat(".MVC_RESULT_ATTRIBUTE");
+	static final String MVC_RESULT_ATTRIBUTE = MockMvc.class.getName().concat(".MVC_RESULT_ATTRIBUTE");
 
-  private final TestDispatcherServlet servlet;
+	private final TestDispatcherServlet servlet;
 
-  private final Filter[] filters;
+	private final Filter[] filters;
 
-  private final ServletContext servletContext;
+	private final ServletContext servletContext;
 
-  @Nullable
-  private RequestBuilder defaultRequestBuilder;
+	@Nullable
+	private RequestBuilder defaultRequestBuilder;
 
-  @Nullable
-  private Charset defaultResponseCharacterEncoding;
+	@Nullable
+	private Charset defaultResponseCharacterEncoding;
 
-  private List<ResultMatcher> defaultResultMatchers = new ArrayList<>();
+	private List<ResultMatcher> defaultResultMatchers = new ArrayList<>();
 
-  private List<ResultHandler> defaultResultHandlers = new ArrayList<>();
-
-
-  /**
-   * Private constructor, not for direct instantiation.
-   *
-   * @see cn.taketoday.test.web.servlet.setup.MockMvcBuilders
-   */
-  MockMvc(TestDispatcherServlet servlet, Filter... filters) {
-    Assert.notNull(servlet, "DispatcherServlet is required");
-    Assert.notNull(filters, "Filters cannot be null");
-    Assert.noNullElements(filters, "Filters cannot contain null values");
-
-    this.servlet = servlet;
-    this.filters = filters;
-    this.servletContext = servlet.getServletContext();
-  }
-
-  /**
-   * A default request builder merged into every performed request.
-   *
-   * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#defaultRequest(RequestBuilder)
-   */
-  void setDefaultRequest(@Nullable RequestBuilder requestBuilder) {
-    this.defaultRequestBuilder = requestBuilder;
-  }
-
-  /**
-   * The default character encoding to be applied to every response.
-   *
-   * @see cn.taketoday.test.web.servlet.setup.ConfigurableMockMvcBuilder#defaultResponseCharacterEncoding(Charset)
-   */
-  void setDefaultResponseCharacterEncoding(@Nullable Charset defaultResponseCharacterEncoding) {
-    this.defaultResponseCharacterEncoding = defaultResponseCharacterEncoding;
-  }
-
-  /**
-   * Expectations to assert after every performed request.
-   *
-   * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysExpect(ResultMatcher)
-   */
-  void setGlobalResultMatchers(List<ResultMatcher> resultMatchers) {
-    Assert.notNull(resultMatchers, "ResultMatcher List is required");
-    this.defaultResultMatchers = resultMatchers;
-  }
-
-  /**
-   * General actions to apply after every performed request.
-   *
-   * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysDo(ResultHandler)
-   */
-  void setGlobalResultHandlers(List<ResultHandler> resultHandlers) {
-    Assert.notNull(resultHandlers, "ResultHandler List is required");
-    this.defaultResultHandlers = resultHandlers;
-  }
-
-  /**
-   * Return the underlying {@link DispatcherServlet} instance that this
-   * {@code MockMvc} was initialized with.
-   * <p>This is intended for use in custom request processing scenario where a
-   * request handling component happens to delegate to the {@code DispatcherServlet}
-   * at runtime and therefore needs to be injected with it.
-   * <p>For most processing scenarios, simply use {@link MockMvc#perform},
-   * or if you need to configure the {@code DispatcherServlet}, provide a
-   * {@link DispatcherServletCustomizer} to the {@code MockMvcBuilder}.
-   */
-  public DispatcherServlet getDispatcherServlet() {
-    return this.servlet;
-  }
+	private List<ResultHandler> defaultResultHandlers = new ArrayList<>();
 
 
-  /**
-   * Perform a request and return a type that allows chaining further
-   * actions, such as asserting expectations, on the result.
-   *
-   * @param requestBuilder used to prepare the request to execute;
-   * see static factory methods in
-   * {@link cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders}
-   * @return an instance of {@link ResultActions} (never {@code null})
-   * @see cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders
-   * @see cn.taketoday.test.web.servlet.result.MockMvcResultMatchers
-   */
-  public ResultActions perform(RequestBuilder requestBuilder) throws Exception {
-    if (this.defaultRequestBuilder != null && requestBuilder instanceof Mergeable) {
-      requestBuilder = (RequestBuilder) ((Mergeable) requestBuilder).merge(this.defaultRequestBuilder);
-    }
+	/**
+	 * Private constructor, not for direct instantiation.
+	 *
+	 * @see cn.taketoday.test.web.servlet.setup.MockMvcBuilders
+	 */
+	MockMvc(TestDispatcherServlet servlet, Filter... filters) {
+		Assert.notNull(servlet, "DispatcherServlet is required");
+		Assert.notNull(filters, "Filters cannot be null");
+		Assert.noNullElements(filters, "Filters cannot contain null values");
 
-    MockHttpServletRequest request = requestBuilder.buildRequest(this.servletContext);
+		this.servlet = servlet;
+		this.filters = filters;
+		this.servletContext = servlet.getServletContext();
+	}
 
-    AsyncContext asyncContext = request.getAsyncContext();
-    MockHttpServletResponse mockResponse;
-    HttpServletResponse servletResponse;
-    if (asyncContext != null) {
-      servletResponse = (HttpServletResponse) asyncContext.getResponse();
-      mockResponse = unwrapResponseIfNecessary(servletResponse);
-    }
-    else {
-      mockResponse = new MockHttpServletResponse();
-      servletResponse = mockResponse;
-    }
+	/**
+	 * A default request builder merged into every performed request.
+	 *
+	 * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#defaultRequest(RequestBuilder)
+	 */
+	void setDefaultRequest(@Nullable RequestBuilder requestBuilder) {
+		this.defaultRequestBuilder = requestBuilder;
+	}
 
-    if (this.defaultResponseCharacterEncoding != null) {
-      mockResponse.setDefaultCharacterEncoding(this.defaultResponseCharacterEncoding.name());
-    }
+	/**
+	 * The default character encoding to be applied to every response.
+	 *
+	 * @see cn.taketoday.test.web.servlet.setup.ConfigurableMockMvcBuilder#defaultResponseCharacterEncoding(Charset)
+	 */
+	void setDefaultResponseCharacterEncoding(@Nullable Charset defaultResponseCharacterEncoding) {
+		this.defaultResponseCharacterEncoding = defaultResponseCharacterEncoding;
+	}
 
-    if (requestBuilder instanceof SmartRequestBuilder) {
-      request = ((SmartRequestBuilder) requestBuilder).postProcessRequest(request);
-    }
+	/**
+	 * Expectations to assert after every performed request.
+	 *
+	 * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysExpect(ResultMatcher)
+	 */
+	void setGlobalResultMatchers(List<ResultMatcher> resultMatchers) {
+		Assert.notNull(resultMatchers, "ResultMatcher List is required");
+		this.defaultResultMatchers = resultMatchers;
+	}
 
-    MvcResult mvcResult = new DefaultMvcResult(request, mockResponse);
-    request.setAttribute(MVC_RESULT_ATTRIBUTE, mvcResult);
+	/**
+	 * General actions to apply after every performed request.
+	 *
+	 * @see cn.taketoday.test.web.servlet.setup.DefaultMockMvcBuilder#alwaysDo(ResultHandler)
+	 */
+	void setGlobalResultHandlers(List<ResultHandler> resultHandlers) {
+		Assert.notNull(resultHandlers, "ResultHandler List is required");
+		this.defaultResultHandlers = resultHandlers;
+	}
 
-    RequestContext previousAttributes = RequestContextHolder.getContext();
-    RequestContextHolder.prepareContext(new ServletRequestContext(request, servletResponse));
+	/**
+	 * Return the underlying {@link DispatcherServlet} instance that this
+	 * {@code MockMvc} was initialized with.
+	 * <p>This is intended for use in custom request processing scenario where a
+	 * request handling component happens to delegate to the {@code DispatcherServlet}
+	 * at runtime and therefore needs to be injected with it.
+	 * <p>For most processing scenarios, simply use {@link MockMvc#perform},
+	 * or if you need to configure the {@code DispatcherServlet}, provide a
+	 * {@link DispatcherServletCustomizer} to the {@code MockMvcBuilder}.
+	 */
+	public DispatcherServlet getDispatcherServlet() {
+		return this.servlet;
+	}
 
-    MockFilterChain filterChain = new MockFilterChain(this.servlet, this.filters);
-    filterChain.doFilter(request, servletResponse);
 
-    if (DispatcherType.ASYNC.equals(request.getDispatcherType()) &&
-            asyncContext != null && !request.isAsyncStarted()) {
-      asyncContext.complete();
-    }
+	/**
+	 * Perform a request and return a type that allows chaining further
+	 * actions, such as asserting expectations, on the result.
+	 *
+	 * @param requestBuilder used to prepare the request to execute;
+	 * see static factory methods in
+	 * {@link cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders}
+	 * @return an instance of {@link ResultActions} (never {@code null})
+	 * @see cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders
+	 * @see cn.taketoday.test.web.servlet.result.MockMvcResultMatchers
+	 */
+	public ResultActions perform(RequestBuilder requestBuilder) throws Exception {
+		if (this.defaultRequestBuilder != null && requestBuilder instanceof Mergeable) {
+			requestBuilder = (RequestBuilder) ((Mergeable) requestBuilder).merge(this.defaultRequestBuilder);
+		}
 
-    applyDefaultResultActions(mvcResult);
-    RequestContextHolder.prepareContext(previousAttributes);
+		MockHttpServletRequest request = requestBuilder.buildRequest(this.servletContext);
 
-    return new ResultActions() {
-      @Override
-      public ResultActions andExpect(ResultMatcher matcher) throws Exception {
-        matcher.match(mvcResult);
-        return this;
-      }
+		AsyncContext asyncContext = request.getAsyncContext();
+		MockHttpServletResponse mockResponse;
+		HttpServletResponse servletResponse;
+		if (asyncContext != null) {
+			servletResponse = (HttpServletResponse) asyncContext.getResponse();
+			mockResponse = unwrapResponseIfNecessary(servletResponse);
+		}
+		else {
+			mockResponse = new MockHttpServletResponse();
+			servletResponse = mockResponse;
+		}
 
-      @Override
-      public ResultActions andDo(ResultHandler handler) throws Exception {
-        handler.handle(mvcResult);
-        return this;
-      }
+		if (this.defaultResponseCharacterEncoding != null) {
+			mockResponse.setDefaultCharacterEncoding(this.defaultResponseCharacterEncoding.name());
+		}
 
-      @Override
-      public MvcResult andReturn() {
-        return mvcResult;
-      }
-    };
-  }
+		if (requestBuilder instanceof SmartRequestBuilder) {
+			request = ((SmartRequestBuilder) requestBuilder).postProcessRequest(request);
+		}
 
-  private MockHttpServletResponse unwrapResponseIfNecessary(ServletResponse servletResponse) {
-    while (servletResponse instanceof HttpServletResponseWrapper) {
-      servletResponse = ((HttpServletResponseWrapper) servletResponse).getResponse();
-    }
-    Assert.isInstanceOf(MockHttpServletResponse.class, servletResponse);
-    return (MockHttpServletResponse) servletResponse;
-  }
+		MvcResult mvcResult = new DefaultMvcResult(request, mockResponse);
+		request.setAttribute(MVC_RESULT_ATTRIBUTE, mvcResult);
 
-  private void applyDefaultResultActions(MvcResult mvcResult) throws Exception {
-    for (ResultHandler handler : this.defaultResultHandlers) {
-      handler.handle(mvcResult);
-    }
-    for (ResultMatcher matcher : this.defaultResultMatchers) {
-      matcher.match(mvcResult);
-    }
-  }
+		RequestContext previousAttributes = RequestContextHolder.getContext();
+		RequestContextHolder.prepareContext(new ServletRequestContext(request, servletResponse));
+
+		MockFilterChain filterChain = new MockFilterChain(this.servlet, this.filters);
+		filterChain.doFilter(request, servletResponse);
+
+		if (DispatcherType.ASYNC.equals(request.getDispatcherType()) &&
+						asyncContext != null && !request.isAsyncStarted()) {
+			asyncContext.complete();
+		}
+
+		applyDefaultResultActions(mvcResult);
+		RequestContextHolder.prepareContext(previousAttributes);
+
+		return new ResultActions() {
+			@Override
+			public ResultActions andExpect(ResultMatcher matcher) throws Exception {
+				matcher.match(mvcResult);
+				return this;
+			}
+
+			@Override
+			public ResultActions andDo(ResultHandler handler) throws Exception {
+				handler.handle(mvcResult);
+				return this;
+			}
+
+			@Override
+			public MvcResult andReturn() {
+				return mvcResult;
+			}
+		};
+	}
+
+	private MockHttpServletResponse unwrapResponseIfNecessary(ServletResponse servletResponse) {
+		while (servletResponse instanceof HttpServletResponseWrapper) {
+			servletResponse = ((HttpServletResponseWrapper) servletResponse).getResponse();
+		}
+		Assert.isInstanceOf(MockHttpServletResponse.class, servletResponse);
+		return (MockHttpServletResponse) servletResponse;
+	}
+
+	private void applyDefaultResultActions(MvcResult mvcResult) throws Exception {
+		for (ResultHandler handler : this.defaultResultHandlers) {
+			handler.handle(mvcResult);
+		}
+		for (ResultMatcher matcher : this.defaultResultMatchers) {
+			matcher.match(mvcResult);
+		}
+	}
 
 }

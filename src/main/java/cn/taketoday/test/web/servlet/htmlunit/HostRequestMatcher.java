@@ -59,36 +59,36 @@ import java.util.Set;
  */
 public final class HostRequestMatcher implements WebRequestMatcher {
 
-  private final Set<String> hosts = new HashSet<>();
+	private final Set<String> hosts = new HashSet<>();
 
 
-  /**
-   * Create a new {@code HostRequestMatcher} for the given hosts &mdash;
-   * for example: {@code "localhost"}, {@code "example.com:443"}, etc.
-   *
-   * @param hosts the hosts to match on
-   */
-  public HostRequestMatcher(String... hosts) {
-    Collections.addAll(this.hosts, hosts);
-  }
+	/**
+	 * Create a new {@code HostRequestMatcher} for the given hosts &mdash;
+	 * for example: {@code "localhost"}, {@code "example.com:443"}, etc.
+	 *
+	 * @param hosts the hosts to match on
+	 */
+	public HostRequestMatcher(String... hosts) {
+		Collections.addAll(this.hosts, hosts);
+	}
 
 
-  @Override
-  public boolean matches(WebRequest request) {
-    URL url = request.getUrl();
-    String host = url.getHost();
+	@Override
+	public boolean matches(WebRequest request) {
+		URL url = request.getUrl();
+		String host = url.getHost();
 
-    if (this.hosts.contains(host)) {
-      return true;
-    }
+		if (this.hosts.contains(host)) {
+			return true;
+		}
 
-    int port = url.getPort();
-    if (port == -1) {
-      port = url.getDefaultPort();
-    }
-    String hostAndPort = host + ":" + port;
+		int port = url.getPort();
+		if (port == -1) {
+			port = url.getDefaultPort();
+		}
+		String hostAndPort = host + ":" + port;
 
-    return this.hosts.contains(hostAndPort);
-  }
+		return this.hosts.contains(hostAndPort);
+	}
 
 }

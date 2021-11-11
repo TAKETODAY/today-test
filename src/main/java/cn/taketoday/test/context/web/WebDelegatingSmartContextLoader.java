@@ -37,22 +37,22 @@ import cn.taketoday.test.context.support.AbstractDelegatingSmartContextLoader;
  */
 public class WebDelegatingSmartContextLoader extends AbstractDelegatingSmartContextLoader {
 
-  private final SmartContextLoader xmlLoader;
-  private final SmartContextLoader annotationConfigLoader;
+	private final SmartContextLoader xmlLoader;
+	private final SmartContextLoader annotationConfigLoader;
 
-  public WebDelegatingSmartContextLoader() {
-    this.xmlLoader = new GenericXmlWebContextLoader();
-    this.annotationConfigLoader = new AnnotationConfigWebContextLoader();
-  }
+	public WebDelegatingSmartContextLoader() {
+		this.xmlLoader = new GenericXmlWebContextLoader();
+		this.annotationConfigLoader = new AnnotationConfigWebContextLoader();
+	}
 
-  @Override
-  protected SmartContextLoader getXmlLoader() {
-    return this.xmlLoader;
-  }
+	@Override
+	protected SmartContextLoader getXmlLoader() {
+		return this.xmlLoader;
+	}
 
-  @Override
-  protected SmartContextLoader getAnnotationConfigLoader() {
-    return this.annotationConfigLoader;
-  }
+	@Override
+	protected SmartContextLoader getAnnotationConfigLoader() {
+		return this.annotationConfigLoader;
+	}
 
 }

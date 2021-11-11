@@ -98,86 +98,86 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface NestedTestConfiguration {
 
-  /**
-   * JVM system property used to change the default <em>enclosing configuration
-   * inheritance mode</em>: {@value #ENCLOSING_CONFIGURATION_PROPERTY_NAME}.
-   * <p>Supported values include enum constants defined in
-   * {@link EnclosingConfiguration}, ignoring case. For example, the default
-   * may be changed to {@link EnclosingConfiguration#OVERRIDE} by supplying
-   * the following JVM system property via the command line.
-   * <pre style="code">-Dspring.test.enclosing.configuration=override</pre>
-   * <p>If the property is not set to {@code OVERRIDE}, test configuration for
-   * an inner test class will be <em>inherited</em> according to
-   * {@link EnclosingConfiguration#INHERIT} semantics by default.
-   * <p>May alternatively be configured via the
-   * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
-   * mechanism.
-   *
-   * @see #value
-   */
-  String ENCLOSING_CONFIGURATION_PROPERTY_NAME = "spring.test.enclosing.configuration";
+	/**
+	 * JVM system property used to change the default <em>enclosing configuration
+	 * inheritance mode</em>: {@value #ENCLOSING_CONFIGURATION_PROPERTY_NAME}.
+	 * <p>Supported values include enum constants defined in
+	 * {@link EnclosingConfiguration}, ignoring case. For example, the default
+	 * may be changed to {@link EnclosingConfiguration#OVERRIDE} by supplying
+	 * the following JVM system property via the command line.
+	 * <pre style="code">-Dspring.test.enclosing.configuration=override</pre>
+	 * <p>If the property is not set to {@code OVERRIDE}, test configuration for
+	 * an inner test class will be <em>inherited</em> according to
+	 * {@link EnclosingConfiguration#INHERIT} semantics by default.
+	 * <p>May alternatively be configured via the
+	 * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
+	 * mechanism.
+	 *
+	 * @see #value
+	 */
+	String ENCLOSING_CONFIGURATION_PROPERTY_NAME = "spring.test.enclosing.configuration";
 
 
-  /**
-   * Configures the {@link EnclosingConfiguration} mode.
-   *
-   * @see EnclosingConfiguration#INHERIT
-   * @see EnclosingConfiguration#OVERRIDE
-   */
-  EnclosingConfiguration value();
+	/**
+	 * Configures the {@link EnclosingConfiguration} mode.
+	 *
+	 * @see EnclosingConfiguration#INHERIT
+	 * @see EnclosingConfiguration#OVERRIDE
+	 */
+	EnclosingConfiguration value();
 
 
-  /**
-   * Enumeration of <em>modes</em> that dictate how test configuration from
-   * enclosing classes is processed for inner test classes.
-   *
-   * @see #INHERIT
-   * @see #OVERRIDE
-   */
-  enum EnclosingConfiguration {
+	/**
+	 * Enumeration of <em>modes</em> that dictate how test configuration from
+	 * enclosing classes is processed for inner test classes.
+	 *
+	 * @see #INHERIT
+	 * @see #OVERRIDE
+	 */
+	enum EnclosingConfiguration {
 
-    /**
-     * Indicates that test configuration for an inner test class should be
-     * <em>inherited</em> from its {@linkplain Class#getEnclosingClass()
-     * enclosing class}, as if the enclosing class were a superclass.
-     */
-    INHERIT,
+		/**
+		 * Indicates that test configuration for an inner test class should be
+		 * <em>inherited</em> from its {@linkplain Class#getEnclosingClass()
+		 * enclosing class}, as if the enclosing class were a superclass.
+		 */
+		INHERIT,
 
-    /**
-     * Indicates that test configuration for an inner test class should
-     * <em>override</em> configuration from its
-     * {@linkplain Class#getEnclosingClass() enclosing class}.
-     */
-    OVERRIDE;
+		/**
+		 * Indicates that test configuration for an inner test class should
+		 * <em>override</em> configuration from its
+		 * {@linkplain Class#getEnclosingClass() enclosing class}.
+		 */
+		OVERRIDE;
 
 
-    /**
-     * Get the {@code EnclosingConfiguration} enum constant with the supplied
-     * name, ignoring case.
-     *
-     * @param name the name of the enum constant to retrieve
-     * @return the corresponding enum constant or {@code null} if not found
-     * @see EnclosingConfiguration#valueOf(String)
-     */
-    @Nullable
-    public static EnclosingConfiguration from(@Nullable String name) {
-      if (name == null) {
-        return null;
-      }
-      try {
-        return EnclosingConfiguration.valueOf(name.trim().toUpperCase());
-      }
-      catch (IllegalArgumentException ex) {
-        Logger logger = LoggerFactory.getLogger(EnclosingConfiguration.class);
-        if (logger.isDebugEnabled()) {
-          logger.debug(String.format(
-                  "Failed to parse enclosing configuration mode from '%s': %s",
-                  name, ex.getMessage()));
-        }
-        return null;
-      }
-    }
+		/**
+		 * Get the {@code EnclosingConfiguration} enum constant with the supplied
+		 * name, ignoring case.
+		 *
+		 * @param name the name of the enum constant to retrieve
+		 * @return the corresponding enum constant or {@code null} if not found
+		 * @see EnclosingConfiguration#valueOf(String)
+		 */
+		@Nullable
+		public static EnclosingConfiguration from(@Nullable String name) {
+			if (name == null) {
+				return null;
+			}
+			try {
+				return EnclosingConfiguration.valueOf(name.trim().toUpperCase());
+			}
+			catch (IllegalArgumentException ex) {
+				Logger logger = LoggerFactory.getLogger(EnclosingConfiguration.class);
+				if (logger.isDebugEnabled()) {
+					logger.debug(String.format(
+									"Failed to parse enclosing configuration mode from '%s': %s",
+									name, ex.getMessage()));
+				}
+				return null;
+			}
+		}
 
-  }
+	}
 
 }

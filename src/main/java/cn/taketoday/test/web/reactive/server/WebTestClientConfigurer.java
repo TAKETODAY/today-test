@@ -34,17 +34,17 @@ import cn.taketoday.web.server.adapter.WebHttpHandlerBuilder;
  */
 public interface WebTestClientConfigurer {
 
-  /**
-   * Invoked once only, immediately (i.e. before this method returns).
-   *
-   * @param builder the WebTestClient builder to make changes to
-   * @param httpHandlerBuilder the builder for the "mock server" HttpHandler
-   * this client was configured for "mock server" testing
-   * @param connector the connector for "live" integration tests if this
-   * server was configured for live integration testing
-   */
-  void afterConfigurerAdded(WebTestClient.Builder builder,
-                            @Nullable WebHttpHandlerBuilder httpHandlerBuilder,
-                            @Nullable ClientHttpConnector connector);
+	/**
+	 * Invoked once only, immediately (i.e. before this method returns).
+	 *
+	 * @param builder the WebTestClient builder to make changes to
+	 * @param httpHandlerBuilder the builder for the "mock server" HttpHandler
+	 * this client was configured for "mock server" testing
+	 * @param connector the connector for "live" integration tests if this
+	 * server was configured for live integration testing
+	 */
+	void afterConfigurerAdded(WebTestClient.Builder builder,
+														@Nullable WebHttpHandlerBuilder httpHandlerBuilder,
+														@Nullable ClientHttpConnector connector);
 
 }

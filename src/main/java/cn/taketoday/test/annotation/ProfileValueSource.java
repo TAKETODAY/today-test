@@ -46,14 +46,14 @@ import cn.taketoday.lang.Nullable;
  */
 public interface ProfileValueSource {
 
-  /**
-   * Get the <em>profile value</em> indicated by the specified key.
-   *
-   * @param key the name of the <em>profile value</em>
-   * @return the String value of the <em>profile value</em>, or {@code null}
-   * if there is no <em>profile value</em> with that key
-   */
-  @Nullable
-  String get(String key);
+	/**
+	 * Get the <em>profile value</em> indicated by the specified key.
+	 *
+	 * @param key the name of the <em>profile value</em>
+	 * @return the String value of the <em>profile value</em>, or {@code null}
+	 * if there is no <em>profile value</em> with that key
+	 */
+	@Nullable
+	String get(String key);
 
 }

@@ -30,9 +30,9 @@ package cn.taketoday.test.web.servlet;
  */
 public interface MockMvcBuilder {
 
-  /**
-   * Build a {@link MockMvc} instance.
-   */
-  MockMvc build();
+	/**
+	 * Build a {@link MockMvc} instance.
+	 */
+	MockMvc build();
 
 }

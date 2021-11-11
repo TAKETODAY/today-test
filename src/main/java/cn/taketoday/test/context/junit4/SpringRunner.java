@@ -43,16 +43,16 @@ import org.junit.runners.model.InitializationError;
  */
 public final class SpringRunner extends SpringJUnit4ClassRunner {
 
-  /**
-   * Construct a new {@code SpringRunner} and initialize a
-   * {@link cn.taketoday.test.context.TestContextManager TestContextManager}
-   * to provide Spring testing functionality to standard JUnit 4 tests.
-   *
-   * @param clazz the test class to be run
-   * @see #createTestContextManager(Class)
-   */
-  public SpringRunner(Class<?> clazz) throws InitializationError {
-    super(clazz);
-  }
+	/**
+	 * Construct a new {@code SpringRunner} and initialize a
+	 * {@link cn.taketoday.test.context.TestContextManager TestContextManager}
+	 * to provide Spring testing functionality to standard JUnit 4 tests.
+	 *
+	 * @param clazz the test class to be run
+	 * @see #createTestContextManager(Class)
+	 */
+	public SpringRunner(Class<?> clazz) throws InitializationError {
+		super(clazz);
+	}
 
 }
