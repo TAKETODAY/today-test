@@ -22,6 +22,7 @@ package cn.taketoday.test.context.web.socket;
 
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
+import cn.taketoday.lang.NonNull;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.context.ContextConfigurationAttributes;
 import cn.taketoday.test.context.ContextCustomizer;
@@ -51,14 +52,14 @@ class MockServerContainerContextCustomizerFactory implements ContextCustomizerFa
 
   @Override
   @Nullable
-  public ContextCustomizer createContextCustomizer(Class<?> testClass,
-                                                   List<ContextConfigurationAttributes> configAttributes) {
+  public ContextCustomizer createContextCustomizer(
+          @NonNull Class<?> testClass, @NonNull List<ContextConfigurationAttributes> configAttributes) {
 
     if (webSocketPresent && isAnnotatedWithWebAppConfiguration(testClass)) {
       try {
         Class<?> clazz = ClassUtils.forName(MOCK_SERVER_CONTAINER_CONTEXT_CUSTOMIZER_CLASS_NAME,
                 getClass().getClassLoader());
-        return (ContextCustomizer) BeanUtils.instantiateClass(clazz);
+        return (ContextCustomizer) BeanUtils.newInstance(clazz);
       }
       catch (Throwable ex) {
         throw new IllegalStateException("Failed to enable WebSocket test support; could not load class: " +

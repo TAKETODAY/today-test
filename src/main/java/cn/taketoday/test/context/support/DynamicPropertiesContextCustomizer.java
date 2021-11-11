@@ -50,9 +50,7 @@ class DynamicPropertiesContextCustomizer implements ContextCustomizer {
 
   private static final String PROPERTY_SOURCE_NAME = "Dynamic Test Properties";
 
-
   private final Set<Method> methods;
-
 
   DynamicPropertiesContextCustomizer(Set<Method> methods) {
     methods.forEach(this::assertValid);

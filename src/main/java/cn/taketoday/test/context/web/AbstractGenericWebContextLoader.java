@@ -99,7 +99,6 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
    *
    * @return a new web application context
    * @see cn.taketoday.test.context.SmartContextLoader#loadContext(MergedContextConfiguration)
-   * @see GenericWebApplicationContext
    */
   @Override
   public final ConfigurableApplicationContext loadContext(@NonNull MergedContextConfiguration mergedConfig) throws Exception {

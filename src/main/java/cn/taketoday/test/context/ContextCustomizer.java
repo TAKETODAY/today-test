@@ -36,7 +36,6 @@ import cn.taketoday.context.ConfigurableApplicationContext;
  * @author Phillip Webb
  * @author Sam Brannen
  * @see ContextCustomizerFactory
- * @see cn.taketoday.test.context.support.AbstractContextLoader#customizeContext
  */
 @FunctionalInterface
 public interface ContextCustomizer {
