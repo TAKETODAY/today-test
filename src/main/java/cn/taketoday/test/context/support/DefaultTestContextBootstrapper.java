@@ -32,12 +32,12 @@ import cn.taketoday.test.context.TestContextBootstrapper;
  */
 public class DefaultTestContextBootstrapper extends AbstractTestContextBootstrapper {
 
-	/**
-	 * Returns {@link DelegatingSmartContextLoader}.
-	 */
-	@Override
-	protected Class<? extends ContextLoader> getDefaultContextLoaderClass(Class<?> testClass) {
-		return DelegatingSmartContextLoader.class;
-	}
+  /**
+   * Returns {@link DelegatingSmartContextLoader}.
+   */
+  @Override
+  protected Class<? extends ContextLoader> getDefaultContextLoaderClass(Class<?> testClass) {
+    return DelegatingSmartContextLoader.class;
+  }
 
 }

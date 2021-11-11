@@ -44,82 +44,82 @@ import java.util.Map;
  */
 public class MockWebSession implements WebSession {
 
-	private final WebSession delegate;
+  private final WebSession delegate;
 
 
-	public MockWebSession() {
-		this(null);
-	}
+  public MockWebSession() {
+    this(null);
+  }
 
-	public MockWebSession(@Nullable Clock clock) {
-		InMemoryWebSessionStore sessionStore = new InMemoryWebSessionStore();
-		if (clock != null) {
-			sessionStore.setClock(clock);
-		}
-		WebSession session = sessionStore.createWebSession().block();
-		Assert.state(session != null, "WebSession must not be null");
-		this.delegate = session;
-	}
+  public MockWebSession(@Nullable Clock clock) {
+    InMemoryWebSessionStore sessionStore = new InMemoryWebSessionStore();
+    if (clock != null) {
+      sessionStore.setClock(clock);
+    }
+    WebSession session = sessionStore.createWebSession().block();
+    Assert.state(session != null, "WebSession must not be null");
+    this.delegate = session;
+  }
 
 
-	@Override
-	public String getId() {
-		return this.delegate.getId();
-	}
+  @Override
+  public String getId() {
+    return this.delegate.getId();
+  }
 
-	@Override
-	public Map<String, Object> getAttributes() {
-		return this.delegate.getAttributes();
-	}
+  @Override
+  public Map<String, Object> getAttributes() {
+    return this.delegate.getAttributes();
+  }
 
-	@Override
-	public void start() {
-		this.delegate.start();
-	}
+  @Override
+  public void start() {
+    this.delegate.start();
+  }
 
-	@Override
-	public boolean isStarted() {
-		return this.delegate.isStarted();
-	}
+  @Override
+  public boolean isStarted() {
+    return this.delegate.isStarted();
+  }
 
-	@Override
-	public Mono<Void> changeSessionId() {
-		return this.delegate.changeSessionId();
-	}
+  @Override
+  public Mono<Void> changeSessionId() {
+    return this.delegate.changeSessionId();
+  }
 
-	@Override
-	public Mono<Void> invalidate() {
-		return this.delegate.invalidate();
-	}
+  @Override
+  public Mono<Void> invalidate() {
+    return this.delegate.invalidate();
+  }
 
-	@Override
-	public Mono<Void> save() {
-		return this.delegate.save();
-	}
+  @Override
+  public Mono<Void> save() {
+    return this.delegate.save();
+  }
 
-	@Override
-	public boolean isExpired() {
-		return this.delegate.isExpired();
-	}
+  @Override
+  public boolean isExpired() {
+    return this.delegate.isExpired();
+  }
 
-	@Override
-	public Instant getCreationTime() {
-		return this.delegate.getCreationTime();
-	}
+  @Override
+  public Instant getCreationTime() {
+    return this.delegate.getCreationTime();
+  }
 
-	@Override
-	public Instant getLastAccessTime() {
-		return this.delegate.getLastAccessTime();
-	}
+  @Override
+  public Instant getLastAccessTime() {
+    return this.delegate.getLastAccessTime();
+  }
 
-	@Override
-	public void setMaxIdleTime(Duration maxIdleTime) {
-		this.delegate.setMaxIdleTime(maxIdleTime);
-	}
+  @Override
+  public void setMaxIdleTime(Duration maxIdleTime) {
+    this.delegate.setMaxIdleTime(maxIdleTime);
+  }
 
-	@Override
-	public Duration getMaxIdleTime() {
-		return this.delegate.getMaxIdleTime();
-	}
+  @Override
+  public Duration getMaxIdleTime() {
+    return this.delegate.getMaxIdleTime();
+  }
 
 }

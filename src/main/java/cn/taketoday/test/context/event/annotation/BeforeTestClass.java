@@ -64,10 +64,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @EventListener(BeforeTestClassEvent.class)
 public @interface BeforeTestClass {
 
-	/**
-	 * Alias for {@link EventListener#condition}.
-	 */
-	@AliasFor(annotation = EventListener.class, attribute = "condition")
-	String value() default "";
+  /**
+   * Alias for {@link EventListener#condition}.
+   */
+  @AliasFor(annotation = EventListener.class, attribute = "condition")
+  String value() default "";
 
 }

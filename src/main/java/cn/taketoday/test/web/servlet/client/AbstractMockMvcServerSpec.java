@@ -39,71 +39,71 @@ import jakarta.servlet.Filter;
  * @author Rossen Stoyanchev
  */
 abstract class AbstractMockMvcServerSpec<B extends MockMvcWebTestClient.MockMvcServerSpec<B>>
-				implements MockMvcWebTestClient.MockMvcServerSpec<B> {
+        implements MockMvcWebTestClient.MockMvcServerSpec<B> {
 
-	@Override
-	public <T extends B> T filters(Filter... filters) {
-		getMockMvcBuilder().addFilters(filters);
-		return self();
-	}
+  @Override
+  public <T extends B> T filters(Filter... filters) {
+    getMockMvcBuilder().addFilters(filters);
+    return self();
+  }
 
-	@Override
-	public final <T extends B> T filter(Filter filter, String... urlPatterns) {
-		getMockMvcBuilder().addFilter(filter, urlPatterns);
-		return self();
-	}
+  @Override
+  public final <T extends B> T filter(Filter filter, String... urlPatterns) {
+    getMockMvcBuilder().addFilter(filter, urlPatterns);
+    return self();
+  }
 
-	@Override
-	public <T extends B> T defaultRequest(RequestBuilder requestBuilder) {
-		getMockMvcBuilder().defaultRequest(requestBuilder);
-		return self();
-	}
+  @Override
+  public <T extends B> T defaultRequest(RequestBuilder requestBuilder) {
+    getMockMvcBuilder().defaultRequest(requestBuilder);
+    return self();
+  }
 
-	@Override
-	public <T extends B> T alwaysExpect(ResultMatcher resultMatcher) {
-		getMockMvcBuilder().alwaysExpect(resultMatcher);
-		return self();
-	}
+  @Override
+  public <T extends B> T alwaysExpect(ResultMatcher resultMatcher) {
+    getMockMvcBuilder().alwaysExpect(resultMatcher);
+    return self();
+  }
 
-	@Override
-	public <T extends B> T dispatchOptions(boolean dispatchOptions) {
-		getMockMvcBuilder().dispatchOptions(dispatchOptions);
-		return self();
-	}
+  @Override
+  public <T extends B> T dispatchOptions(boolean dispatchOptions) {
+    getMockMvcBuilder().dispatchOptions(dispatchOptions);
+    return self();
+  }
 
-	@Override
-	public <T extends B> T dispatcherServletCustomizer(DispatcherServletCustomizer customizer) {
-		getMockMvcBuilder().addDispatcherServletCustomizer(customizer);
-		return self();
-	}
+  @Override
+  public <T extends B> T dispatcherServletCustomizer(DispatcherServletCustomizer customizer) {
+    getMockMvcBuilder().addDispatcherServletCustomizer(customizer);
+    return self();
+  }
 
-	@Override
-	public <T extends B> T apply(MockMvcConfigurer configurer) {
-		getMockMvcBuilder().apply(configurer);
-		return self();
-	}
+  @Override
+  public <T extends B> T apply(MockMvcConfigurer configurer) {
+    getMockMvcBuilder().apply(configurer);
+    return self();
+  }
 
-	@SuppressWarnings("unchecked")
-	private <T extends B> T self() {
-		return (T) this;
-	}
+  @SuppressWarnings("unchecked")
+  private <T extends B> T self() {
+    return (T) this;
+  }
 
-	/**
-	 * Return the concrete {@link ConfigurableMockMvcBuilder} to delegate
-	 * configuration methods and to use to create the {@link MockMvc}.
-	 */
-	protected abstract ConfigurableMockMvcBuilder<?> getMockMvcBuilder();
+  /**
+   * Return the concrete {@link ConfigurableMockMvcBuilder} to delegate
+   * configuration methods and to use to create the {@link MockMvc}.
+   */
+  protected abstract ConfigurableMockMvcBuilder<?> getMockMvcBuilder();
 
-	@Override
-	public WebTestClient.Builder configureClient() {
-		MockMvc mockMvc = getMockMvcBuilder().build();
-		ClientHttpConnector connector = new MockMvcHttpConnector(mockMvc);
-		return WebTestClient.bindToServer(connector);
-	}
+  @Override
+  public WebTestClient.Builder configureClient() {
+    MockMvc mockMvc = getMockMvcBuilder().build();
+    ClientHttpConnector connector = new MockMvcHttpConnector(mockMvc);
+    return WebTestClient.bindToServer(connector);
+  }
 
-	@Override
-	public WebTestClient build() {
-		return configureClient().build();
-	}
+  @Override
+  public WebTestClient build() {
+    return configureClient().build();
+  }
 
 }

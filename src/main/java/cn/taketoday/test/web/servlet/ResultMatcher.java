@@ -53,29 +53,29 @@ package cn.taketoday.test.web.servlet;
 @FunctionalInterface
 public interface ResultMatcher {
 
-	/**
-	 * Assert the result of an executed request.
-	 *
-	 * @param result the result of the executed request
-	 * @throws Exception if a failure occurs
-	 */
-	void match(MvcResult result) throws Exception;
+  /**
+   * Assert the result of an executed request.
+   *
+   * @param result the result of the executed request
+   * @throws Exception if a failure occurs
+   */
+  void match(MvcResult result) throws Exception;
 
 
-	/**
-	 * Static method for matching with an array of result matchers.
-	 *
-	 * @param matchers the matchers
-	 * @deprecated as of Spring Framework 5.3.10, in favor of
-	 * {@link ResultActions#andExpectAll(ResultMatcher...)}
-	 */
-	@Deprecated
-	static ResultMatcher matchAll(ResultMatcher... matchers) {
-		return result -> {
-			for (ResultMatcher matcher : matchers) {
-				matcher.match(result);
-			}
-		};
-	}
+  /**
+   * Static method for matching with an array of result matchers.
+   *
+   * @param matchers the matchers
+   * @deprecated as of Spring Framework 5.3.10, in favor of
+   * {@link ResultActions#andExpectAll(ResultMatcher...)}
+   */
+  @Deprecated
+  static ResultMatcher matchAll(ResultMatcher... matchers) {
+    return result -> {
+      for (ResultMatcher matcher : matchers) {
+        matcher.match(result);
+      }
+    };
+  }
 
 }

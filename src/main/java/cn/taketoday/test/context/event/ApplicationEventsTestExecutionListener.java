@@ -20,7 +20,7 @@
 
 package cn.taketoday.test.context.event;
 
-import cn.taketoday.beans.factory.config.ConfigurableListableBeanFactory;
+import cn.taketoday.beans.factory.ConfigurableBeanFactory;
 import cn.taketoday.context.AbstractApplicationContext;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.core.Conventions;
@@ -51,91 +51,91 @@ import java.util.function.Supplier;
  */
 public class ApplicationEventsTestExecutionListener extends AbstractTestExecutionListener {
 
-	/**
-	 * Attribute name for a {@link TestContext} attribute which indicates
-	 * whether the test class for the given test context is annotated with
-	 * {@link RecordApplicationEvents @RecordApplicationEvents}.
-	 * <p>Permissible values include {@link Boolean#TRUE} and {@link Boolean#FALSE}.
-	 */
-	private static final String RECORD_APPLICATION_EVENTS = Conventions.getQualifiedAttributeName(
-					ApplicationEventsTestExecutionListener.class, "recordApplicationEvents");
+  /**
+   * Attribute name for a {@link TestContext} attribute which indicates
+   * whether the test class for the given test context is annotated with
+   * {@link RecordApplicationEvents @RecordApplicationEvents}.
+   * <p>Permissible values include {@link Boolean#TRUE} and {@link Boolean#FALSE}.
+   */
+  private static final String RECORD_APPLICATION_EVENTS = Conventions.getQualifiedAttributeName(
+          ApplicationEventsTestExecutionListener.class, "recordApplicationEvents");
 
-	private static final Object applicationEventsMonitor = new Object();
+  private static final Object applicationEventsMonitor = new Object();
 
 
-	/**
-	 * Returns {@code 1800}.
-	 */
-	@Override
-	public final int getOrder() {
-		return 1800;
-	}
+  /**
+   * Returns {@code 1800}.
+   */
+  @Override
+  public final int getOrder() {
+    return 1800;
+  }
 
-	@Override
-	public void prepareTestInstance(TestContext testContext) throws Exception {
-		if (recordApplicationEvents(testContext)) {
-			registerListenerAndResolvableDependencyIfNecessary(testContext.getApplicationContext());
-			ApplicationEventsHolder.registerApplicationEvents();
-		}
-	}
+  @Override
+  public void prepareTestInstance(TestContext testContext) throws Exception {
+    if (recordApplicationEvents(testContext)) {
+      registerListenerAndResolvableDependencyIfNecessary(testContext.getApplicationContext());
+      ApplicationEventsHolder.registerApplicationEvents();
+    }
+  }
 
-	@Override
-	public void beforeTestMethod(TestContext testContext) throws Exception {
-		if (recordApplicationEvents(testContext)) {
-			// Register a new ApplicationEvents instance for the current thread
-			// in case the test instance is shared -- for example, in TestNG or
-			// JUnit Jupiter with @TestInstance(PER_CLASS) semantics.
-			ApplicationEventsHolder.registerApplicationEventsIfNecessary();
-		}
-	}
+  @Override
+  public void beforeTestMethod(TestContext testContext) throws Exception {
+    if (recordApplicationEvents(testContext)) {
+      // Register a new ApplicationEvents instance for the current thread
+      // in case the test instance is shared -- for example, in TestNG or
+      // JUnit Jupiter with @TestInstance(PER_CLASS) semantics.
+      ApplicationEventsHolder.registerApplicationEventsIfNecessary();
+    }
+  }
 
-	@Override
-	public void afterTestMethod(TestContext testContext) throws Exception {
-		if (recordApplicationEvents(testContext)) {
-			ApplicationEventsHolder.unregisterApplicationEvents();
-		}
-	}
+  @Override
+  public void afterTestMethod(TestContext testContext) throws Exception {
+    if (recordApplicationEvents(testContext)) {
+      ApplicationEventsHolder.unregisterApplicationEvents();
+    }
+  }
 
-	private boolean recordApplicationEvents(TestContext testContext) {
-		return testContext.computeAttribute(RECORD_APPLICATION_EVENTS, name ->
-						TestContextAnnotationUtils.hasAnnotation(testContext.getTestClass(), RecordApplicationEvents.class));
-	}
+  private boolean recordApplicationEvents(TestContext testContext) {
+    return testContext.computeAttribute(RECORD_APPLICATION_EVENTS, name ->
+            TestContextAnnotationUtils.hasAnnotation(testContext.getTestClass(), RecordApplicationEvents.class));
+  }
 
-	private void registerListenerAndResolvableDependencyIfNecessary(ApplicationContext applicationContext) {
-		Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext,
-						"The ApplicationContext for the test must be an AbstractApplicationContext");
-		AbstractApplicationContext aac = (AbstractApplicationContext) applicationContext;
-		// Synchronize to avoid race condition in parallel test execution
-		synchronized(applicationEventsMonitor) {
-			boolean notAlreadyRegistered = aac.getApplicationListeners().stream()
-							.map(Object::getClass)
-							.noneMatch(ApplicationEventsApplicationListener.class::equals);
-			if (notAlreadyRegistered) {
-				// Register a new ApplicationEventsApplicationListener.
-				aac.addApplicationListener(new ApplicationEventsApplicationListener());
+  private void registerListenerAndResolvableDependencyIfNecessary(ApplicationContext applicationContext) {
+    Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext,
+            "The ApplicationContext for the test must be an AbstractApplicationContext");
+    AbstractApplicationContext aac = (AbstractApplicationContext) applicationContext;
+    // Synchronize to avoid race condition in parallel test execution
+    synchronized(applicationEventsMonitor) {
+      boolean notAlreadyRegistered = aac.getApplicationListeners().stream()
+              .map(Object::getClass)
+              .noneMatch(ApplicationEventsApplicationListener.class::equals);
+      if (notAlreadyRegistered) {
+        // Register a new ApplicationEventsApplicationListener.
+        aac.addApplicationListener(new ApplicationEventsApplicationListener());
 
-				// Register ApplicationEvents as a resolvable dependency for @Autowired support in test classes.
-				ConfigurableListableBeanFactory beanFactory = aac.getBeanFactory();
-				beanFactory.registerResolvableDependency(ApplicationEvents.class, new ApplicationEventsObjectFactory());
-			}
-		}
-	}
+        // Register ApplicationEvents as a resolvable dependency for @Autowired support in test classes.
+        ConfigurableBeanFactory beanFactory = aac.getBeanFactory();
+        beanFactory.registerResolvableDependency(ApplicationEvents.class, new ApplicationEventsObjectFactory());
+      }
+    }
+  }
 
-	/**
-	 * Factory that exposes the current {@link ApplicationEvents} object on demand.
-	 */
-	@SuppressWarnings("serial")
-	private static class ApplicationEventsObjectFactory implements Supplier<ApplicationEvents>, Serializable {
+  /**
+   * Factory that exposes the current {@link ApplicationEvents} object on demand.
+   */
+  @SuppressWarnings("serial")
+  private static class ApplicationEventsObjectFactory implements Supplier<ApplicationEvents>, Serializable {
 
-		@Override
-		public ApplicationEvents get() {
-			return ApplicationEventsHolder.getRequiredApplicationEvents();
-		}
+    @Override
+    public ApplicationEvents get() {
+      return ApplicationEventsHolder.getRequiredApplicationEvents();
+    }
 
-		@Override
-		public String toString() {
-			return "Current ApplicationEvents";
-		}
-	}
+    @Override
+    public String toString() {
+      return "Current ApplicationEvents";
+    }
+  }
 
 }

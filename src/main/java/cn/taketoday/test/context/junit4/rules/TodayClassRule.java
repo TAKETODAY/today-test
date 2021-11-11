@@ -86,121 +86,121 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TodayClassRule implements TestRule {
 
-	private static final Logger logger = LoggerFactory.getLogger(TodayClassRule.class);
+  private static final Logger logger = LoggerFactory.getLogger(TodayClassRule.class);
 
-	/**
-	 * Cache of {@code TestContextManagers} keyed by test class.
-	 */
-	private static final Map<Class<?>, TestContextManager> testContextManagerCache = new ConcurrentHashMap<>(64);
-
-
-	/**
-	 * Apply <em>class-level</em> features of the <em>Spring TestContext
-	 * Framework</em> to the supplied {@code base} statement.
-	 * <p>Specifically, this method retrieves the {@link TestContextManager}
-	 * used by this rule and its associated {@link TodayMethodRule} and
-	 * invokes the {@link TestContextManager#beforeTestClass() beforeTestClass()}
-	 * and {@link TestContextManager#afterTestClass() afterTestClass()} methods
-	 * on the {@code TestContextManager}.
-	 * <p>In addition, this method checks whether the test is enabled in
-	 * the current execution environment. This prevents classes with a
-	 * non-matching {@code @IfProfileValue} annotation from running altogether,
-	 * even skipping the execution of {@code beforeTestClass()} methods
-	 * in {@code TestExecutionListeners}.
-	 *
-	 * @param base the base {@code Statement} that this rule should be applied to
-	 * @param description a {@code Description} of the current test execution
-	 * @return a statement that wraps the supplied {@code base} with class-level
-	 * features of the Spring TestContext Framework
-	 * @see #getTestContextManager
-	 * @see #withBeforeTestClassCallbacks
-	 * @see #withAfterTestClassCallbacks
-	 * @see #withProfileValueCheck
-	 * @see #withTestContextManagerCacheEviction
-	 */
-	@Override
-	public Statement apply(Statement base, Description description) {
-		Class<?> testClass = description.getTestClass();
-		if (logger.isDebugEnabled()) {
-			logger.debug("Applying SpringClassRule to test class [" + testClass.getName() + "]");
-		}
-		TestContextManager testContextManager = getTestContextManager(testClass);
-
-		Statement statement = base;
-		statement = withBeforeTestClassCallbacks(statement, testContextManager);
-		statement = withAfterTestClassCallbacks(statement, testContextManager);
-		statement = withProfileValueCheck(statement, testClass);
-		statement = withTestContextManagerCacheEviction(statement, testClass);
-		return statement;
-	}
-
-	/**
-	 * Wrap the supplied {@link Statement} with a {@code RunBeforeTestClassCallbacks} statement.
-	 *
-	 * @see RunBeforeTestClassCallbacks
-	 */
-	private Statement withBeforeTestClassCallbacks(Statement next, TestContextManager testContextManager) {
-		return new RunBeforeTestClassCallbacks(next, testContextManager);
-	}
-
-	/**
-	 * Wrap the supplied {@link Statement} with a {@code RunAfterTestClassCallbacks} statement.
-	 *
-	 * @see RunAfterTestClassCallbacks
-	 */
-	private Statement withAfterTestClassCallbacks(Statement next, TestContextManager testContextManager) {
-		return new RunAfterTestClassCallbacks(next, testContextManager);
-	}
-
-	/**
-	 * Wrap the supplied {@link Statement} with a {@code ProfileValueChecker} statement.
-	 *
-	 * @see ProfileValueChecker
-	 */
-	private Statement withProfileValueCheck(Statement next, Class<?> testClass) {
-		return new ProfileValueChecker(next, testClass, null);
-	}
-
-	/**
-	 * Wrap the supplied {@link Statement} with a {@code TestContextManagerCacheEvictor} statement.
-	 *
-	 * @see TestContextManagerCacheEvictor
-	 */
-	private Statement withTestContextManagerCacheEviction(Statement next, Class<?> testClass) {
-		return new TestContextManagerCacheEvictor(next, testClass);
-	}
-
-	/**
-	 * Get the {@link TestContextManager} associated with the supplied test class.
-	 *
-	 * @param testClass the test class to be managed; never {@code null}
-	 */
-	static TestContextManager getTestContextManager(Class<?> testClass) {
-		Assert.notNull(testClass, "Test Class must not be null");
-		return testContextManagerCache.computeIfAbsent(testClass, TestContextManager::new);
-	}
+  /**
+   * Cache of {@code TestContextManagers} keyed by test class.
+   */
+  private static final Map<Class<?>, TestContextManager> testContextManagerCache = new ConcurrentHashMap<>(64);
 
 
-	private static class TestContextManagerCacheEvictor extends Statement {
+  /**
+   * Apply <em>class-level</em> features of the <em>Spring TestContext
+   * Framework</em> to the supplied {@code base} statement.
+   * <p>Specifically, this method retrieves the {@link TestContextManager}
+   * used by this rule and its associated {@link TodayMethodRule} and
+   * invokes the {@link TestContextManager#beforeTestClass() beforeTestClass()}
+   * and {@link TestContextManager#afterTestClass() afterTestClass()} methods
+   * on the {@code TestContextManager}.
+   * <p>In addition, this method checks whether the test is enabled in
+   * the current execution environment. This prevents classes with a
+   * non-matching {@code @IfProfileValue} annotation from running altogether,
+   * even skipping the execution of {@code beforeTestClass()} methods
+   * in {@code TestExecutionListeners}.
+   *
+   * @param base the base {@code Statement} that this rule should be applied to
+   * @param description a {@code Description} of the current test execution
+   * @return a statement that wraps the supplied {@code base} with class-level
+   * features of the Spring TestContext Framework
+   * @see #getTestContextManager
+   * @see #withBeforeTestClassCallbacks
+   * @see #withAfterTestClassCallbacks
+   * @see #withProfileValueCheck
+   * @see #withTestContextManagerCacheEviction
+   */
+  @Override
+  public Statement apply(Statement base, Description description) {
+    Class<?> testClass = description.getTestClass();
+    if (logger.isDebugEnabled()) {
+      logger.debug("Applying SpringClassRule to test class [" + testClass.getName() + "]");
+    }
+    TestContextManager testContextManager = getTestContextManager(testClass);
 
-		private final Statement next;
+    Statement statement = base;
+    statement = withBeforeTestClassCallbacks(statement, testContextManager);
+    statement = withAfterTestClassCallbacks(statement, testContextManager);
+    statement = withProfileValueCheck(statement, testClass);
+    statement = withTestContextManagerCacheEviction(statement, testClass);
+    return statement;
+  }
 
-		private final Class<?> testClass;
+  /**
+   * Wrap the supplied {@link Statement} with a {@code RunBeforeTestClassCallbacks} statement.
+   *
+   * @see RunBeforeTestClassCallbacks
+   */
+  private Statement withBeforeTestClassCallbacks(Statement next, TestContextManager testContextManager) {
+    return new RunBeforeTestClassCallbacks(next, testContextManager);
+  }
 
-		TestContextManagerCacheEvictor(Statement next, Class<?> testClass) {
-			this.next = next;
-			this.testClass = testClass;
-		}
+  /**
+   * Wrap the supplied {@link Statement} with a {@code RunAfterTestClassCallbacks} statement.
+   *
+   * @see RunAfterTestClassCallbacks
+   */
+  private Statement withAfterTestClassCallbacks(Statement next, TestContextManager testContextManager) {
+    return new RunAfterTestClassCallbacks(next, testContextManager);
+  }
 
-		@Override
-		public void evaluate() throws Throwable {
-			try {
-				this.next.evaluate();
-			}
-			finally {
-				testContextManagerCache.remove(this.testClass);
-			}
-		}
-	}
+  /**
+   * Wrap the supplied {@link Statement} with a {@code ProfileValueChecker} statement.
+   *
+   * @see ProfileValueChecker
+   */
+  private Statement withProfileValueCheck(Statement next, Class<?> testClass) {
+    return new ProfileValueChecker(next, testClass, null);
+  }
+
+  /**
+   * Wrap the supplied {@link Statement} with a {@code TestContextManagerCacheEvictor} statement.
+   *
+   * @see TestContextManagerCacheEvictor
+   */
+  private Statement withTestContextManagerCacheEviction(Statement next, Class<?> testClass) {
+    return new TestContextManagerCacheEvictor(next, testClass);
+  }
+
+  /**
+   * Get the {@link TestContextManager} associated with the supplied test class.
+   *
+   * @param testClass the test class to be managed; never {@code null}
+   */
+  static TestContextManager getTestContextManager(Class<?> testClass) {
+    Assert.notNull(testClass, "Test Class must not be null");
+    return testContextManagerCache.computeIfAbsent(testClass, TestContextManager::new);
+  }
+
+
+  private static class TestContextManagerCacheEvictor extends Statement {
+
+    private final Statement next;
+
+    private final Class<?> testClass;
+
+    TestContextManagerCacheEvictor(Statement next, Class<?> testClass) {
+      this.next = next;
+      this.testClass = testClass;
+    }
+
+    @Override
+    public void evaluate() throws Throwable {
+      try {
+        this.next.evaluate();
+      }
+      finally {
+        testContextManagerCache.remove(this.testClass);
+      }
+    }
+  }
 
 }

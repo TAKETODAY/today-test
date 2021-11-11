@@ -34,27 +34,27 @@ import java.util.stream.Stream;
  */
 class DefaultApplicationEvents implements ApplicationEvents {
 
-	private final List<ApplicationEvent> events = new ArrayList<>();
+  private final List<ApplicationEvent> events = new ArrayList<>();
 
-	void addEvent(ApplicationEvent event) {
-		this.events.add(event);
-	}
+  void addEvent(ApplicationEvent event) {
+    this.events.add(event);
+  }
 
-	@Override
-	public Stream<ApplicationEvent> stream() {
-		return this.events.stream();
-	}
+  @Override
+  public Stream<ApplicationEvent> stream() {
+    return this.events.stream();
+  }
 
-	@Override
-	public <T> Stream<T> stream(Class<T> type) {
-		return this.events.stream()
-						.filter(type::isInstance)
-						.map(type::cast);
-	}
+  @Override
+  public <T> Stream<T> stream(Class<T> type) {
+    return this.events.stream()
+            .filter(type::isInstance)
+            .map(type::cast);
+  }
 
-	@Override
-	public void clear() {
-		this.events.clear();
-	}
+  @Override
+  public void clear() {
+    this.events.clear();
+  }
 
 }

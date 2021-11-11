@@ -31,9 +31,9 @@ import java.util.List;
  * processed context configuration attributes but before the
  * {@link MergedContextConfiguration} is created.
  *
- * <p>By default, the Spring TestContext Framework will use the
- * {@link cn.taketoday.core.io.support.SpringFactoriesLoader SpringFactoriesLoader}
- * mechanism for loading factories configured in all {@code META-INF/spring.factories}
+ * <p>By default, the TestContext Framework will use the
+ * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
+ * mechanism for loading factories configured in all {@code classpath*:META-INF/today.strategies}
  * files on the classpath.
  *
  * @author Phillip Webb
@@ -42,19 +42,19 @@ import java.util.List;
 @FunctionalInterface
 public interface ContextCustomizerFactory {
 
-	/**
-	 * Create a {@link ContextCustomizer} that should be used to customize a
-	 * {@link cn.taketoday.context.ConfigurableApplicationContext ConfigurableApplicationContext}
-	 * before it is refreshed.
-	 *
-	 * @param testClass the test class
-	 * @param configAttributes the list of context configuration attributes for
-	 * the test class, ordered <em>bottom-up</em> (i.e., as if we were traversing
-	 * up the class hierarchy); never {@code null} or empty
-	 * @return a {@link ContextCustomizer} or {@code null} if no customizer should
-	 * be used
-	 */
-	@Nullable
-	ContextCustomizer createContextCustomizer(Class<?> testClass, List<ContextConfigurationAttributes> configAttributes);
+  /**
+   * Create a {@link ContextCustomizer} that should be used to customize a
+   * {@link cn.taketoday.context.ConfigurableApplicationContext ConfigurableApplicationContext}
+   * before it is refreshed.
+   *
+   * @param testClass the test class
+   * @param configAttributes the list of context configuration attributes for
+   * the test class, ordered <em>bottom-up</em> (i.e., as if we were traversing
+   * up the class hierarchy); never {@code null} or empty
+   * @return a {@link ContextCustomizer} or {@code null} if no customizer should
+   * be used
+   */
+  @Nullable
+  ContextCustomizer createContextCustomizer(Class<?> testClass, List<ContextConfigurationAttributes> configAttributes);
 
 }

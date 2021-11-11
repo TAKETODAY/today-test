@@ -36,11 +36,11 @@ import java.io.IOException;
 @FunctionalInterface
 public interface ResponseCreator {
 
-	/**
-	 * Create a response for the given request.
-	 *
-	 * @param request the request
-	 */
-	ClientHttpResponse createResponse(@Nullable ClientHttpRequest request) throws IOException;
+  /**
+   * Create a response for the given request.
+   *
+   * @param request the request
+   */
+  ClientHttpResponse createResponse(@Nullable ClientHttpRequest request) throws IOException;
 
 }

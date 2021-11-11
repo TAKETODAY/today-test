@@ -32,18 +32,18 @@ import cn.taketoday.web.server.adapter.WebHttpHandlerBuilder;
  */
 class DefaultMockServerSpec extends AbstractMockServerSpec<DefaultMockServerSpec> {
 
-	private final WebHandler webHandler;
+  private final WebHandler webHandler;
 
 
-	DefaultMockServerSpec(WebHandler webHandler) {
-		Assert.notNull(webHandler, "WebHandler is required");
-		this.webHandler = webHandler;
-	}
+  DefaultMockServerSpec(WebHandler webHandler) {
+    Assert.notNull(webHandler, "WebHandler is required");
+    this.webHandler = webHandler;
+  }
 
 
-	@Override
-	protected WebHttpHandlerBuilder initHttpHandlerBuilder() {
-		return WebHttpHandlerBuilder.webHandler(this.webHandler);
-	}
+  @Override
+  protected WebHttpHandlerBuilder initHttpHandlerBuilder() {
+    return WebHttpHandlerBuilder.webHandler(this.webHandler);
+  }
 
 }

@@ -54,10 +54,10 @@ import java.lang.annotation.Target;
 @Documented
 public @interface Timed {
 
-	/**
-	 * The maximum amount of time (in milliseconds) that a test execution can
-	 * take without being marked as failed due to taking too long.
-	 */
-	long millis();
+  /**
+   * The maximum amount of time (in milliseconds) that a test execution can
+   * take without being marked as failed due to taking too long.
+   */
+  long millis();
 
 }

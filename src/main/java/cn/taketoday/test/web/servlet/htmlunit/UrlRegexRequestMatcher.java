@@ -41,22 +41,22 @@ import java.util.regex.Pattern;
  */
 public final class UrlRegexRequestMatcher implements WebRequestMatcher {
 
-	private final Pattern pattern;
+  private final Pattern pattern;
 
 
-	public UrlRegexRequestMatcher(String regex) {
-		this.pattern = Pattern.compile(regex);
-	}
+  public UrlRegexRequestMatcher(String regex) {
+    this.pattern = Pattern.compile(regex);
+  }
 
-	public UrlRegexRequestMatcher(Pattern pattern) {
-		this.pattern = pattern;
-	}
+  public UrlRegexRequestMatcher(Pattern pattern) {
+    this.pattern = pattern;
+  }
 
 
-	@Override
-	public boolean matches(WebRequest request) {
-		String url = request.getUrl().toExternalForm();
-		return this.pattern.matcher(url).matches();
-	}
+  @Override
+  public boolean matches(WebRequest request) {
+    String url = request.getUrl().toExternalForm();
+    return this.pattern.matcher(url).matches();
+  }
 
 }

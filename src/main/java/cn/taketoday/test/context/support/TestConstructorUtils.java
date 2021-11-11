@@ -41,114 +41,114 @@ import java.lang.reflect.Executable;
  */
 public abstract class TestConstructorUtils {
 
-	private TestConstructorUtils() {
-	}
+  private TestConstructorUtils() {
+  }
 
-	/**
-	 * Determine if the supplied executable for the given test class is an
-	 * autowirable constructor.
-	 * <p>This method delegates to {@link #isAutowirableConstructor(Executable, Class, PropertyProvider)}
-	 * will a value of {@code null} for the fallback {@link PropertyProvider}.
-	 *
-	 * @param executable an executable for the test class
-	 * @param testClass the test class
-	 * @return {@code true} if the executable is an autowirable constructor
-	 * @see #isAutowirableConstructor(Executable, Class, PropertyProvider)
-	 */
-	public static boolean isAutowirableConstructor(Executable executable, Class<?> testClass) {
-		return isAutowirableConstructor(executable, testClass, null);
-	}
+  /**
+   * Determine if the supplied executable for the given test class is an
+   * autowirable constructor.
+   * <p>This method delegates to {@link #isAutowirableConstructor(Executable, Class, PropertyProvider)}
+   * will a value of {@code null} for the fallback {@link PropertyProvider}.
+   *
+   * @param executable an executable for the test class
+   * @param testClass the test class
+   * @return {@code true} if the executable is an autowirable constructor
+   * @see #isAutowirableConstructor(Executable, Class, PropertyProvider)
+   */
+  public static boolean isAutowirableConstructor(Executable executable, Class<?> testClass) {
+    return isAutowirableConstructor(executable, testClass, null);
+  }
 
-	/**
-	 * Determine if the supplied constructor for the given test class is
-	 * autowirable.
-	 * <p>This method delegates to {@link #isAutowirableConstructor(Constructor, Class, PropertyProvider)}
-	 * will a value of {@code null} for the fallback {@link PropertyProvider}.
-	 *
-	 * @param constructor a constructor for the test class
-	 * @param testClass the test class
-	 * @return {@code true} if the constructor is autowirable
-	 * @see #isAutowirableConstructor(Constructor, Class, PropertyProvider)
-	 */
-	public static boolean isAutowirableConstructor(Constructor<?> constructor, Class<?> testClass) {
-		return isAutowirableConstructor(constructor, testClass, null);
-	}
+  /**
+   * Determine if the supplied constructor for the given test class is
+   * autowirable.
+   * <p>This method delegates to {@link #isAutowirableConstructor(Constructor, Class, PropertyProvider)}
+   * will a value of {@code null} for the fallback {@link PropertyProvider}.
+   *
+   * @param constructor a constructor for the test class
+   * @param testClass the test class
+   * @return {@code true} if the constructor is autowirable
+   * @see #isAutowirableConstructor(Constructor, Class, PropertyProvider)
+   */
+  public static boolean isAutowirableConstructor(Constructor<?> constructor, Class<?> testClass) {
+    return isAutowirableConstructor(constructor, testClass, null);
+  }
 
-	/**
-	 * Determine if the supplied executable for the given test class is an
-	 * autowirable constructor.
-	 * <p>This method delegates to {@link #isAutowirableConstructor(Constructor, Class, PropertyProvider)}
-	 * if the supplied executable is a constructor and otherwise returns {@code false}.
-	 *
-	 * @param executable an executable for the test class
-	 * @param testClass the test class
-	 * @param fallbackPropertyProvider fallback property provider used to look up
-	 * the value for {@link TestConstructor#TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}
-	 * if no such value is found in {@link TodayStrategies}
-	 * @return {@code true} if the executable is an autowirable constructor
-	 * @see #isAutowirableConstructor(Constructor, Class, PropertyProvider)
-	 */
-	public static boolean isAutowirableConstructor(Executable executable, Class<?> testClass,
-																								 @Nullable PropertyProvider fallbackPropertyProvider) {
+  /**
+   * Determine if the supplied executable for the given test class is an
+   * autowirable constructor.
+   * <p>This method delegates to {@link #isAutowirableConstructor(Constructor, Class, PropertyProvider)}
+   * if the supplied executable is a constructor and otherwise returns {@code false}.
+   *
+   * @param executable an executable for the test class
+   * @param testClass the test class
+   * @param fallbackPropertyProvider fallback property provider used to look up
+   * the value for {@link TestConstructor#TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}
+   * if no such value is found in {@link TodayStrategies}
+   * @return {@code true} if the executable is an autowirable constructor
+   * @see #isAutowirableConstructor(Constructor, Class, PropertyProvider)
+   */
+  public static boolean isAutowirableConstructor(Executable executable, Class<?> testClass,
+                                                 @Nullable PropertyProvider fallbackPropertyProvider) {
 
-		return (executable instanceof Constructor &&
-						isAutowirableConstructor((Constructor<?>) executable, testClass, fallbackPropertyProvider));
-	}
+    return (executable instanceof Constructor &&
+            isAutowirableConstructor((Constructor<?>) executable, testClass, fallbackPropertyProvider));
+  }
 
-	/**
-	 * Determine if the supplied constructor for the given test class is
-	 * autowirable.
-	 *
-	 * <p>A constructor is considered to be autowirable if one of the following
-	 * conditions is {@code true}.
-	 *
-	 * <ol>
-	 * <li>The constructor is annotated with {@link Autowired @Autowired}.</li>
-	 * <li>{@link TestConstructor @TestConstructor} is <em>present</em> or
-	 * <em>meta-present</em> on the test class with
-	 * {@link TestConstructor#autowireMode() autowireMode} set to
-	 * {@link AutowireMode#ALL ALL}.</li>
-	 * <li>The default <em>test constructor autowire mode</em> has been set to
-	 * {@code ALL} in {@link TodayStrategies} or in the supplied fallback
-	 * {@link PropertyProvider} (see
-	 * {@link TestConstructor#TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}).</li>
-	 * </ol>
-	 *
-	 * @param constructor a constructor for the test class
-	 * @param testClass the test class
-	 * @param fallbackPropertyProvider fallback property provider used to look up
-	 * the value for the default <em>test constructor autowire mode</em> if no
-	 * such value is found in {@link TodayStrategies}
-	 * @return {@code true} if the constructor is autowirable
-	 */
-	public static boolean isAutowirableConstructor(
-					Constructor<?> constructor, Class<?> testClass, @Nullable PropertyProvider fallbackPropertyProvider) {
+  /**
+   * Determine if the supplied constructor for the given test class is
+   * autowirable.
+   *
+   * <p>A constructor is considered to be autowirable if one of the following
+   * conditions is {@code true}.
+   *
+   * <ol>
+   * <li>The constructor is annotated with {@link Autowired @Autowired}.</li>
+   * <li>{@link TestConstructor @TestConstructor} is <em>present</em> or
+   * <em>meta-present</em> on the test class with
+   * {@link TestConstructor#autowireMode() autowireMode} set to
+   * {@link AutowireMode#ALL ALL}.</li>
+   * <li>The default <em>test constructor autowire mode</em> has been set to
+   * {@code ALL} in {@link TodayStrategies} or in the supplied fallback
+   * {@link PropertyProvider} (see
+   * {@link TestConstructor#TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}).</li>
+   * </ol>
+   *
+   * @param constructor a constructor for the test class
+   * @param testClass the test class
+   * @param fallbackPropertyProvider fallback property provider used to look up
+   * the value for the default <em>test constructor autowire mode</em> if no
+   * such value is found in {@link TodayStrategies}
+   * @return {@code true} if the constructor is autowirable
+   */
+  public static boolean isAutowirableConstructor(
+          Constructor<?> constructor, Class<?> testClass, @Nullable PropertyProvider fallbackPropertyProvider) {
 
-		// Is the constructor annotated with @Autowired?
-		if (AnnotatedElementUtils.hasAnnotation(constructor, Autowired.class)) {
-			return true;
-		}
+    // Is the constructor annotated with @Autowired?
+    if (AnnotatedElementUtils.hasAnnotation(constructor, Autowired.class)) {
+      return true;
+    }
 
-		AutowireMode autowireMode = null;
+    AutowireMode autowireMode = null;
 
-		// Is the test class annotated with @TestConstructor?
-		TestConstructor testConstructor = TestContextAnnotationUtils.findMergedAnnotation(testClass, TestConstructor.class);
-		if (testConstructor != null) {
-			autowireMode = testConstructor.autowireMode();
-		}
-		else {
-			// Custom global default from TodayStrategies?
-			String value = TodayStrategies.getProperty(TestConstructor.TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME);
-			autowireMode = AutowireMode.from(value);
+    // Is the test class annotated with @TestConstructor?
+    TestConstructor testConstructor = TestContextAnnotationUtils.findMergedAnnotation(testClass, TestConstructor.class);
+    if (testConstructor != null) {
+      autowireMode = testConstructor.autowireMode();
+    }
+    else {
+      // Custom global default from TodayStrategies?
+      String value = TodayStrategies.getProperty(TestConstructor.TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME);
+      autowireMode = AutowireMode.from(value);
 
-			// Use fallback provider?
-			if (autowireMode == null && fallbackPropertyProvider != null) {
-				value = fallbackPropertyProvider.get(TestConstructor.TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME);
-				autowireMode = AutowireMode.from(value);
-			}
-		}
+      // Use fallback provider?
+      if (autowireMode == null && fallbackPropertyProvider != null) {
+        value = fallbackPropertyProvider.get(TestConstructor.TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME);
+        autowireMode = AutowireMode.from(value);
+      }
+    }
 
-		return (autowireMode == AutowireMode.ALL);
-	}
+    return (autowireMode == AutowireMode.ALL);
+  }
 
 }

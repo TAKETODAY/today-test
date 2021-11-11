@@ -44,128 +44,128 @@ import java.util.Map;
  */
 public class XpathRequestMatchers {
 
-	private static final String DEFAULT_ENCODING = "UTF-8";
+  private static final String DEFAULT_ENCODING = "UTF-8";
 
-	private final XpathExpectationsHelper xpathHelper;
-
-
-	/**
-	 * Class constructor, not for direct instantiation.
-	 * <p>Use {@link MockRestRequestMatchers#xpath(String, Object...)} or
-	 * {@link MockRestRequestMatchers#xpath(String, Map, Object...)}.
-	 *
-	 * @param expression the XPath expression
-	 * @param namespaces the XML namespaces referenced in the XPath expression, or {@code null}
-	 * @param args arguments to parameterize the XPath expression with, using the
-	 * formatting specifiers defined in {@link String#format(String, Object...)}
-	 * @throws XPathExpressionException if expression compilation failed
-	 */
-	protected XpathRequestMatchers(String expression, @Nullable Map<String, String> namespaces, Object... args)
-					throws XPathExpressionException {
-
-		this.xpathHelper = new XpathExpectationsHelper(expression, namespaces, args);
-	}
+  private final XpathExpectationsHelper xpathHelper;
 
 
-	/**
-	 * Apply the XPath and assert it with the given {@code Matcher<Node>}.
-	 */
-	public RequestMatcher node(Matcher<? super Node> matcher) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertNode(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
-	}
+  /**
+   * Class constructor, not for direct instantiation.
+   * <p>Use {@link MockRestRequestMatchers#xpath(String, Object...)} or
+   * {@link MockRestRequestMatchers#xpath(String, Map, Object...)}.
+   *
+   * @param expression the XPath expression
+   * @param namespaces the XML namespaces referenced in the XPath expression, or {@code null}
+   * @param args arguments to parameterize the XPath expression with, using the
+   * formatting specifiers defined in {@link String#format(String, Object...)}
+   * @throws XPathExpressionException if expression compilation failed
+   */
+  protected XpathRequestMatchers(String expression, @Nullable Map<String, String> namespaces, Object... args)
+          throws XPathExpressionException {
 
-	/**
-	 * Assert that content exists at the given XPath.
-	 */
-	public RequestMatcher exists() {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.exists(request.getBodyAsBytes(), DEFAULT_ENCODING);
-	}
-
-	/**
-	 * Assert that content does not exist at the given XPath.
-	 */
-	public RequestMatcher doesNotExist() {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.doesNotExist(request.getBodyAsBytes(), DEFAULT_ENCODING);
-	}
-
-	/**
-	 * Apply the XPath and assert the number of nodes found with the given
-	 * {@code Matcher<Integer>}.
-	 */
-	public RequestMatcher nodeCount(Matcher<? super Integer> matcher) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertNodeCount(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
-	}
-
-	/**
-	 * Apply the XPath and assert the number of nodes found.
-	 */
-	public RequestMatcher nodeCount(int expectedCount) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertNodeCount(request.getBodyAsBytes(), DEFAULT_ENCODING, expectedCount);
-	}
-
-	/**
-	 * Apply the XPath and assert the String content found with the given matcher.
-	 */
-	public RequestMatcher string(Matcher<? super String> matcher) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertString(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
-	}
-
-	/**
-	 * Apply the XPath and assert the String content found.
-	 */
-	public RequestMatcher string(String content) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertString(request.getBodyAsBytes(), DEFAULT_ENCODING, content);
-	}
-
-	/**
-	 * Apply the XPath and assert the number found with the given matcher.
-	 */
-	public RequestMatcher number(Matcher<? super Double> matcher) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertNumber(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
-	}
-
-	/**
-	 * Apply the XPath and assert the number value found.
-	 */
-	public RequestMatcher number(Double value) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertNumber(request.getBodyAsBytes(), DEFAULT_ENCODING, value);
-	}
-
-	/**
-	 * Apply the XPath and assert the boolean value found.
-	 */
-	public RequestMatcher booleanValue(Boolean value) {
-		return (XpathRequestMatcher) request ->
-						this.xpathHelper.assertBoolean(request.getBodyAsBytes(), DEFAULT_ENCODING, value);
-	}
+    this.xpathHelper = new XpathExpectationsHelper(expression, namespaces, args);
+  }
 
 
-	/**
-	 * Functional interface for XPath {@link RequestMatcher} implementations.
-	 */
-	@FunctionalInterface
-	private interface XpathRequestMatcher extends RequestMatcher {
+  /**
+   * Apply the XPath and assert it with the given {@code Matcher<Node>}.
+   */
+  public RequestMatcher node(Matcher<? super Node> matcher) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertNode(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
+  }
 
-		@Override
-		default void match(ClientHttpRequest request) {
-			try {
-				matchInternal((MockClientHttpRequest) request);
-			}
-			catch (Exception ex) {
-				throw new AssertionError("Failed to parse XML request content", ex);
-			}
-		}
+  /**
+   * Assert that content exists at the given XPath.
+   */
+  public RequestMatcher exists() {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.exists(request.getBodyAsBytes(), DEFAULT_ENCODING);
+  }
 
-		void matchInternal(MockClientHttpRequest request) throws Exception;
-	}
+  /**
+   * Assert that content does not exist at the given XPath.
+   */
+  public RequestMatcher doesNotExist() {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.doesNotExist(request.getBodyAsBytes(), DEFAULT_ENCODING);
+  }
+
+  /**
+   * Apply the XPath and assert the number of nodes found with the given
+   * {@code Matcher<Integer>}.
+   */
+  public RequestMatcher nodeCount(Matcher<? super Integer> matcher) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertNodeCount(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
+  }
+
+  /**
+   * Apply the XPath and assert the number of nodes found.
+   */
+  public RequestMatcher nodeCount(int expectedCount) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertNodeCount(request.getBodyAsBytes(), DEFAULT_ENCODING, expectedCount);
+  }
+
+  /**
+   * Apply the XPath and assert the String content found with the given matcher.
+   */
+  public RequestMatcher string(Matcher<? super String> matcher) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertString(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
+  }
+
+  /**
+   * Apply the XPath and assert the String content found.
+   */
+  public RequestMatcher string(String content) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertString(request.getBodyAsBytes(), DEFAULT_ENCODING, content);
+  }
+
+  /**
+   * Apply the XPath and assert the number found with the given matcher.
+   */
+  public RequestMatcher number(Matcher<? super Double> matcher) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertNumber(request.getBodyAsBytes(), DEFAULT_ENCODING, matcher);
+  }
+
+  /**
+   * Apply the XPath and assert the number value found.
+   */
+  public RequestMatcher number(Double value) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertNumber(request.getBodyAsBytes(), DEFAULT_ENCODING, value);
+  }
+
+  /**
+   * Apply the XPath and assert the boolean value found.
+   */
+  public RequestMatcher booleanValue(Boolean value) {
+    return (XpathRequestMatcher) request ->
+            this.xpathHelper.assertBoolean(request.getBodyAsBytes(), DEFAULT_ENCODING, value);
+  }
+
+
+  /**
+   * Functional interface for XPath {@link RequestMatcher} implementations.
+   */
+  @FunctionalInterface
+  private interface XpathRequestMatcher extends RequestMatcher {
+
+    @Override
+    default void match(ClientHttpRequest request) {
+      try {
+        matchInternal((MockClientHttpRequest) request);
+      }
+      catch (Exception ex) {
+        throw new AssertionError("Failed to parse XML request content", ex);
+      }
+    }
+
+    void matchInternal(MockClientHttpRequest request) throws Exception;
+  }
 
 }

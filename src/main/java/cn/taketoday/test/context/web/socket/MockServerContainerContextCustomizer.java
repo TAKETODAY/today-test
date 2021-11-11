@@ -36,25 +36,25 @@ import jakarta.servlet.ServletContext;
  */
 class MockServerContainerContextCustomizer implements ContextCustomizer {
 
-	@Override
-	public void customizeContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig) {
-		if (context instanceof WebServletApplicationContext) {
-			WebServletApplicationContext wac = (WebServletApplicationContext) context;
-			ServletContext sc = wac.getServletContext();
-			if (sc != null) {
-				sc.setAttribute("jakarta.websocket.server.ServerContainer", new MockServerContainer());
-			}
-		}
-	}
+  @Override
+  public void customizeContext(ConfigurableApplicationContext context, MergedContextConfiguration mergedConfig) {
+    if (context instanceof WebServletApplicationContext) {
+      WebServletApplicationContext wac = (WebServletApplicationContext) context;
+      ServletContext sc = wac.getServletContext();
+      if (sc != null) {
+        sc.setAttribute("jakarta.websocket.server.ServerContainer", new MockServerContainer());
+      }
+    }
+  }
 
-	@Override
-	public boolean equals(@Nullable Object other) {
-		return (this == other || (other != null && getClass() == other.getClass()));
-	}
+  @Override
+  public boolean equals(@Nullable Object other) {
+    return (this == other || (other != null && getClass() == other.getClass()));
+  }
 
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
+  @Override
+  public int hashCode() {
+    return getClass().hashCode();
+  }
 
 }

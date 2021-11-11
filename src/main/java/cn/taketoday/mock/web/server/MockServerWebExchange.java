@@ -41,104 +41,104 @@ import reactor.core.publisher.Mono;
  */
 public final class MockServerWebExchange extends DefaultServerWebExchange {
 
-	private MockServerWebExchange(MockServerHttpRequest request, WebSessionManager sessionManager) {
-		super(request, new MockServerHttpResponse(), sessionManager,
-						ServerCodecConfigurer.create(), new AcceptHeaderLocaleContextResolver());
-	}
+  private MockServerWebExchange(MockServerHttpRequest request, WebSessionManager sessionManager) {
+    super(request, new MockServerHttpResponse(), sessionManager,
+            ServerCodecConfigurer.create(), new AcceptHeaderLocaleContextResolver());
+  }
 
 
-	@Override
-	public MockServerHttpResponse getResponse() {
-		return (MockServerHttpResponse) super.getResponse();
-	}
+  @Override
+  public MockServerHttpResponse getResponse() {
+    return (MockServerHttpResponse) super.getResponse();
+  }
 
 
-	/**
-	 * Create a {@link MockServerWebExchange} from the given mock request.
-	 *
-	 * @param request the request to use.
-	 * @return the exchange
-	 */
-	public static MockServerWebExchange from(MockServerHttpRequest request) {
-		return builder(request).build();
-	}
+  /**
+   * Create a {@link MockServerWebExchange} from the given mock request.
+   *
+   * @param request the request to use.
+   * @return the exchange
+   */
+  public static MockServerWebExchange from(MockServerHttpRequest request) {
+    return builder(request).build();
+  }
 
-	/**
-	 * Variant of {@link #from(MockServerHttpRequest)} with a mock request builder.
-	 *
-	 * @param requestBuilder the builder for the mock request.
-	 * @return the exchange
-	 */
-	public static MockServerWebExchange from(MockServerHttpRequest.BaseBuilder<?> requestBuilder) {
-		return builder(requestBuilder).build();
-	}
+  /**
+   * Variant of {@link #from(MockServerHttpRequest)} with a mock request builder.
+   *
+   * @param requestBuilder the builder for the mock request.
+   * @return the exchange
+   */
+  public static MockServerWebExchange from(MockServerHttpRequest.BaseBuilder<?> requestBuilder) {
+    return builder(requestBuilder).build();
+  }
 
-	/**
-	 * Create a {@link Builder} starting with the given mock request.
-	 *
-	 * @param request the request to use.
-	 * @return the exchange builder
-	 */
-	public static Builder builder(MockServerHttpRequest request) {
-		return new Builder(request);
-	}
+  /**
+   * Create a {@link Builder} starting with the given mock request.
+   *
+   * @param request the request to use.
+   * @return the exchange builder
+   */
+  public static Builder builder(MockServerHttpRequest request) {
+    return new Builder(request);
+  }
 
-	/**
-	 * Variant of {@link #builder(MockServerHttpRequest)} with a mock request builder.
-	 *
-	 * @param requestBuilder the builder for the mock request.
-	 * @return the exchange builder
-	 */
-	public static Builder builder(MockServerHttpRequest.BaseBuilder<?> requestBuilder) {
-		return new Builder(requestBuilder.build());
-	}
+  /**
+   * Variant of {@link #builder(MockServerHttpRequest)} with a mock request builder.
+   *
+   * @param requestBuilder the builder for the mock request.
+   * @return the exchange builder
+   */
+  public static Builder builder(MockServerHttpRequest.BaseBuilder<?> requestBuilder) {
+    return new Builder(requestBuilder.build());
+  }
 
 
-	/**
-	 * Builder for a {@link MockServerWebExchange}.
-	 */
-	public static class Builder {
+  /**
+   * Builder for a {@link MockServerWebExchange}.
+   */
+  public static class Builder {
 
-		private final MockServerHttpRequest request;
+    private final MockServerHttpRequest request;
 
-		@Nullable
-		private WebSessionManager sessionManager;
+    @Nullable
+    private WebSessionManager sessionManager;
 
-		public Builder(MockServerHttpRequest request) {
-			this.request = request;
-		}
+    public Builder(MockServerHttpRequest request) {
+      this.request = request;
+    }
 
-		/**
-		 * Set the session to use for the exchange.
-		 * <p>This method is mutually exclusive with
-		 * {@link #sessionManager(WebSessionManager)}.
-		 *
-		 * @param session the session to use
-		 * @see MockWebSession
-		 */
-		public Builder session(WebSession session) {
-			this.sessionManager = exchange -> Mono.just(session);
-			return this;
-		}
+    /**
+     * Set the session to use for the exchange.
+     * <p>This method is mutually exclusive with
+     * {@link #sessionManager(WebSessionManager)}.
+     *
+     * @param session the session to use
+     * @see MockWebSession
+     */
+    public Builder session(WebSession session) {
+      this.sessionManager = exchange -> Mono.just(session);
+      return this;
+    }
 
-		/**
-		 * Provide a {@code WebSessionManager} instance to use with the exchange.
-		 * <p>This is mutually exclusive with {@link #session(WebSession)}.
-		 *
-		 * @param sessionManager the session manager to use
-		 */
-		public Builder sessionManager(WebSessionManager sessionManager) {
-			this.sessionManager = sessionManager;
-			return this;
-		}
+    /**
+     * Provide a {@code WebSessionManager} instance to use with the exchange.
+     * <p>This is mutually exclusive with {@link #session(WebSession)}.
+     *
+     * @param sessionManager the session manager to use
+     */
+    public Builder sessionManager(WebSessionManager sessionManager) {
+      this.sessionManager = sessionManager;
+      return this;
+    }
 
-		/**
-		 * Build the {@code MockServerWebExchange} instance.
-		 */
-		public MockServerWebExchange build() {
-			return new MockServerWebExchange(this.request,
-							this.sessionManager != null ? this.sessionManager : new DefaultWebSessionManager());
-		}
-	}
+    /**
+     * Build the {@code MockServerWebExchange} instance.
+     */
+    public MockServerWebExchange build() {
+      return new MockServerWebExchange(this.request,
+              this.sessionManager != null ? this.sessionManager : new DefaultWebSessionManager());
+    }
+  }
 
 }

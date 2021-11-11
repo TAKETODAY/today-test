@@ -58,52 +58,52 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface TodayJUnitWebConfig {
 
-	/**
-	 * Alias for {@link ContextConfiguration#classes}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class, attribute = "classes")
-	Class<?>[] value() default { };
+  /**
+   * Alias for {@link ContextConfiguration#classes}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class, attribute = "classes")
+  Class<?>[] value() default { };
 
-	/**
-	 * Alias for {@link ContextConfiguration#classes}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	Class<?>[] classes() default { };
+  /**
+   * Alias for {@link ContextConfiguration#classes}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  Class<?>[] classes() default { };
 
-	/**
-	 * Alias for {@link ContextConfiguration#locations}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	String[] locations() default { };
+  /**
+   * Alias for {@link ContextConfiguration#locations}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  String[] locations() default { };
 
-	/**
-	 * Alias for {@link ContextConfiguration#initializers}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	Class<? extends ApplicationContextInitializer<?>>[] initializers() default { };
+  /**
+   * Alias for {@link ContextConfiguration#initializers}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  Class<? extends ApplicationContextInitializer<?>>[] initializers() default { };
 
-	/**
-	 * Alias for {@link ContextConfiguration#inheritLocations}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	boolean inheritLocations() default true;
+  /**
+   * Alias for {@link ContextConfiguration#inheritLocations}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  boolean inheritLocations() default true;
 
-	/**
-	 * Alias for {@link ContextConfiguration#inheritInitializers}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	boolean inheritInitializers() default true;
+  /**
+   * Alias for {@link ContextConfiguration#inheritInitializers}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  boolean inheritInitializers() default true;
 
-	/**
-	 * Alias for {@link ContextConfiguration#name}.
-	 */
-	@AliasFor(annotation = ContextConfiguration.class)
-	String name() default "";
+  /**
+   * Alias for {@link ContextConfiguration#name}.
+   */
+  @AliasFor(annotation = ContextConfiguration.class)
+  String name() default "";
 
-	/**
-	 * Alias for {@link WebAppConfiguration#value}.
-	 */
-	@AliasFor(annotation = WebAppConfiguration.class, attribute = "value")
-	String resourcePath() default "src/main/webapp";
+  /**
+   * Alias for {@link WebAppConfiguration#value}.
+   */
+  @AliasFor(annotation = WebAppConfiguration.class, attribute = "value")
+  String resourcePath() default "src/main/webapp";
 
 }

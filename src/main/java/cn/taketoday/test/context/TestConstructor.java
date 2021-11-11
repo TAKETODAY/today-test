@@ -79,98 +79,98 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface TestConstructor {
 
-	/**
-	 * JVM system property used to change the default <em>test constructor
-	 * autowire mode</em>: {@value #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}.
-	 * <p>Acceptable values include enum constants defined in {@link AutowireMode},
-	 * ignoring case. For example, the default may be changed to {@link AutowireMode#ALL}
-	 * by supplying the following JVM system property via the command line.
-	 * <pre style="code">-Dspring.test.constructor.autowire.mode=all</pre>
-	 * <p>If the property is not set to {@code ALL}, parameters for test class
-	 * constructors will be autowired according to {@link AutowireMode#ANNOTATED}
-	 * semantics by default.
-	 * <p>May alternatively be configured via the
-	 * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
-	 * mechanism.
-	 * <p>As of Spring Framework 5.3, this property may also be configured as a
-	 * <a href="https://junit.org/junit5/docs/current/user-guide/#running-tests-config-params">JUnit
-	 * Platform configuration parameter</a>.
-	 *
-	 * @see #autowireMode
-	 */
-	String TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME = "spring.test.constructor.autowire.mode";
+  /**
+   * JVM system property used to change the default <em>test constructor
+   * autowire mode</em>: {@value #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME}.
+   * <p>Acceptable values include enum constants defined in {@link AutowireMode},
+   * ignoring case. For example, the default may be changed to {@link AutowireMode#ALL}
+   * by supplying the following JVM system property via the command line.
+   * <pre style="code">-Dspring.test.constructor.autowire.mode=all</pre>
+   * <p>If the property is not set to {@code ALL}, parameters for test class
+   * constructors will be autowired according to {@link AutowireMode#ANNOTATED}
+   * semantics by default.
+   * <p>May alternatively be configured via the
+   * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
+   * mechanism.
+   * <p>As of Spring Framework 5.3, this property may also be configured as a
+   * <a href="https://junit.org/junit5/docs/current/user-guide/#running-tests-config-params">JUnit
+   * Platform configuration parameter</a>.
+   *
+   * @see #autowireMode
+   */
+  String TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME = "spring.test.constructor.autowire.mode";
 
 
-	/**
-	 * Flag for setting the <em>test constructor {@linkplain AutowireMode autowire
-	 * mode}</em> for the current test class.
-	 * <p>Setting this flag overrides the global default. See
-	 * {@link #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME} for details on how
-	 * to change the global default.
-	 *
-	 * @return an {@link AutowireMode} to take precedence over the global default
-	 * @see #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME
-	 * @see cn.taketoday.lang.Autowired @Autowired
-	 * @see AutowireMode#ALL
-	 * @see AutowireMode#ANNOTATED
-	 */
-	AutowireMode autowireMode();
+  /**
+   * Flag for setting the <em>test constructor {@linkplain AutowireMode autowire
+   * mode}</em> for the current test class.
+   * <p>Setting this flag overrides the global default. See
+   * {@link #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME} for details on how
+   * to change the global default.
+   *
+   * @return an {@link AutowireMode} to take precedence over the global default
+   * @see #TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME
+   * @see cn.taketoday.lang.Autowired @Autowired
+   * @see AutowireMode#ALL
+   * @see AutowireMode#ANNOTATED
+   */
+  AutowireMode autowireMode();
 
 
-	/**
-	 * Defines autowiring modes for parameters in a test constructor.
-	 *
-	 * @see #ALL
-	 * @see #ANNOTATED
-	 */
-	enum AutowireMode {
+  /**
+   * Defines autowiring modes for parameters in a test constructor.
+   *
+   * @see #ALL
+   * @see #ANNOTATED
+   */
+  enum AutowireMode {
 
-		/**
-		 * All test constructor parameters will be autowired as if the constructor
-		 * itself were annotated with
-		 * {@link cn.taketoday.lang.Autowired @Autowired}.
-		 *
-		 * @see #ANNOTATED
-		 */
-		ALL,
+    /**
+     * All test constructor parameters will be autowired as if the constructor
+     * itself were annotated with
+     * {@link cn.taketoday.lang.Autowired @Autowired}.
+     *
+     * @see #ANNOTATED
+     */
+    ALL,
 
-		/**
-		 * Each individual test constructor parameter will only be autowired if it
-		 * is annotated with
-		 * {@link cn.taketoday.lang.Autowired @Autowired},
-		 * {@link cn.taketoday.lang.Qualifier @Qualifier},
-		 * or {@link cn.taketoday.lang.Value @Value},
-		 * or if the constructor itself is annotated with {@code @Autowired}.
-		 *
-		 * @see #ALL
-		 */
-		ANNOTATED;
+    /**
+     * Each individual test constructor parameter will only be autowired if it
+     * is annotated with
+     * {@link cn.taketoday.lang.Autowired @Autowired},
+     * {@link cn.taketoday.lang.Qualifier @Qualifier},
+     * or {@link cn.taketoday.lang.Value @Value},
+     * or if the constructor itself is annotated with {@code @Autowired}.
+     *
+     * @see #ALL
+     */
+    ANNOTATED;
 
 
-		/**
-		 * Get the {@code AutowireMode} enum constant with the supplied name,
-		 * ignoring case.
-		 *
-		 * @param name the name of the enum constant to retrieve
-		 * @return the corresponding enum constant or {@code null} if not found
-		 * @see AutowireMode#valueOf(String)
-		 */
-		@Nullable
-		public static AutowireMode from(@Nullable String name) {
-			if (name == null) {
-				return null;
-			}
-			try {
-				return AutowireMode.valueOf(name.trim().toUpperCase());
-			}
-			catch (IllegalArgumentException ex) {
-				Logger logger = LoggerFactory.getLogger(AutowireMode.class);
-				if (logger.isDebugEnabled()) {
-					logger.debug(String.format("Failed to parse autowire mode from '%s': %s", name, ex.getMessage()));
-				}
-				return null;
-			}
-		}
-	}
+    /**
+     * Get the {@code AutowireMode} enum constant with the supplied name,
+     * ignoring case.
+     *
+     * @param name the name of the enum constant to retrieve
+     * @return the corresponding enum constant or {@code null} if not found
+     * @see AutowireMode#valueOf(String)
+     */
+    @Nullable
+    public static AutowireMode from(@Nullable String name) {
+      if (name == null) {
+        return null;
+      }
+      try {
+        return AutowireMode.valueOf(name.trim().toUpperCase());
+      }
+      catch (IllegalArgumentException ex) {
+        Logger logger = LoggerFactory.getLogger(AutowireMode.class);
+        if (logger.isDebugEnabled()) {
+          logger.debug(String.format("Failed to parse autowire mode from '%s': %s", name, ex.getMessage()));
+        }
+        return null;
+      }
+    }
+  }
 
 }

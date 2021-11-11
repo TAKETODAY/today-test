@@ -60,80 +60,80 @@ import java.util.List;
  */
 public interface TestContextBootstrapper {
 
-	/**
-	 * Set the {@link BootstrapContext} to be used by this bootstrapper.
-	 */
-	void setBootstrapContext(BootstrapContext bootstrapContext);
+  /**
+   * Set the {@link BootstrapContext} to be used by this bootstrapper.
+   */
+  void setBootstrapContext(BootstrapContext bootstrapContext);
 
-	/**
-	 * Get the {@link BootstrapContext} associated with this bootstrapper.
-	 */
-	BootstrapContext getBootstrapContext();
+  /**
+   * Get the {@link BootstrapContext} associated with this bootstrapper.
+   */
+  BootstrapContext getBootstrapContext();
 
-	/**
-	 * Build the {@link TestContext} for the {@link BootstrapContext}
-	 * associated with this bootstrapper.
-	 *
-	 * @return a new {@link TestContext}, never {@code null}
-	 * @see #buildMergedContextConfiguration()
-	 */
-	TestContext buildTestContext();
+  /**
+   * Build the {@link TestContext} for the {@link BootstrapContext}
+   * associated with this bootstrapper.
+   *
+   * @return a new {@link TestContext}, never {@code null}
+   * @see #buildMergedContextConfiguration()
+   */
+  TestContext buildTestContext();
 
-	/**
-	 * Build the {@linkplain MergedContextConfiguration merged context configuration}
-	 * for the test class in the {@link BootstrapContext} associated with this
-	 * bootstrapper.
-	 * <p>Implementations must take the following into account when building the
-	 * merged configuration:
-	 * <ul>
-	 * <li>Context hierarchies declared via {@link ContextHierarchy @ContextHierarchy}
-	 * and {@link ContextConfiguration @ContextConfiguration}</li>
-	 * <li>Active bean definition profiles declared via {@link ActiveProfiles @ActiveProfiles}</li>
-	 * <li>{@linkplain cn.taketoday.context.ApplicationContextInitializer
-	 * Context initializers} declared via {@link ContextConfiguration#initializers}</li>
-	 * <li>Test property sources declared via {@link TestPropertySource @TestPropertySource}</li>
-	 * </ul>
-	 * <p>Consult the Javadoc for the aforementioned annotations for details on
-	 * the required semantics.
-	 * <p>Note that the implementation of {@link #buildTestContext()} should
-	 * typically delegate to this method when constructing the {@code TestContext}.
-	 * <p>When determining which {@link ContextLoader} to use for a given test
-	 * class, the following algorithm should be used:
-	 * <ol>
-	 * <li>If a {@code ContextLoader} class has been explicitly declared via
-	 * {@link ContextConfiguration#loader}, use it.</li>
-	 * <li>Otherwise, concrete implementations are free to determine which
-	 * {@code ContextLoader} class to use as a default.</li>
-	 * </ol>
-	 *
-	 * @return the merged context configuration, never {@code null}
-	 * @see #buildTestContext()
-	 */
-	MergedContextConfiguration buildMergedContextConfiguration();
+  /**
+   * Build the {@linkplain MergedContextConfiguration merged context configuration}
+   * for the test class in the {@link BootstrapContext} associated with this
+   * bootstrapper.
+   * <p>Implementations must take the following into account when building the
+   * merged configuration:
+   * <ul>
+   * <li>Context hierarchies declared via {@link ContextHierarchy @ContextHierarchy}
+   * and {@link ContextConfiguration @ContextConfiguration}</li>
+   * <li>Active bean definition profiles declared via {@link ActiveProfiles @ActiveProfiles}</li>
+   * <li>{@linkplain cn.taketoday.context.ApplicationContextInitializer
+   * Context initializers} declared via {@link ContextConfiguration#initializers}</li>
+   * <li>Test property sources declared via {@link TestPropertySource @TestPropertySource}</li>
+   * </ul>
+   * <p>Consult the Javadoc for the aforementioned annotations for details on
+   * the required semantics.
+   * <p>Note that the implementation of {@link #buildTestContext()} should
+   * typically delegate to this method when constructing the {@code TestContext}.
+   * <p>When determining which {@link ContextLoader} to use for a given test
+   * class, the following algorithm should be used:
+   * <ol>
+   * <li>If a {@code ContextLoader} class has been explicitly declared via
+   * {@link ContextConfiguration#loader}, use it.</li>
+   * <li>Otherwise, concrete implementations are free to determine which
+   * {@code ContextLoader} class to use as a default.</li>
+   * </ol>
+   *
+   * @return the merged context configuration, never {@code null}
+   * @see #buildTestContext()
+   */
+  MergedContextConfiguration buildMergedContextConfiguration();
 
-	/**
-	 * Get a list of newly instantiated {@link TestExecutionListener TestExecutionListeners}
-	 * for the test class in the {@link BootstrapContext} associated with this bootstrapper.
-	 * <p>If {@link TestExecutionListeners @TestExecutionListeners} is not
-	 * <em>present</em> on the test class in the {@code BootstrapContext},
-	 * <em>default</em> listeners should be returned. Furthermore, default
-	 * listeners must be sorted using
-	 * {@link cn.taketoday.core.annotation.AnnotationAwareOrderComparator
-	 * AnnotationAwareOrderComparator}.
-	 * <p>Concrete implementations are free to determine what comprises the
-	 * set of default listeners. However, by default, the Spring TestContext
-	 * Framework will use the
-	 * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
-	 * mechanism to look up all {@code TestExecutionListener} class names
-	 * configured in all {@code META-INF/today.strategies} files on the classpath.
-	 * <p>The {@link TestExecutionListeners#inheritListeners() inheritListeners}
-	 * flag of {@link TestExecutionListeners @TestExecutionListeners} must be
-	 * taken into consideration. Specifically, if the {@code inheritListeners}
-	 * flag is set to {@code true}, listeners declared for a given test class must
-	 * be appended to the end of the list of listeners declared in superclasses.
-	 *
-	 * @return a list of {@code TestExecutionListener} instances
-	 */
-	List<TestExecutionListener> getTestExecutionListeners();
+  /**
+   * Get a list of newly instantiated {@link TestExecutionListener TestExecutionListeners}
+   * for the test class in the {@link BootstrapContext} associated with this bootstrapper.
+   * <p>If {@link TestExecutionListeners @TestExecutionListeners} is not
+   * <em>present</em> on the test class in the {@code BootstrapContext},
+   * <em>default</em> listeners should be returned. Furthermore, default
+   * listeners must be sorted using
+   * {@link cn.taketoday.core.annotation.AnnotationAwareOrderComparator
+   * AnnotationAwareOrderComparator}.
+   * <p>Concrete implementations are free to determine what comprises the
+   * set of default listeners. However, by default, the Spring TestContext
+   * Framework will use the
+   * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
+   * mechanism to look up all {@code TestExecutionListener} class names
+   * configured in all {@code META-INF/today.strategies} files on the classpath.
+   * <p>The {@link TestExecutionListeners#inheritListeners() inheritListeners}
+   * flag of {@link TestExecutionListeners @TestExecutionListeners} must be
+   * taken into consideration. Specifically, if the {@code inheritListeners}
+   * flag is set to {@code true}, listeners declared for a given test class must
+   * be appended to the end of the list of listeners declared in superclasses.
+   *
+   * @return a list of {@code TestExecutionListener} instances
+   */
+  List<TestExecutionListener> getTestExecutionListeners();
 
 }

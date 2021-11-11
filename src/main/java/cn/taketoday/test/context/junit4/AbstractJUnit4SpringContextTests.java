@@ -96,32 +96,32 @@ import org.junit.runner.RunWith;
  */
 @RunWith(SpringRunner.class)
 @TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
-				ApplicationEventsTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-				DirtiesContextTestExecutionListener.class, EventPublishingTestExecutionListener.class })
+        ApplicationEventsTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class, EventPublishingTestExecutionListener.class })
 public abstract class AbstractJUnit4SpringContextTests implements ApplicationContextAware {
 
-	/**
-	 * Logger available to subclasses.
-	 */
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+  /**
+   * Logger available to subclasses.
+   */
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	/**
-	 * The {@link ApplicationContext} that was injected into this test instance
-	 * via {@link #setApplicationContext(ApplicationContext)}.
-	 */
-	@Nullable
-	protected ApplicationContext applicationContext;
+  /**
+   * The {@link ApplicationContext} that was injected into this test instance
+   * via {@link #setApplicationContext(ApplicationContext)}.
+   */
+  @Nullable
+  protected ApplicationContext applicationContext;
 
 
-	/**
-	 * Set the {@link ApplicationContext} to be used by this test instance,
-	 * provided via {@link ApplicationContextAware} semantics.
-	 *
-	 * @param applicationContext the ApplicationContext that this test runs in
-	 */
-	@Override
-	public final void setApplicationContext(final ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+  /**
+   * Set the {@link ApplicationContext} to be used by this test instance,
+   * provided via {@link ApplicationContextAware} semantics.
+   *
+   * @param applicationContext the ApplicationContext that this test runs in
+   */
+  @Override
+  public final void setApplicationContext(final ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
 }
