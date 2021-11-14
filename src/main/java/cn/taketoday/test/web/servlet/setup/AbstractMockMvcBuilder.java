@@ -37,7 +37,7 @@ import cn.taketoday.test.web.servlet.ResultMatcher;
 import cn.taketoday.test.web.servlet.request.ConfigurableSmartRequestBuilder;
 import cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders;
 import cn.taketoday.test.web.servlet.request.RequestPostProcessor;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletContext;
 

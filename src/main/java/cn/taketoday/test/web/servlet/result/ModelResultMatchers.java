@@ -30,6 +30,7 @@ import cn.taketoday.validation.BindingResult;
 import cn.taketoday.validation.Errors;
 import cn.taketoday.validation.FieldError;
 import cn.taketoday.web.servlet.ModelAndView;
+import cn.taketoday.web.view.ModelAndView;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertFalse;

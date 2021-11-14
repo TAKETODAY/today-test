@@ -32,20 +32,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import cn.taketoday.core.DefaultMultiValueMap;
+import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DefaultDataBufferFactory;
 import cn.taketoday.http.HttpCookie;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.HttpRange;
-import cn.taketoday.http.MediaType;
 import cn.taketoday.http.server.reactive.AbstractServerHttpRequest;
 import cn.taketoday.http.server.reactive.SslInfo;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.DefaultMultiValueMap;
+import cn.taketoday.util.MediaType;
 import cn.taketoday.util.MimeType;
-import cn.taketoday.util.MultiValueMap;
 import cn.taketoday.util.StringUtils;
 import cn.taketoday.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
@@ -76,10 +76,11 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
 
   private final Flux<DataBuffer> body;
 
-  private MockServerHttpRequest(String httpMethod,
-                                URI uri, @Nullable String contextPath, HttpHeaders headers, MultiValueMap<String, HttpCookie> cookies,
-                                @Nullable InetSocketAddress localAddress, @Nullable InetSocketAddress remoteAddress,
-                                @Nullable SslInfo sslInfo, Publisher<? extends DataBuffer> body) {
+  private MockServerHttpRequest(
+          String httpMethod,
+          URI uri, @Nullable String contextPath, HttpHeaders headers, MultiValueMap<String, HttpCookie> cookies,
+          @Nullable InetSocketAddress localAddress, @Nullable InetSocketAddress remoteAddress,
+          @Nullable SslInfo sslInfo, Publisher<? extends DataBuffer> body) {
 
     super(uri, contextPath, headers);
     Assert.isTrue(StringUtils.hasText(httpMethod), "HTTP method is required.");
@@ -94,7 +95,7 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
   @Override
   @Nullable
   public HttpMethod getMethod() {
-    return HttpMethod.resolve(this.httpMethod);
+    return HttpMethod.from(this.httpMethod);
   }
 
   @Override

@@ -22,7 +22,7 @@ package cn.taketoday.test.web.servlet.setup;
 
 import cn.taketoday.test.web.servlet.MockMvc;
 import cn.taketoday.test.web.servlet.MockMvcBuilder;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 
 /**
  * The main class to import in order to access all available {@link MockMvcBuilder MockMvcBuilders}.

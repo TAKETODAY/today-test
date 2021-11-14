@@ -20,9 +20,8 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.beans.factory.support.BeanDefinitionReader;
-import cn.taketoday.context.annotation.AnnotatedBeanDefinitionReader;
-import cn.taketoday.context.support.DefaultApplicationContext;
+import cn.taketoday.context.DefaultApplicationContext;
+import cn.taketoday.context.loader.AnnotatedBeanDefinitionReader;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.ContextConfigurationAttributes;

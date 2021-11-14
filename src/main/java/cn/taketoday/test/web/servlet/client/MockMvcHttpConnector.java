@@ -61,9 +61,9 @@ import cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders;
 import cn.taketoday.test.web.servlet.result.MockMvcResultHandlers;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
-import cn.taketoday.web.servlet.FlashMap;
-import cn.taketoday.web.servlet.HandlerInterceptor;
-import cn.taketoday.web.servlet.ModelAndView;
+import cn.taketoday.web.interceptor.HandlerInterceptor;
+import cn.taketoday.web.view.ModelAndView;
+import cn.taketoday.web.view.RedirectModel;
 import jakarta.servlet.http.Cookie;
 import reactor.core.publisher.Mono;
 
@@ -157,7 +157,7 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
             .headers(httpRequest.getHeaders())
             .body(Mono.just(DefaultDataBufferFactory.sharedInstance.wrap(bytes)));
 
-    MULTIPART_READER.read(ResolvableType.forClass(Part.class), inputMessage, Collections.emptyMap())
+    MULTIPART_READER.read(ResolvableType.fromClass(Part.class), inputMessage, Collections.emptyMap())
             .flatMap(part ->
                              DataBufferUtils.join(part.content())
                                      .doOnNext(buffer -> {
@@ -264,7 +264,7 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
     }
 
     @Override
-    public FlashMap getFlashMap() {
+    public RedirectModel getFlashMap() {
       return this.mvcResult.getFlashMap();
     }
 

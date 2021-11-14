@@ -22,7 +22,7 @@ package cn.taketoday.test.web.servlet.setup;
 
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.lang.Assert;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 import cn.taketoday.web.context.support.WebApplicationContextUtils;
 import jakarta.servlet.ServletContext;
 

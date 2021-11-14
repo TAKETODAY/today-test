@@ -43,10 +43,10 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.MediaType;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.LinkedCaseInsensitiveMap;
+import cn.taketoday.util.MediaType;
 import cn.taketoday.util.StringUtils;
 import cn.taketoday.web.util.WebUtils;
 import jakarta.servlet.ServletOutputStream;

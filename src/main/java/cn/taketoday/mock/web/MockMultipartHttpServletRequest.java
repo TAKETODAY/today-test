@@ -28,15 +28,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import cn.taketoday.core.DefaultMultiValueMap;
+import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.DefaultMultiValueMap;
-import cn.taketoday.util.MultiValueMap;
-import cn.taketoday.web.multipart.MultipartException;
 import cn.taketoday.web.multipart.MultipartFile;
-import cn.taketoday.web.multipart.MultipartHttpServletRequest;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
@@ -55,9 +53,9 @@ import jakarta.servlet.http.Part;
  * @author Arjen Poutsma
  * @see MockMultipartFile
  */
-public class MockMultipartHttpServletRequest extends MockHttpServletRequest implements MultipartHttpServletRequest {
+public class MockMultipartHttpServletRequest extends MockHttpServletRequest {
 
-  private final MultiValueMap<String, MultipartFile> multipartFiles = new DefaultMultiValueMap<>();
+  private final MultiValueMap<String, MultipartFile> multipartFiles = MultiValueMap.fromLinkedHashMap();
 
   /**
    * Create a new {@code MockMultipartHttpServletRequest} with a default
@@ -144,7 +142,7 @@ public class MockMultipartHttpServletRequest extends MockHttpServletRequest impl
 
   @Override
   public HttpMethod getRequestMethod() {
-    return HttpMethod.resolve(getMethod());
+    return HttpMethod.from(getMethod());
   }
 
   @Override

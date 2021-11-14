@@ -23,10 +23,9 @@ package cn.taketoday.test.web.servlet;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletRequest;
 import cn.taketoday.mock.web.MockHttpServletResponse;
-import cn.taketoday.web.servlet.FlashMap;
-import cn.taketoday.web.servlet.HandlerExceptionResolver;
-import cn.taketoday.web.servlet.HandlerInterceptor;
-import cn.taketoday.web.servlet.ModelAndView;
+import cn.taketoday.web.interceptor.HandlerInterceptor;
+import cn.taketoday.web.view.ModelAndView;
+import cn.taketoday.web.view.RedirectModel;
 
 /**
  * Provides access to the result of an executed request.
@@ -87,7 +86,7 @@ public interface MvcResult {
    *
    * @return the {@code FlashMap}, possibly empty
    */
-  FlashMap getFlashMap();
+  RedirectModel getFlashMap();
 
   /**
    * Get the result of async execution.

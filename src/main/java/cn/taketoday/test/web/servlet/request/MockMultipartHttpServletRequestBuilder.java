@@ -30,16 +30,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.http.HttpMethod;
-import cn.taketoday.http.MediaType;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletRequest;
 import cn.taketoday.mock.web.MockMultipartFile;
 import cn.taketoday.mock.web.MockMultipartHttpServletRequest;
-import cn.taketoday.util.DefaultMultiValueMap;
 import cn.taketoday.util.FileCopyUtils;
-import cn.taketoday.util.MultiValueMap;
+import cn.taketoday.util.MediaType;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Part;
 
@@ -53,7 +52,7 @@ public class MockMultipartHttpServletRequestBuilder extends MockHttpServletReque
 
   private final List<MockMultipartFile> files = new ArrayList<>();
 
-  private final MultiValueMap<String, Part> parts = new DefaultMultiValueMap<>();
+  private final MultiValueMap<String, Part> parts = MultiValueMap.fromLinkedHashMap();
 
   /**
    * Package-private constructor. Use static factory methods in

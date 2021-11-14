@@ -28,10 +28,11 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletRequest;
 import cn.taketoday.mock.web.MockHttpServletResponse;
+import cn.taketoday.web.interceptor.HandlerInterceptor;
 import cn.taketoday.web.servlet.FlashMap;
-import cn.taketoday.web.servlet.HandlerInterceptor;
-import cn.taketoday.web.servlet.ModelAndView;
 import cn.taketoday.web.servlet.support.RequestContextUtils;
+import cn.taketoday.web.view.ModelAndView;
+import cn.taketoday.web.view.RedirectModel;
 
 /**
  * A simple implementation of {@link MvcResult} with setters.
@@ -123,7 +124,7 @@ class DefaultMvcResult implements MvcResult {
   }
 
   @Override
-  public FlashMap getFlashMap() {
+  public RedirectModel getFlashMap() {
     return RequestContextUtils.getOutputFlashMap(this.mockRequest);
   }
 
