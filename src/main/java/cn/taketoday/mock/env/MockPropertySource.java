@@ -20,10 +20,10 @@
 
 package cn.taketoday.mock.env;
 
+import java.util.Properties;
+
 import cn.taketoday.core.env.PropertiesPropertySource;
 import cn.taketoday.core.env.PropertySource;
-
-import java.util.Properties;
 
 /**
  * Simple {@link PropertySource} implementation for use in testing. Accepts

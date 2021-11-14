@@ -20,8 +20,6 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.core.annotation.AliasFor;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -29,6 +27,8 @@ import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.core.annotation.AliasFor;
 
 /**
  * {@code @TestPropertySource} is a class-level annotation that is used to
@@ -68,7 +68,7 @@ import java.lang.annotation.Target;
  * {@link cn.taketoday.test.context.support.AbstractGenericContextLoader AbstractGenericContextLoader} or
  * {@link cn.taketoday.test.context.web.AbstractGenericWebContextLoader AbstractGenericWebContextLoader}
  * provides automatic support for {@code @TestPropertySource}, and this includes
- * every {@code SmartContextLoader} provided by the Spring TestContext Framework.
+ * every {@code SmartContextLoader} provided by the TestContext Framework.
  *
  * <h3>Miscellaneous</h3>
  * <ul>
@@ -82,7 +82,7 @@ import java.lang.annotation.Target;
  * annotation since the {@code locations} and {@code inheritLocations} attributes
  * of both annotations can lead to ambiguity during the attribute resolution
  * process.</li>
- * <li>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <li> this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.</li>
  * </ul>
@@ -109,7 +109,7 @@ public @interface TestPropertySource {
    * @see #locations
    */
   @AliasFor("locations")
-  String[] value() default { };
+  String[] value() default {};
 
   /**
    * The resource locations of properties files to be loaded into the
@@ -121,7 +121,7 @@ public @interface TestPropertySource {
    * &mdash; for example, {@code "classpath:/com/example/test.properties"}
    * or {@code "file:/path/to/file.xml"}.
    * <h3>Path Resource Semantics</h3>
-   * <p>Each path will be interpreted as a Spring
+   * <p>Each path will be interpreted as a Today
    * {@link cn.taketoday.core.io.Resource Resource}. A plain path
    * &mdash; for example, {@code "test.properties"} &mdash; will be treated as a
    * classpath resource that is <em>relative</em> to the package in which the
@@ -152,7 +152,7 @@ public @interface TestPropertySource {
    * @see cn.taketoday.core.env.PropertySource
    */
   @AliasFor("value")
-  String[] locations() default { };
+  String[] locations() default {};
 
   /**
    * Whether or not test property source {@link #locations} from superclasses
@@ -208,7 +208,7 @@ public @interface TestPropertySource {
 
   /**
    * <em>Inlined properties</em> in the form of <em>key-value</em> pairs that
-   * should be added to the Spring
+   * should be added to the Today
    * {@link cn.taketoday.core.env.Environment Environment} before the
    * {@code ApplicationContext} is loaded for the test. All key-value pairs
    * will be added to the enclosing {@code Environment} as a single test
@@ -232,7 +232,7 @@ public @interface TestPropertySource {
    * @see #locations
    * @see cn.taketoday.core.env.PropertySource
    */
-  String[] properties() default { };
+  String[] properties() default {};
 
   /**
    * Whether or not inlined test {@link #properties} from superclasses should

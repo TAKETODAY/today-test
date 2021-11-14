@@ -20,14 +20,14 @@
 
 package cn.taketoday.test.web.client;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.http.client.ClientHttpResponse;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Default implementation of {@code RequestExpectation} that simply delegates
@@ -44,7 +44,6 @@ public class DefaultRequestExpectation implements RequestExpectation {
   @Nullable
   private ResponseCreator responseCreator;
 
-
   /**
    * Create a new request expectation that should be called a number of times
    * as indicated by {@code RequestCount}.
@@ -57,7 +56,6 @@ public class DefaultRequestExpectation implements RequestExpectation {
     this.requestCount = new RequestCount(expectedCount);
     this.requestMatchers.add(requestMatcher);
   }
-
 
   protected RequestCount getRequestCount() {
     return this.requestCount;
@@ -119,7 +117,6 @@ public class DefaultRequestExpectation implements RequestExpectation {
   public boolean isSatisfied() {
     return getRequestCount().isSatisfied();
   }
-
 
   /**
    * Helper class that keeps track of actual vs expected request count.

@@ -20,18 +20,20 @@
 
 package cn.taketoday.test.web.servlet.result;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.test.util.JsonPathExpectationsHelper;
-import cn.taketoday.test.web.servlet.MvcResult;
-import cn.taketoday.test.web.servlet.ResultMatcher;
-import cn.taketoday.util.StringUtils;
 import com.jayway.jsonpath.JsonPath;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.StringStartsWith;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.util.JsonPathExpectationsHelper;
+import cn.taketoday.test.web.servlet.MvcResult;
+import cn.taketoday.test.web.servlet.ResultMatcher;
+import cn.taketoday.util.StringUtils;
 
 /**
  * Factory for assertions on the response content using
@@ -51,7 +53,6 @@ public class JsonPathResultMatchers {
 
   @Nullable
   private String prefix;
-
 
   /**
    * Protected constructor.
@@ -78,7 +79,6 @@ public class JsonPathResultMatchers {
     this.prefix = prefix;
     return this;
   }
-
 
   /**
    * Evaluate the JSON path expression against the response content and
@@ -242,7 +242,7 @@ public class JsonPathResultMatchers {
     if (StringUtils.isNotEmpty(this.prefix)) {
       try {
         String reason = String.format("Expected a JSON payload prefixed with \"%s\" but found: %s",
-                this.prefix, StringUtils.quote(content.substring(0, this.prefix.length())));
+                                      this.prefix, StringUtils.quote(content.substring(0, this.prefix.length())));
         MatcherAssert.assertThat(reason, content, StringStartsWith.startsWith(this.prefix));
         return content.substring(this.prefix.length());
       }

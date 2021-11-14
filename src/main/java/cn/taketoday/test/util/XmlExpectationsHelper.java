@@ -29,12 +29,13 @@ import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
 
+import java.io.StringReader;
+import java.util.Map;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
-import java.io.StringReader;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -90,14 +91,12 @@ public class XmlExpectationsHelper {
     }
   }
 
-
   /**
    * Inner class to prevent hard dependency on XML Unit.
    */
   private static class XmlUnitDiff {
 
     private final Diff diff;
-
 
     XmlUnitDiff(String expected, String actual) {
       this.diff = DiffBuilder.compare(expected).withTest(actual)
@@ -106,7 +105,6 @@ public class XmlExpectationsHelper {
               .checkForSimilar()
               .build();
     }
-
 
     public boolean hasDifferences() {
       return this.diff.hasDifferences();

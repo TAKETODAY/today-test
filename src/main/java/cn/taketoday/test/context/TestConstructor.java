@@ -20,19 +20,19 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.context.junit.jupiter.TodayExtension;
-import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
-import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.context.junit.jupiter.TodayExtension;
+import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 
 /**
  * {@code @TestConstructor} is a type-level annotation that is used to configure
@@ -51,23 +51,23 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.2, this annotation is only supported in conjunction
+ * <p>this annotation is only supported in conjunction
  * with the {@link TodayExtension
- * SpringExtension} for use with JUnit Jupiter. Note that the {@code SpringExtension} is
+ * TodayExtension} for use with JUnit Jupiter. Note that the {@code TodayExtension} is
  * often automatically registered for you &mdash; for example, when using annotations such as
- * {@link TodayJUnitConfig @SpringJUnitConfig} and
- * {@link TodayJUnitWebConfig @SpringJUnitWebConfig}
- * or various test-related annotations from Spring Boot Test.
+ * {@link TodayJUnitConfig @TodayJUnitConfig} and
+ * {@link TodayJUnitWebConfig @TodayJUnitWebConfig}
+ * or various test-related annotations from Boot Test.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
  * @author Sam Brannen
  * @see cn.taketoday.lang.Autowired @Autowired
- * @see TodayExtension SpringExtension
- * @see TodayJUnitConfig @SpringJUnitConfig
- * @see TodayJUnitWebConfig @SpringJUnitWebConfig
+ * @see TodayExtension TodayExtension
+ * @see TodayJUnitConfig @TodayJUnitConfig
+ * @see TodayJUnitWebConfig @TodayJUnitWebConfig
  * @see ContextConfiguration @ContextConfiguration
  * @see ContextHierarchy @ContextHierarchy
  * @see ActiveProfiles @ActiveProfiles
@@ -85,21 +85,20 @@ public @interface TestConstructor {
    * <p>Acceptable values include enum constants defined in {@link AutowireMode},
    * ignoring case. For example, the default may be changed to {@link AutowireMode#ALL}
    * by supplying the following JVM system property via the command line.
-   * <pre style="code">-Dspring.test.constructor.autowire.mode=all</pre>
+   * <pre style="code">-Dtoday.test.constructor.autowire.mode=all</pre>
    * <p>If the property is not set to {@code ALL}, parameters for test class
    * constructors will be autowired according to {@link AutowireMode#ANNOTATED}
    * semantics by default.
    * <p>May alternatively be configured via the
    * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
    * mechanism.
-   * <p>As of Spring Framework 5.3, this property may also be configured as a
+   * <p>this property may also be configured as a
    * <a href="https://junit.org/junit5/docs/current/user-guide/#running-tests-config-params">JUnit
    * Platform configuration parameter</a>.
    *
    * @see #autowireMode
    */
   String TEST_CONSTRUCTOR_AUTOWIRE_MODE_PROPERTY_NAME = "spring.test.constructor.autowire.mode";
-
 
   /**
    * Flag for setting the <em>test constructor {@linkplain AutowireMode autowire
@@ -115,7 +114,6 @@ public @interface TestConstructor {
    * @see AutowireMode#ANNOTATED
    */
   AutowireMode autowireMode();
-
 
   /**
    * Defines autowiring modes for parameters in a test constructor.
@@ -145,7 +143,6 @@ public @interface TestConstructor {
      * @see #ALL
      */
     ANNOTATED;
-
 
     /**
      * Get the {@code AutowireMode} enum constant with the supplied name,

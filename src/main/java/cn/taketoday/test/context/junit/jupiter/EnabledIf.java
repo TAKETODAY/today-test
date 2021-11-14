@@ -20,7 +20,6 @@
 
 package cn.taketoday.test.context.junit.jupiter;
 
-import cn.taketoday.core.annotation.AliasFor;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
@@ -28,6 +27,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.core.annotation.AliasFor;
 
 /**
  * {@code @EnabledIf} is used to signal that the annotated test class or test
@@ -83,9 +84,9 @@ public @interface EnabledIf {
    * <p>Expressions can be any of the following.
    *
    * <ul>
-   * <li>Spring Expression Language (SpEL) expression &mdash; for example:
+   * <li>Expression Language (EL) expression &mdash; for example:
    * <pre style="code">@EnabledIf("#{systemProperties['os.name'].toLowerCase().contains('mac')}")</pre>
-   * <li>Placeholder for a property available in the Spring
+   * <li>Placeholder for a property available in the
    * {@link cn.taketoday.core.env.Environment Environment} &mdash; for example:
    * <pre style="code">@EnabledIf("${smoke.tests.enabled}")</pre>
    * <li>Text literal &mdash; for example:

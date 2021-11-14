@@ -20,9 +20,9 @@
 
 package cn.taketoday.test.web.client;
 
-import cn.taketoday.http.client.ClientHttpRequest;
-
 import java.io.IOException;
+
+import cn.taketoday.http.client.ClientHttpRequest;
 
 /**
  * {@code RequestExpectationManager} that matches requests to expectations
@@ -33,7 +33,6 @@ import java.io.IOException;
 public class UnorderedRequestExpectationManager extends AbstractRequestExpectationManager {
 
   private final RequestExpectationGroup remainingExpectations = new RequestExpectationGroup();
-
 
   @Override
   protected void afterExpectationsDeclared() {

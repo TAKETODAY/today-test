@@ -20,14 +20,14 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.core.annotation.AliasFor;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.core.annotation.AliasFor;
 
 /**
  * {@code ActiveProfiles} is a class-level annotation that is used to declare
@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
@@ -62,7 +62,7 @@ public @interface ActiveProfiles {
    * {@link #profiles}, but it may be used <em>instead</em> of {@link #profiles}.
    */
   @AliasFor("profiles")
-  String[] value() default { };
+  String[] value() default {};
 
   /**
    * The bean definition profiles to activate.
@@ -70,7 +70,7 @@ public @interface ActiveProfiles {
    * {@link #value}, but it may be used <em>instead</em> of {@link #value}.
    */
   @AliasFor("value")
-  String[] profiles() default { };
+  String[] profiles() default {};
 
   /**
    * The type of {@link ActiveProfilesResolver} to use for resolving the active

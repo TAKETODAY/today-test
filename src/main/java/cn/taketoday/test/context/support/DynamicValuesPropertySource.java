@@ -20,11 +20,11 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.core.env.EnumerablePropertySource;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+
+import cn.taketoday.core.env.EnumerablePropertySource;
 
 /**
  * {@link EnumerablePropertySource} backed by a map with dynamically supplied
@@ -38,7 +38,6 @@ class DynamicValuesPropertySource extends EnumerablePropertySource<Map<String, S
   DynamicValuesPropertySource(String name, Map<String, Supplier<Object>> valueSuppliers) {
     super(name, valueSuppliers);
   }
-
 
   @Override
   public Object getProperty(String name) {

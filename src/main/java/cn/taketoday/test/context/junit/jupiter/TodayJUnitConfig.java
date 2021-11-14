@@ -20,10 +20,6 @@
 
 package cn.taketoday.test.context.junit.jupiter;
 
-import cn.taketoday.context.ApplicationContextInitializer;
-import cn.taketoday.core.annotation.AliasFor;
-import cn.taketoday.test.context.ContextConfiguration;
-import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
@@ -33,10 +29,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import cn.taketoday.context.ApplicationContextInitializer;
+import cn.taketoday.core.annotation.AliasFor;
+import cn.taketoday.test.context.ContextConfiguration;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
+
 /**
- * {@code @SpringJUnitConfig} is a <em>composed annotation</em> that combines
- * {@link ExtendWith @ExtendWith(SpringExtension.class)} from JUnit Jupiter with
- * {@link ContextConfiguration @ContextConfiguration} from the <em>Spring TestContext
+ * {@code @TodayJUnitConfig} is a <em>composed annotation</em> that combines
+ * {@link ExtendWith @ExtendWith(TodayExtension.class)} from JUnit Jupiter with
+ * {@link ContextConfiguration @ContextConfiguration} from the <em>TestContext
  * Framework</em>.
  *
  * @author Sam Brannen
@@ -57,25 +58,25 @@ public @interface TodayJUnitConfig {
    * Alias for {@link ContextConfiguration#classes}.
    */
   @AliasFor(annotation = ContextConfiguration.class, attribute = "classes")
-  Class<?>[] value() default { };
+  Class<?>[] value() default {};
 
   /**
    * Alias for {@link ContextConfiguration#classes}.
    */
   @AliasFor(annotation = ContextConfiguration.class)
-  Class<?>[] classes() default { };
+  Class<?>[] classes() default {};
 
   /**
    * Alias for {@link ContextConfiguration#locations}.
    */
   @AliasFor(annotation = ContextConfiguration.class)
-  String[] locations() default { };
+  String[] locations() default {};
 
   /**
    * Alias for {@link ContextConfiguration#initializers}.
    */
   @AliasFor(annotation = ContextConfiguration.class)
-  Class<? extends ApplicationContextInitializer<?>>[] initializers() default { };
+  Class<? extends ApplicationContextInitializer<?>>[] initializers() default {};
 
   /**
    * Alias for {@link ContextConfiguration#inheritLocations}.

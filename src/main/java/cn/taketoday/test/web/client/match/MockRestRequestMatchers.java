@@ -20,6 +20,14 @@
 
 package cn.taketoday.test.web.client.match;
 
+import org.hamcrest.Matcher;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.lang.Assert;
@@ -27,12 +35,6 @@ import cn.taketoday.test.web.client.MockRestServiceServer;
 import cn.taketoday.test.web.client.RequestMatcher;
 import cn.taketoday.util.MultiValueMap;
 import cn.taketoday.web.util.UriComponentsBuilder;
-import org.hamcrest.Matcher;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.net.URI;
-import java.util.List;
-import java.util.Map;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.fail;
@@ -199,7 +201,7 @@ public abstract class MockRestRequestMatchers {
       List<String> headerValues = request.getHeaders().get(name);
       if (headerValues != null) {
         fail("Expected header <" + name + "> not to exist, but it exists with values: " +
-                headerValues);
+                     headerValues);
       }
     };
   }

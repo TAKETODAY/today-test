@@ -20,12 +20,6 @@
 
 package cn.taketoday.test.web.client;
 
-import cn.taketoday.http.HttpMethod;
-import cn.taketoday.http.client.ClientHttpRequest;
-import cn.taketoday.http.client.ClientHttpResponse;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-
 import java.io.IOException;
 import java.net.URI;
 import java.time.Duration;
@@ -39,6 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import cn.taketoday.http.HttpMethod;
+import cn.taketoday.http.client.ClientHttpRequest;
+import cn.taketoday.http.client.ClientHttpResponse;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
 
 /**
  * Base class for {@code RequestExpectationManager} implementations responsible
@@ -59,7 +59,6 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
 
   private final Map<ClientHttpRequest, Throwable> requestFailures = new LinkedHashMap<>();
 
-
   /**
    * Return a read-only list of the expectations.
    */
@@ -73,7 +72,6 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
   protected List<ClientHttpRequest> getRequests() {
     return Collections.unmodifiableList(this.requests);
   }
-
 
   @Override
   public ResponseActions expectRequest(ExpectedCount count, RequestMatcher matcher) {
@@ -175,9 +173,9 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
     }
     if (!this.requestFailures.isEmpty()) {
       throw new AssertionError("Some requests did not execute successfully.\n" +
-              this.requestFailures.entrySet().stream()
-                      .map(entry -> "Failed request:\n" + entry.getKey() + "\n" + entry.getValue())
-                      .collect(Collectors.joining("\n", "\n", "")));
+                                       this.requestFailures.entrySet().stream()
+                                               .map(entry -> "Failed request:\n" + entry.getKey() + "\n" + entry.getValue())
+                                               .collect(Collectors.joining("\n", "\n", "")));
     }
     int count = 0;
     for (RequestExpectation expectation : this.expectations) {
@@ -223,7 +221,6 @@ public abstract class AbstractRequestExpectationManager implements RequestExpect
     this.requests.clear();
     this.requestFailures.clear();
   }
-
 
   /**
    * Helper class to manage a group of remaining expectations.

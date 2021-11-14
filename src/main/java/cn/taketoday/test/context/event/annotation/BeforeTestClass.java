@@ -20,13 +20,13 @@
 
 package cn.taketoday.test.context.event.annotation;
 
-import cn.taketoday.context.event.EventListener;
-import cn.taketoday.core.annotation.AliasFor;
-import cn.taketoday.test.context.event.BeforeTestClassEvent;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+
+import cn.taketoday.context.event.EventListener;
+import cn.taketoday.core.annotation.AliasFor;
+import cn.taketoday.test.context.event.BeforeTestClassEvent;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
@@ -39,7 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * EventPublishingTestExecutionListener}.
  *
  * <p>This annotation may be used on {@code @EventListener}-compliant methods within
- * a Spring test {@link cn.taketoday.context.ApplicationContext ApplicationContext}
+ * a  test {@link cn.taketoday.context.ApplicationContext ApplicationContext}
  * &mdash; for example, on methods in a
  * {@link cn.taketoday.lang.Configuration @Configuration}
  * class. A method annotated with this annotation will be invoked as part of the
@@ -47,7 +47,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * lifecycle.
  *
  * <p>Event processing can optionally be made {@linkplain #value conditional} via
- * a SpEL expression &mdash; for example,
+ * a EL expression &mdash; for example,
  * {@code @BeforeTestClass("event.testContext.testClass.name matches '.+IntegrationTests'")}.
  *
  * <p>The {@code EventPublishingTestExecutionListener} must be registered in order

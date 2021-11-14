@@ -20,16 +20,16 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.Serial;
+import java.time.DateTimeException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.StringUtils;
 import jakarta.servlet.http.Cookie;
-
-import java.io.Serial;
-import java.time.DateTimeException;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * Extension of {@code Cookie} with extra attributes, as defined in
@@ -44,13 +44,11 @@ public class MockCookie extends Cookie {
   @Serial
   private static final long serialVersionUID = 4312531139502726325L;
 
-
   @Nullable
   private ZonedDateTime expires;
 
   @Nullable
   private String sameSite;
-
 
   /**
    * Construct a new {@link MockCookie} with the supplied name and value.
@@ -102,7 +100,6 @@ public class MockCookie extends Cookie {
     return this.sameSite;
   }
 
-
   /**
    * Factory method that parses the value of the supplied "Set-Cookie" header.
    *
@@ -131,7 +128,7 @@ public class MockCookie extends Cookie {
       else if (StringUtils.startsWithIgnoreCase(attribute, "Expires")) {
         try {
           cookie.setExpires(ZonedDateTime.parse(extractAttributeValue(attribute, setCookieHeader),
-                  DateTimeFormatter.RFC_1123_DATE_TIME));
+                                                DateTimeFormatter.RFC_1123_DATE_TIME));
         }
         catch (DateTimeException ex) {
           // ignore invalid date formats
@@ -156,7 +153,7 @@ public class MockCookie extends Cookie {
   private static String extractAttributeValue(String attribute, String header) {
     String[] nameAndValue = attribute.split("=");
     Assert.isTrue(nameAndValue.length == 2,
-            () -> "No value in attribute '" + nameAndValue[0] + "' for Set-Cookie header '" + header + "'");
+                  () -> "No value in attribute '" + nameAndValue[0] + "' for Set-Cookie header '" + header + "'");
     return nameAndValue[1];
   }
 
@@ -174,7 +171,7 @@ public class MockCookie extends Cookie {
             .append("SameSite", this.sameSite)
             .append("Max-Age", getMaxAge())
             .append("Expires", (this.expires != null ?
-                    DateTimeFormatter.RFC_1123_DATE_TIME.format(this.expires) : null))
+                                DateTimeFormatter.RFC_1123_DATE_TIME.format(this.expires) : null))
             .toString();
   }
 

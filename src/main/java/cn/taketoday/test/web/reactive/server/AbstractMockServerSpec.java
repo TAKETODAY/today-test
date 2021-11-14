@@ -20,16 +20,16 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.CollectionUtils;
 import cn.taketoday.web.server.WebFilter;
 import cn.taketoday.web.server.adapter.WebHttpHandlerBuilder;
 import cn.taketoday.web.server.session.DefaultWebSessionManager;
 import cn.taketoday.web.server.session.WebSessionManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Base class for implementations of {@link WebTestClient.MockServerSpec}.
@@ -49,12 +49,10 @@ abstract class AbstractMockServerSpec<B extends WebTestClient.MockServerSpec<B>>
   @Nullable
   private List<MockServerConfigurer> configurers;
 
-
   AbstractMockServerSpec() {
     // Default instance to be re-used across requests, unless one is configured explicitly
     this.sessionManager = new DefaultWebSessionManager();
   }
-
 
   @Override
   public <T extends B> T webFilter(WebFilter... filters) {

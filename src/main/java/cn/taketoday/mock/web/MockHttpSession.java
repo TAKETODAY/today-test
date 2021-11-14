@@ -20,14 +20,6 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.StringUtils;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionBindingEvent;
-import jakarta.servlet.http.HttpSessionBindingListener;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -37,10 +29,18 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.StringUtils;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionBindingEvent;
+import jakarta.servlet.http.HttpSessionBindingListener;
+
 /**
  * Mock implementation of the {@link jakarta.servlet.http.HttpSession} interface.
  *
- * <p>As of Spring 5.0, this set of mocks is designed on a Servlet 4.0 baseline.
+ * <p>this set of mocks is designed on a Servlet 4.0 baseline.
  *
  * @author Juergen Hoeller
  * @author Rod Johnson
@@ -55,7 +55,6 @@ public class MockHttpSession implements HttpSession {
    * The session cookie name.
    */
   public static final String SESSION_COOKIE_NAME = "JSESSION";
-
 
   private static int nextId = 1;
 
@@ -74,7 +73,6 @@ public class MockHttpSession implements HttpSession {
   private boolean invalid = false;
 
   private boolean isNew = true;
-
 
   /**
    * Create a new MockHttpSession with a default {@link MockServletContext}.
@@ -104,7 +102,6 @@ public class MockHttpSession implements HttpSession {
     this.servletContext = (servletContext != null ? servletContext : new MockServletContext());
     this.id = (id != null ? id : Integer.toString(nextId++));
   }
-
 
   @Override
   public long getCreationTime() {

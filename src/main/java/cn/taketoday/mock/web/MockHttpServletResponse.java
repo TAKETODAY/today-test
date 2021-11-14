@@ -20,17 +20,6 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.MediaType;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.LinkedCaseInsensitiveMap;
-import cn.taketoday.util.StringUtils;
-import cn.taketoday.web.util.WebUtils;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -53,10 +42,21 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.http.MediaType;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.LinkedCaseInsensitiveMap;
+import cn.taketoday.util.StringUtils;
+import cn.taketoday.web.util.WebUtils;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
 /**
  * Mock implementation of the {@link jakarta.servlet.http.HttpServletResponse} interface.
  *
- * <p>As of Spring Framework 5.0, this set of mocks is designed on a Servlet 4.0 baseline.
+ * <p> this set of mocks is designed on a Servlet 4.0 baseline.
  *
  * @author Juergen Hoeller
  * @author Rod Johnson
@@ -72,7 +72,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
   private static final String DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
 
   private static final TimeZone GMT = TimeZone.getTimeZone("GMT");
-
 
   //---------------------------------------------------------------------
   // ServletResponse properties
@@ -111,7 +110,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
 
   private Locale locale = Locale.getDefault();
 
-
   //---------------------------------------------------------------------
   // HttpServletResponse properties
   //---------------------------------------------------------------------
@@ -125,7 +123,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
   @Nullable
   private String errorMessage;
 
-
   //---------------------------------------------------------------------
   // Properties for MockRequestDispatcher
   //---------------------------------------------------------------------
@@ -134,7 +131,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
   private String forwardedUrl;
 
   private final List<String> includedUrls = new ArrayList<>();
-
 
   //---------------------------------------------------------------------
   // ServletResponse interface
@@ -401,7 +397,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return this.locale;
   }
 
-
   //---------------------------------------------------------------------
   // HttpServletResponse interface
   //---------------------------------------------------------------------
@@ -490,7 +485,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
    * Return the primary value for the given header as a String, if any.
    * Will return the first value in case of multiple values.
    * <p>As of Servlet 3.0, this method is also defined in {@link HttpServletResponse}.
-   * As of Spring 3.1, it returns a stringified value for Servlet 3.0 compatibility.
+   * it returns a stringified value for Servlet 3.0 compatibility.
    * Consider using {@link #getHeaderValue(String)} for raw Object access.
    *
    * @param name the name of the header
@@ -506,7 +501,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
   /**
    * Return all values for the given header as a List of Strings.
    * <p>As of Servlet 3.0, this method is also defined in {@link HttpServletResponse}.
-   * As of Spring 3.1, it returns a List of stringified values for Servlet 3.0 compatibility.
+   * it returns a List of stringified values for Servlet 3.0 compatibility.
    * Consider using {@link #getHeaderValues(String)} for raw Object access.
    *
    * @param name the name of the header
@@ -698,7 +693,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
     }
     else if (HttpHeaders.CONTENT_LENGTH.equalsIgnoreCase(name)) {
       setContentLength(value instanceof Number ? ((Number) value).intValue() :
-              Integer.parseInt(value.toString()));
+                       Integer.parseInt(value.toString()));
       return true;
     }
     else if (HttpHeaders.CONTENT_LANGUAGE.equalsIgnoreCase(name)) {
@@ -779,7 +774,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
     return this.errorMessage;
   }
 
-
   //---------------------------------------------------------------------
   // Methods for MockRequestDispatcher
   //---------------------------------------------------------------------
@@ -804,7 +798,7 @@ public class MockHttpServletResponse implements HttpServletResponse {
   public String getIncludedUrl() {
     int count = this.includedUrls.size();
     Assert.state(count <= 1,
-            () -> "More than 1 URL included - check getIncludedUrls instead: " + this.includedUrls);
+                 () -> "More than 1 URL included - check getIncludedUrls instead: " + this.includedUrls);
     return (count == 1 ? this.includedUrls.get(0) : null);
   }
 
@@ -816,7 +810,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
   public List<String> getIncludedUrls() {
     return this.includedUrls;
   }
-
 
   /**
    * Inner class that adapts the ServletOutputStream to mark the
@@ -841,7 +834,6 @@ public class MockHttpServletResponse implements HttpServletResponse {
       setCommitted(true);
     }
   }
-
 
   /**
    * Inner class that adapts the PrintWriter to mark the

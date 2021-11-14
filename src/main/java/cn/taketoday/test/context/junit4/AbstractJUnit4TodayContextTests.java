@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.context.junit4;
 
+import org.junit.runner.RunWith;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.aware.ApplicationContextAware;
 import cn.taketoday.lang.Nullable;
@@ -37,10 +39,9 @@ import cn.taketoday.test.context.support.DependencyInjectionTestExecutionListene
 import cn.taketoday.test.context.support.DirtiesContextBeforeModesTestExecutionListener;
 import cn.taketoday.test.context.support.DirtiesContextTestExecutionListener;
 import cn.taketoday.test.context.web.ServletTestExecutionListener;
-import org.junit.runner.RunWith;
 
 /**
- * Abstract base test class which integrates the <em>Spring TestContext
+ * Abstract base test class which integrates the <em>TestContext
  * Framework</em> with explicit {@link ApplicationContext} testing support
  * in a <strong>JUnit 4</strong> environment.
  *
@@ -68,14 +69,14 @@ import org.junit.runner.RunWith;
  *
  * <p>This class serves only as a convenience for extension.
  * <ul>
- * <li>If you do not wish for your test classes to be tied to a Spring-specific
+ * <li>If you do not wish for your test classes to be tied to a Today-specific
  * class hierarchy, you may configure your own custom test classes by using
- * {@link SpringRunner}, {@link ContextConfiguration @ContextConfiguration},
+ * {@link TodayRunner}, {@link ContextConfiguration @ContextConfiguration},
  * {@link TestExecutionListeners @TestExecutionListeners}, etc.</li>
  * <li>If you wish to extend this class and use a runner other than the
- * {@link SpringRunner}, you can use
- * {@link TodayClassRule SpringClassRule} and
- * {@link TodayMethodRule SpringMethodRule}
+ * {@link TodayRunner}, you can use
+ * {@link TodayClassRule TodayClassRule} and
+ * {@link TodayMethodRule TodayMethodRule}
  * and specify your runner of choice via {@link RunWith @RunWith(...)}.</li>
  * </ul>
  *
@@ -92,13 +93,13 @@ import org.junit.runner.RunWith;
  * @see DependencyInjectionTestExecutionListener
  * @see DirtiesContextTestExecutionListener
  * @see EventPublishingTestExecutionListener
- * @see cn.taketoday.test.context.testng.AbstractTestNGSpringContextTests
+ * @see cn.taketoday.test.context.testng.AbstractTestNGTodayContextTests
  */
-@RunWith(SpringRunner.class)
+@RunWith(TodayRunner.class)
 @TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
         ApplicationEventsTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class, EventPublishingTestExecutionListener.class })
-public abstract class AbstractJUnit4SpringContextTests implements ApplicationContextAware {
+public abstract class AbstractJUnit4TodayContextTests implements ApplicationContextAware {
 
   /**
    * Logger available to subclasses.
@@ -111,7 +112,6 @@ public abstract class AbstractJUnit4SpringContextTests implements ApplicationCon
    */
   @Nullable
   protected ApplicationContext applicationContext;
-
 
   /**
    * Set the {@link ApplicationContext} to be used by this test instance,

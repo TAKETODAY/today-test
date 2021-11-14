@@ -20,22 +20,6 @@
 
 package cn.taketoday.test.context.junit.jupiter;
 
-import cn.taketoday.context.ApplicationContext;
-import cn.taketoday.core.annotation.MergedAnnotations;
-import cn.taketoday.core.annotation.MergedAnnotations.SearchStrategy;
-import cn.taketoday.core.annotation.RepeatableContainers;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Autowired;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.lang.ParameterResolutionDelegate;
-import cn.taketoday.test.context.TestConstructor;
-import cn.taketoday.test.context.TestContextManager;
-import cn.taketoday.test.context.event.ApplicationEvents;
-import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
-import cn.taketoday.test.context.support.PropertyProvider;
-import cn.taketoday.test.context.support.TestConstructorUtils;
-import cn.taketoday.util.ReflectionUtils;
-import cn.taketoday.util.ReflectionUtils.MethodFilter;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,14 +46,32 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import cn.taketoday.beans.ArgumentsResolver;
+import cn.taketoday.context.ApplicationContext;
+import cn.taketoday.core.annotation.MergedAnnotations;
+import cn.taketoday.core.annotation.MergedAnnotations.SearchStrategy;
+import cn.taketoday.core.annotation.RepeatableContainers;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Autowired;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.context.TestConstructor;
+import cn.taketoday.test.context.TestContextManager;
+import cn.taketoday.test.context.event.ApplicationEvents;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
+import cn.taketoday.test.context.support.PropertyProvider;
+import cn.taketoday.test.context.support.TestConstructorUtils;
+import cn.taketoday.util.ReflectionUtils;
+import cn.taketoday.util.ReflectionUtils.MethodFilter;
 
 /**
- * {@code SpringExtension} integrates the <em>Spring TestContext Framework</em>
+ * {@code TodayExtension} integrates the <em>TestContext Framework</em>
  * into JUnit 5's <em>Jupiter</em> programming model.
  *
  * <p>To use this extension, simply annotate a JUnit Jupiter based test class with
- * {@code @ExtendWith(SpringExtension.class)}, {@code @SpringJUnitConfig}, or
- * {@code @SpringJUnitWebConfig}.
+ * {@code @ExtendWith(TodayExtension.class)}, {@code @TodayJUnitConfig}, or
+ * {@code @TodayJUnitWebConfig}.
  *
  * @author Sam Brannen
  * @see cn.taketoday.test.context.junit.jupiter.EnabledIf
@@ -78,8 +80,9 @@ import java.util.List;
  * @see TodayJUnitWebConfig
  * @see cn.taketoday.test.context.TestContextManager
  */
-public class TodayExtension implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor,
-        BeforeEachCallback, AfterEachCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
+public class TodayExtension
+        implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor, BeforeEachCallback,
+                   AfterEachCallback, BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
 
   /**
    * {@link Namespace} in which {@code TestContextManagers} are stored, keyed
@@ -129,7 +132,7 @@ public class TodayExtension implements BeforeAllCallback, AfterAllCallback, Test
 
   /**
    * Delegates to {@link TestContextManager#prepareTestInstance}.
-   * <p>As of Spring Framework 5.3.2, this method also validates that test
+   * <p>this method also validates that test
    * methods and test lifecycle methods are not annotated with
    * {@link Autowired @Autowired}.
    */
@@ -159,7 +162,7 @@ public class TodayExtension implements BeforeAllCallback, AfterAllCallback, Test
                       testClass.getName(), Arrays.toString(methodsWithErrors)));
     }, String.class);
 
-    if (errorMessage != NO_AUTOWIRED_VIOLATIONS_DETECTED) {
+    if (!Objects.equals(errorMessage, NO_AUTOWIRED_VIOLATIONS_DETECTED)) {
       throw new IllegalStateException(errorMessage);
     }
   }
@@ -220,17 +223,15 @@ public class TodayExtension implements BeforeAllCallback, AfterAllCallback, Test
    * to {@link ExtensionContext#getConfigurationParameter(String)}.</li>
    * <li>The parameter is of type {@link ApplicationContext} or a sub-type thereof.</li>
    * <li>The parameter is of type {@link ApplicationEvents} or a sub-type thereof.</li>
-   * <li>{@link ParameterResolutionDelegate#isAutowirable} returns {@code true}.</li>
    * </ol>
    * <p><strong>WARNING</strong>: If a test class {@code Constructor} is annotated
    * with {@code @Autowired} or automatically autowirable (see {@link TestConstructor}),
-   * Spring will assume the responsibility for resolving all parameters in the
+   *  will assume the responsibility for resolving all parameters in the
    * constructor. Consequently, no other registered {@link ParameterResolver}
    * will be able to resolve parameters.
    *
    * @see #resolveParameter
    * @see TestConstructorUtils#isAutowirableConstructor(Constructor, Class)
-   * @see ParameterResolutionDelegate#isAutowirable
    */
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
@@ -239,16 +240,16 @@ public class TodayExtension implements BeforeAllCallback, AfterAllCallback, Test
     Class<?> testClass = extensionContext.getRequiredTestClass();
     PropertyProvider junitPropertyProvider = propertyName ->
             extensionContext.getConfigurationParameter(propertyName).orElse(null);
-    return (TestConstructorUtils.isAutowirableConstructor(executable, testClass, junitPropertyProvider) ||
-            ApplicationContext.class.isAssignableFrom(parameter.getType()) ||
-            supportsApplicationEvents(parameterContext) ||
-            ParameterResolutionDelegate.isAutowirable(parameter, parameterContext.getIndex()));
+
+    return TestConstructorUtils.isAutowirableConstructor(executable, testClass, junitPropertyProvider)
+            || ApplicationContext.class.isAssignableFrom(parameter.getType())
+            || supportsApplicationEvents(parameterContext);
   }
 
   private boolean supportsApplicationEvents(ParameterContext parameterContext) {
     if (ApplicationEvents.class.isAssignableFrom(parameterContext.getParameter().getType())) {
       Assert.isTrue(parameterContext.getDeclaringExecutable() instanceof Method,
-              "ApplicationEvents can only be injected into test and lifecycle methods");
+                    "ApplicationEvents can only be injected into test and lifecycle methods");
       return true;
     }
     return false;
@@ -257,22 +258,17 @@ public class TodayExtension implements BeforeAllCallback, AfterAllCallback, Test
   /**
    * Resolve a value for the {@link Parameter} in the supplied {@link ParameterContext} by
    * retrieving the corresponding dependency from the test's {@link ApplicationContext}.
-   * <p>Delegates to {@link ParameterResolutionDelegate#resolveDependency}.
    *
    * @see #supportsParameter
-   * @see ParameterResolutionDelegate#resolveDependency
    */
   @Override
   @Nullable
   public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
     Parameter parameter = parameterContext.getParameter();
-    int index = parameterContext.getIndex();
-    Class<?> testClass = extensionContext.getRequiredTestClass();
     ApplicationContext applicationContext = getApplicationContext(extensionContext);
-    return ParameterResolutionDelegate.resolveDependency(parameter, index, testClass,
-            applicationContext.getAutowireCapableBeanFactory());
+    ArgumentsResolver argumentsResolver = applicationContext.getArgumentsResolver();
+    return argumentsResolver.resolve(parameter, applicationContext, null);
   }
-
 
   /**
    * Get the {@link ApplicationContext} associated with the supplied {@code ExtensionContext}.

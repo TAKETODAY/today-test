@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.logging.Logger;
@@ -27,17 +32,12 @@ import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.ContextConfiguration;
 import cn.taketoday.test.context.ContextConfigurationAttributes;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Utility methods for working with
  * {@link ApplicationContextInitializer ApplicationContextInitializers}.
  *
  * <p>Although {@code ApplicationContextInitializerUtils} was first introduced
- * in Spring Framework 4.1, the initial implementations of methods in this class
+ * in the initial implementations of methods in this class
  * were based on the existing code base in {@code ContextLoaderUtils}.
  *
  * @author Sam Brannen
@@ -46,7 +46,6 @@ import java.util.Set;
 abstract class ApplicationContextInitializerUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(ApplicationContextInitializerUtils.class);
-
 
   /**
    * Resolve the set of merged {@code ApplicationContextInitializer} classes for the

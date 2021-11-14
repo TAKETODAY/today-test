@@ -20,14 +20,14 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.CollectionUtils;
 
 /**
  * Internal helper class that serves as a value holder for request headers.
@@ -38,7 +38,6 @@ import java.util.List;
 class HeaderValueHolder {
 
   private final List<Object> values = new LinkedList<>();
-
 
   void setValue(@Nullable Object value) {
     this.values.clear();

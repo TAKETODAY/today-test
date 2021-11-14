@@ -20,6 +20,13 @@
 
 package cn.taketoday.mock.http.client.reactive;
 
+import org.reactivestreams.Publisher;
+
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DataBufferUtils;
 import cn.taketoday.core.io.buffer.DefaultDataBufferFactory;
@@ -31,14 +38,8 @@ import cn.taketoday.http.client.reactive.ClientHttpResponse;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.util.DefaultMultiValueMap;
 import cn.taketoday.util.MultiValueMap;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 
 /**
  * Mock implementation of {@link ClientHttpResponse}.
@@ -56,7 +57,6 @@ public class MockClientHttpResponse implements ClientHttpResponse {
 
   private Flux<DataBuffer> body = Flux.empty();
 
-
   public MockClientHttpResponse(HttpStatus status) {
     Assert.notNull(status, "HttpStatus is required");
     this.status = status.value();
@@ -66,7 +66,6 @@ public class MockClientHttpResponse implements ClientHttpResponse {
     Assert.isTrue(status > 99 && status < 1000, "Status must be between 100 and 999");
     this.status = status;
   }
-
 
   @Override
   public HttpStatus getStatusCode() {
@@ -138,7 +137,6 @@ public class MockClientHttpResponse implements ClientHttpResponse {
     }
     return (charset != null ? charset : StandardCharsets.UTF_8);
   }
-
 
   @Override
   public String toString() {

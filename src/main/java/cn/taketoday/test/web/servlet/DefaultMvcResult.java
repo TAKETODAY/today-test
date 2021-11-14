@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletRequest;
@@ -28,10 +32,6 @@ import cn.taketoday.web.servlet.FlashMap;
 import cn.taketoday.web.servlet.HandlerInterceptor;
 import cn.taketoday.web.servlet.ModelAndView;
 import cn.taketoday.web.servlet.support.RequestContextUtils;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A simple implementation of {@link MvcResult} with setters.
@@ -42,7 +42,6 @@ import java.util.concurrent.atomic.AtomicReference;
 class DefaultMvcResult implements MvcResult {
 
   private static final Object RESULT_NONE = new Object();
-
 
   private final MockHttpServletRequest mockRequest;
 
@@ -65,7 +64,6 @@ class DefaultMvcResult implements MvcResult {
   @Nullable
   private CountDownLatch asyncDispatchLatch;
 
-
   /**
    * Create a new instance with the given request and response.
    */
@@ -73,7 +71,6 @@ class DefaultMvcResult implements MvcResult {
     this.mockRequest = request;
     this.mockResponse = response;
   }
-
 
   @Override
   public MockHttpServletRequest getRequest() {
@@ -147,7 +144,7 @@ class DefaultMvcResult implements MvcResult {
     }
     if (!awaitAsyncDispatch(timeToWait)) {
       throw new IllegalStateException("Async result for handler [" + this.handler + "]" +
-              " was not set during the specified timeToWait=" + timeToWait);
+                                              " was not set during the specified timeToWait=" + timeToWait);
     }
     Object result = this.asyncResult.get();
     Assert.state(result != RESULT_NONE, () -> "Async result for handler [" + this.handler + "] was not set");
@@ -159,7 +156,7 @@ class DefaultMvcResult implements MvcResult {
    */
   private boolean awaitAsyncDispatch(long timeout) {
     Assert.state(this.asyncDispatchLatch != null,
-            "The asyncDispatch CountDownLatch was not set by the TestDispatcherServlet.");
+                 "The asyncDispatch CountDownLatch was not set by the TestDispatcherServlet.");
     try {
       return this.asyncDispatchLatch.await(timeout, TimeUnit.MILLISECONDS);
     }

@@ -43,7 +43,6 @@ public final class UrlRegexRequestMatcher implements WebRequestMatcher {
 
   private final Pattern pattern;
 
-
   public UrlRegexRequestMatcher(String regex) {
     this.pattern = Pattern.compile(regex);
   }
@@ -51,7 +50,6 @@ public final class UrlRegexRequestMatcher implements WebRequestMatcher {
   public UrlRegexRequestMatcher(Pattern pattern) {
     this.pattern = pattern;
   }
-
 
   @Override
   public boolean matches(WebRequest request) {

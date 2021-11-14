@@ -25,8 +25,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * {@code EnabledIfCondition} is an {@link org.junit.jupiter.api.extension.ExecutionCondition}
- * that supports the {@link EnabledIf @EnabledIf} annotation when using the <em>Spring
- * TestContext Framework</em> in conjunction with JUnit 5's <em>Jupiter</em> programming model.
+ * that supports the {@link EnabledIf @EnabledIf} annotation when using the <em> * TestContext Framework</em> in conjunction with JUnit 5's <em>Jupiter</em> programming model.
  *
  * <p>Any attempt to use the {@code EnabledIfCondition} without the presence of
  * {@link EnabledIf @EnabledIf} will result in an <em>enabled</em>
@@ -47,7 +46,7 @@ public class EnabledIfCondition extends AbstractExpressionEvaluatingCondition {
   @Override
   public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
     return evaluateAnnotation(EnabledIf.class, EnabledIf::expression, EnabledIf::reason,
-            EnabledIf::loadContext, true, context);
+                              EnabledIf::loadContext, true, context);
   }
 
 }

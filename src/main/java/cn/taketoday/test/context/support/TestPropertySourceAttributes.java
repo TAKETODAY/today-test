@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import cn.taketoday.core.annotation.MergedAnnotation;
 import cn.taketoday.core.io.ClassPathResource;
 import cn.taketoday.core.log.LogMessage;
@@ -33,10 +37,6 @@ import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.ResourceUtils;
 import cn.taketoday.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * {@code TestPropertySourceAttributes} encapsulates attributes declared
@@ -54,7 +54,6 @@ class TestPropertySourceAttributes {
 
   private static final Logger logger = LoggerFactory.getLogger(TestPropertySourceAttributes.class);
 
-
   private final Class<?> declaringClass;
 
   private final MergedAnnotation<?> rootAnnotation;
@@ -66,7 +65,6 @@ class TestPropertySourceAttributes {
   private final List<String> properties = new ArrayList<>();
 
   private final boolean inheritProperties;
-
 
   TestPropertySourceAttributes(MergedAnnotation<TestPropertySource> annotation) {
     this.declaringClass = declaringClass(annotation);
@@ -86,15 +84,15 @@ class TestPropertySourceAttributes {
    */
   void mergeWith(TestPropertySourceAttributes attributes) {
     Assert.state(attributes.declaringClass == this.declaringClass,
-            () -> "Detected @TestPropertySource declarations within an aggregate index "
-                    + "with different sources: " + this.declaringClass.getName() + " and "
-                    + attributes.declaringClass.getName());
+                 () -> "Detected @TestPropertySource declarations within an aggregate index "
+                         + "with different sources: " + this.declaringClass.getName() + " and "
+                         + attributes.declaringClass.getName());
     logger.trace(LogMessage.format("Retrieved %s for declaring class [%s].",
-            attributes, this.declaringClass.getName()));
+                                   attributes, this.declaringClass.getName()));
     assertSameBooleanAttribute(this.inheritLocations, attributes.inheritLocations,
-            "inheritLocations", attributes);
+                               "inheritLocations", attributes);
     assertSameBooleanAttribute(this.inheritProperties, attributes.inheritProperties,
-            "inheritProperties", attributes);
+                               "inheritProperties", attributes);
     mergePropertiesAndLocationsFrom(attributes);
   }
 
@@ -117,7 +115,7 @@ class TestPropertySourceAttributes {
 
   private void mergePropertiesAndLocationsFrom(TestPropertySourceAttributes attributes) {
     addPropertiesAndLocations(attributes.getLocations(), attributes.getProperties(),
-            attributes.getDeclaringClass(), true);
+                              attributes.getDeclaringClass(), true);
   }
 
   private void addPropertiesAndLocations(String[] locations, String[] properties,
@@ -161,7 +159,7 @@ class TestPropertySourceAttributes {
     String prefixedResourcePath = ResourceUtils.CLASSPATH_URL_PREFIX + resourcePath;
     if (logger.isInfoEnabled()) {
       logger.info(String.format("Detected default properties file \"%s\" for test class [%s]",
-              prefixedResourcePath, testClass.getName()));
+                                prefixedResourcePath, testClass.getName()));
     }
     return prefixedResourcePath;
   }

@@ -20,17 +20,19 @@
 
 package cn.taketoday.test.util;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.ClassUtils;
-import cn.taketoday.util.ObjectUtils;
 import com.jayway.jsonpath.JsonPath;
+
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 
 import java.util.List;
 import java.util.Map;
+
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.ClassUtils;
+import cn.taketoday.util.ObjectUtils;
 
 /**
  * A helper class for applying assertions via JSON path expressions.
@@ -49,7 +51,6 @@ public class JsonPathExpectationsHelper {
 
   private final JsonPath jsonPath;
 
-
   /**
    * Construct a new {@code JsonPathExpectationsHelper}.
    *
@@ -62,7 +63,6 @@ public class JsonPathExpectationsHelper {
     this.expression = String.format(expression, args);
     this.jsonPath = JsonPath.compile(this.expression);
   }
-
 
   /**
    * Evaluate the JSON path expression against the supplied {@code content}
@@ -108,7 +108,7 @@ public class JsonPathExpectationsHelper {
       }
       if (actualValueList.size() != 1) {
         AssertionErrors.fail("Got a list of values " + actualValue +
-                " instead of the expected single value " + expectedValue);
+                                     " instead of the expected single value " + expectedValue);
       }
       actualValue = actualValueList.get(0);
     }
@@ -297,7 +297,7 @@ public class JsonPathExpectationsHelper {
 
   private String failureReason(String expectedDescription, @Nullable Object value) {
     return String.format("Expected %s at JSON path \"%s\" but found: '%s'", expectedDescription, this.expression,
-            ObjectUtils.nullSafeToString(value));
+                         ObjectUtils.nullSafeToString(value));
   }
 
   /**

@@ -20,11 +20,11 @@
 
 package cn.taketoday.test.web.client;
 
-import cn.taketoday.http.client.ClientHttpRequest;
-import cn.taketoday.http.client.ClientHttpResponse;
-
 import java.io.IOException;
 import java.time.Duration;
+
+import cn.taketoday.http.client.ClientHttpRequest;
+import cn.taketoday.http.client.ClientHttpResponse;
 
 /**
  * Encapsulates the behavior required to implement {@link MockRestServiceServer}
@@ -80,7 +80,6 @@ public interface RequestExpectationManager {
    * @see MockRestServiceServer#reset()
    */
   void reset();
-
 
   /**
    * Validate the given actual request against the declared expectations.

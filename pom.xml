@@ -1,227 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-				 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>cn.taketoday</groupId>
-	<artifactId>today-test</artifactId>
-	<version>1.0-SNAPSHOT</version>
+  <groupId>cn.taketoday</groupId>
+  <artifactId>today-test</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
-	<description>TODAY Framework Test Tools</description>
+  <description>TODAY Framework Test Tools</description>
 
-	<properties>
-		<!--    <skipTests>true</skipTests>-->
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <properties>
+    <!--    <skipTests>true</skipTests>-->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.compilerVersion>17</maven.compiler.compilerVersion>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<servlet.version>5.0.0</servlet.version>
-		<junit.version>4.13.2</junit.version>
-		<junit5.version>5.8.1</junit5.version>
-		<mockito.version>3.12.4</mockito.version>
-		<lombok.version>1.18.22</lombok.version>
-		<assertj.version>3.20.2</assertj.version>
+    <servlet.version>5.0.0</servlet.version>
+    <junit.version>4.13.2</junit.version>
+    <junit5.version>5.8.1</junit5.version>
+    <mockito.version>3.12.4</mockito.version>
+    <lombok.version>1.18.22</lombok.version>
+    <assertj.version>3.20.2</assertj.version>
     <embed.tomcat.version>10.0.12</embed.tomcat.version>
 
-	</properties>
+  </properties>
 
-	<licenses>
-		<license>
-			<name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
-			<url>https://www.gnu.org/licenses/gpl.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-
-	<url>https://github.com/TAKETODAY/today-test</url>
-	<organization>
-		<name>TODAY</name>
-		<url>https://taketoday.cn</url>
-	</organization>
-
-	<developers>
-		<developer>
-			<name>TODAY</name>
-			<url>https://taketoday.cn</url>
-			<email>taketoday@foxmail.com</email>
-		</developer>
-	</developers>
-
-	<scm>
-		<url>https://github.com/TAKETODAY/today-test.git</url>
-		<developerConnection>TODAY</developerConnection>
-		<tag>test</tag>
-	</scm>
-
-	<issueManagement>
-		<system>Github Issues</system>
-		<url>https://github.com/TAKETODAY/today-test/issues</url>
-	</issueManagement>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>cn.taketoday</groupId>
-			<artifactId>today-framework</artifactId>
-			<version>4.0.0-Draft.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
-			<scope>provided</scope>
-		</dependency>
+  <licenses>
+    <license>
+      <name>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</name>
+      <url>https://www.gnu.org/licenses/gpl.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
 
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>${assertj.version}</version>
-		</dependency>
+  <url>https://github.com/TAKETODAY/today-test</url>
+  <organization>
+    <name>TODAY</name>
+    <url>https://taketoday.cn</url>
+  </organization>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-		</dependency>
+  <developers>
+    <developer>
+      <name>TODAY</name>
+      <url>https://taketoday.cn</url>
+      <email>taketoday@foxmail.com</email>
+    </developer>
+  </developers>
 
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.8.1</version>
-		</dependency>
+  <scm>
+    <url>https://github.com/TAKETODAY/today-test.git</url>
+    <developerConnection>TODAY</developerConnection>
+    <tag>test</tag>
+  </scm>
 
-		<!--JUnit Jupiter Engine to depend on the JUnit5 engine and JUnit 5 API -->
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>${junit5.version}</version>
-		</dependency>
-		<!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
-		<dependency>
-			<groupId>org.junit.vintage</groupId>
-			<artifactId>junit-vintage-engine</artifactId>
-			<version>${junit5.version}</version>
-		</dependency>
+  <issueManagement>
+    <system>Github Issues</system>
+    <url>https://github.com/TAKETODAY/today-test/issues</url>
+  </issueManagement>
 
+  <dependencies>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-		</dependency>
+    <dependency>
+      <groupId>cn.taketoday</groupId>
+      <artifactId>today-framework</artifactId>
+      <version>4.0.0-Draft.1</version>
+    </dependency>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-junit-jupiter</artifactId>
-			<version>${mockito.version}</version>
-		</dependency>
-		<!--
-				======================================================
-						 jakarta
-				======================================================
-		-->
-
-		<dependency>
-			<groupId>jakarta.servlet</groupId>
-			<artifactId>jakarta.servlet-api</artifactId>
-			<version>${servlet.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.servlet.jsp.jstl</groupId>
-			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-			<version>2.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.servlet.jsp</groupId>
-			<artifactId>jakarta.servlet.jsp-api</artifactId>
-			<version>3.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.json.bind</groupId>
-			<artifactId>jakarta.json.bind-api</artifactId>
-			<version>2.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.annotation</groupId>
-			<artifactId>jakarta.annotation-api</artifactId>
-			<version>2.0.0</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.inject</groupId>
-			<artifactId>jakarta.inject-api</artifactId>
-			<version>2.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jakarta.websocket</groupId>
-			<artifactId>jakarta.websocket-api</artifactId>
-			<version>2.0.0</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
 
 
-		<!--
-				======================================================
-						 reactive
-				======================================================
-		-->
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-core</artifactId>
-			<version>3.4.11</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+    </dependency>
 
-		<dependency>
-			<groupId>io.projectreactor.tools</groupId>
-			<artifactId>blockhound</artifactId>
-			<version>1.0.6.RELEASE</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+    </dependency>
 
-		<dependency>
-			<groupId>io.reactivex.rxjava3</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>3.1.2</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.1</version>
+    </dependency>
 
-		<dependency>
-			<groupId>io.smallrye.reactive</groupId>
-			<artifactId>mutiny</artifactId>
-			<version>1.1.2</version>
-			<scope>provided</scope>
-		</dependency>
+    <!--JUnit Jupiter Engine to depend on the JUnit5 engine and JUnit 5 API -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
+    <!--JUnit Jupiter Engine to depend on the JUnit4 engine and JUnit 4 API  -->
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit5.version}</version>
+    </dependency>
 
-		<dependency>
-			<groupId>com.jayway.jsonpath</groupId>
-			<artifactId>json-path</artifactId>
-			<version>2.6.0</version>
-		</dependency>
 
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.54.0</version>
-		</dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+    </dependency>
 
-		    <dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <version>${mockito.version}</version>
+    </dependency>
+    <!--
+            ======================================================
+                     jakarta
+            ======================================================
+    -->
+
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>${servlet.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet.jsp</groupId>
+      <artifactId>jakarta.servlet.jsp-api</artifactId>
+      <version>3.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.json.bind</groupId>
+      <artifactId>jakarta.json.bind-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.annotation</groupId>
+      <artifactId>jakarta.annotation-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.inject</groupId>
+      <artifactId>jakarta.inject-api</artifactId>
+      <version>2.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.websocket</groupId>
+      <artifactId>jakarta.websocket-api</artifactId>
+      <version>2.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <!--
+            ======================================================
+                     reactive
+            ======================================================
+    -->
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-core</artifactId>
+      <version>3.4.11</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.projectreactor.tools</groupId>
+      <artifactId>blockhound</artifactId>
+      <version>1.0.6.RELEASE</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.reactivex.rxjava3</groupId>
+      <artifactId>rxjava</artifactId>
+      <version>3.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.smallrye.reactive</groupId>
+      <artifactId>mutiny</artifactId>
+      <version>1.1.2</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sourceforge.htmlunit</groupId>
+      <artifactId>htmlunit</artifactId>
+      <version>2.54.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-core</artifactId>
       <version>${embed.tomcat.version}</version>
@@ -233,278 +232,203 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.4.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.skyscreamer</groupId>
+      <artifactId>jsonassert</artifactId>
+      <version>1.5.0</version>
+      <scope>compile</scope>
+    </dependency>
 
-	</dependencies>
+    <dependency>
+      <groupId>org.xmlunit</groupId>
+      <artifactId>xmlunit-core</artifactId>
+      <version>2.8.3</version>
+      <scope>compile</scope>
+    </dependency>
 
-	<build>
-		<defaultGoal>compile</defaultGoal>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
-				<configuration>
-					<source>17</source>
-					<target>17</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
+  </dependencies>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.2.1</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.3.0</version>
-				<configuration>
-					<charset>UTF-8</charset>
-					<encoding>UTF-8</encoding>
-					<docencoding>UTF-8</docencoding>
-					<failOnError>false</failOnError>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+  <build>
+    <defaultGoal>compile</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
 
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
-				<dependencies>
-					<!-- to let surefire to run JUnit 4 but also JUnit 5 tests -->
-					<dependency>
-						<groupId>org.junit.platform</groupId>
-						<artifactId>junit-platform-surefire-provider</artifactId>
-						<version>1.3.2</version>
-					</dependency>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <charset>UTF-8</charset>
+          <encoding>UTF-8</encoding>
+          <docencoding>UTF-8</docencoding>
+          <failOnError>false</failOnError>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
 
-					<!-- JUnit vintage engine to run JUnit 3 or JUnit 4 tests -->
-					<dependency>
-						<groupId>org.junit.vintage</groupId>
-						<artifactId>junit-vintage-engine</artifactId>
-						<version>${junit5.version}</version>
-					</dependency>
-					<!-- JUnit 5 engine to run JUnit 5 tests -->
-					<dependency>
-						<groupId>org.junit.jupiter</groupId>
-						<artifactId>junit-jupiter-engine</artifactId>
-						<version>${junit5.version}</version>
-					</dependency>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+        <dependencies>
+          <!-- to let surefire to run JUnit 4 but also JUnit 5 tests -->
+          <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-surefire-provider</artifactId>
+            <version>1.3.2</version>
+          </dependency>
 
-				</dependencies>
-			</plugin>
+          <!-- JUnit vintage engine to run JUnit 3 or JUnit 4 tests -->
+          <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit5.version}</version>
+          </dependency>
+          <!-- JUnit 5 engine to run JUnit 5 tests -->
+          <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+          </dependency>
 
-		</plugins>
-	</build>
+        </dependencies>
+      </plugin>
 
-	<profiles>
-		<profile>
-			<id>docs</id>
-			<properties>
-				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-			</properties>
+    </plugins>
+  </build>
 
-			<build>
-				<plugins>
+  <profiles>
+    <profile>
+      <id>docs</id>
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      </properties>
 
-					<plugin>
-						<groupId>org.asciidoctor</groupId>
-						<artifactId>asciidoctor-maven-plugin</artifactId>
-						<version>2.2.1</version>
-						<dependencies>
-							<dependency>
-								<groupId>org.jruby</groupId>
-								<artifactId>jruby-complete</artifactId>
-								<version>${jruby.version}</version>
-							</dependency>
-							<dependency>
-								<groupId>org.asciidoctor</groupId>
-								<artifactId>asciidoctorj</artifactId>
-								<version>${asciidoctorj.version}</version>
-							</dependency>
-							<dependency>
-								<groupId>org.asciidoctor</groupId>
-								<artifactId>asciidoctorj-pdf</artifactId>
-								<version>${asciidoctorj.pdf.version}</version>
-							</dependency>
-						</dependencies>
-						<executions>
+      <build>
+        <plugins>
 
-							<execution>
-								<id>asciidoc-to-html</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>process-asciidoc</goal>
-								</goals>
-								<configuration>
-									<backend>html5</backend>
-									<sourceDirectory>${basedir}/docs</sourceDirectory>
-									<outputFile>${project.build.directory}/generated-docs/today-framework-${project.version}.html
-									</outputFile>
-									<attributes>
-										<source-highlighter>coderay</source-highlighter>
-										<imagesdir>images</imagesdir>
-										<doctype>book</doctype>
-										<status>${status}</status>
-										<data-uri/>
-										<icons>font</icons>
-										<toc>left</toc>
-										<icons>font</icons>
-										<sectanchors>true</sectanchors>
-										<idprefix/>
-										<idseparator>-</idseparator>
-										<docinfo1>true</docinfo1>
-									</attributes>
-								</configuration>
-							</execution>
+        </plugins>
+      </build>
+    </profile>
 
-							<execution>
-								<id>asciidoc-to-pdf</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>process-asciidoc</goal>
-								</goals>
-								<configuration>
-									<backend>pdf</backend>
-									<sourceDirectory>${basedir}/docs</sourceDirectory>
-									<outputFile>${project.build.directory}/generated-docs/today-framework-${project.version}.pdf
-									</outputFile>
-									<attributes>
-										<source-highlighter>coderay</source-highlighter>
-										<imagesdir>images</imagesdir>
-										<pdf-stylesdir>${project.basedir}/docs/theme</pdf-stylesdir>
-										<pdf-style>today</pdf-style>
-										<doctype>book</doctype>
-										<status>${status}</status>
-										<data-uri/>
-										<icons>font</icons>
-										<pagenums/>
-										<toc/>
-										<icons>font</icons>
-										<sectanchors>true</sectanchors>
-										<idprefix/>
-										<idseparator>-</idseparator>
-										<docinfo1>true</docinfo1>
-										<embedAssets>true</embedAssets>
-									</attributes>
-								</configuration>
-							</execution>
-						</executions>
+    <profile>
+      <id>ci</id>
+      <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      </properties>
 
-						<configuration>
-							<sourceDocumentName>index.adoc</sourceDocumentName>
-							<attributes>
-								<revnumber>${project.version}</revnumber>
-								<revremark>${status}</revremark>
-								<revdate>${revisiondate}</revdate>
-							</attributes>
-						</configuration>
-					</plugin>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.eluder.coveralls</groupId>
+            <artifactId>coveralls-maven-plugin</artifactId>
+            <version>4.3.0</version>
+            <configuration>
+              <repoToken>QnCQitLt7wun8tpjDfVy7ZuAfEb8tDnlC</repoToken>
+            </configuration>
+            <dependencies>
+              <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.3.1</version>
+              </dependency>
+            </dependencies>
+          </plugin>
 
-				</plugins>
-			</build>
-		</profile>
-
-		<profile>
-			<id>ci</id>
-			<properties>
-				<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-			</properties>
-
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.eluder.coveralls</groupId>
-						<artifactId>coveralls-maven-plugin</artifactId>
-						<version>4.3.0</version>
-						<configuration>
-							<repoToken>QnCQitLt7wun8tpjDfVy7ZuAfEb8tDnlC</repoToken>
-						</configuration>
-						<dependencies>
-							<dependency>
-								<groupId>javax.xml.bind</groupId>
-								<artifactId>jaxb-api</artifactId>
-								<version>2.3.1</version>
-							</dependency>
-						</dependencies>
-					</plugin>
-
-					<plugin>
-						<groupId>org.jacoco</groupId>
-						<artifactId>jacoco-maven-plugin</artifactId>
-						<version>0.8.2</version>
-						<executions>
-							<execution>
-								<id>prepare-agent</id>
-								<goals>
-									<goal>prepare-agent</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
+          <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.2</version>
+            <executions>
+              <execution>
+                <id>prepare-agent</id>
+                <goals>
+                  <goal>prepare-agent</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
 
 
-		</profile>
+    </profile>
 
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.8</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>sonatype-nexus</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>sonatype-nexus</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
-	</profiles>
+  </profiles>
 
 </project>

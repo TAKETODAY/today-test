@@ -20,10 +20,11 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
 import cn.taketoday.http.HttpStatus;
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.ResultMatcher;
-import org.hamcrest.Matcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,7 +49,6 @@ public class StatusResultMatchers {
   protected StatusResultMatchers() {
   }
 
-
   /**
    * Assert the response status code with the given Hamcrest {@link Matcher}.
    * Use the {@code StatusResultMatchers.isEqualTo} extension in Kotlin.
@@ -70,7 +70,7 @@ public class StatusResultMatchers {
    */
   public ResultMatcher is1xxInformational() {
     return result -> assertEquals("Range for response status value " + result.getResponse().getStatus(),
-            HttpStatus.Series.INFORMATIONAL, getHttpStatusSeries(result));
+                                  HttpStatus.Series.INFORMATIONAL, getHttpStatusSeries(result));
   }
 
   /**
@@ -78,7 +78,7 @@ public class StatusResultMatchers {
    */
   public ResultMatcher is2xxSuccessful() {
     return result -> assertEquals("Range for response status value " + result.getResponse().getStatus(),
-            HttpStatus.Series.SUCCESSFUL, getHttpStatusSeries(result));
+                                  HttpStatus.Series.SUCCESSFUL, getHttpStatusSeries(result));
   }
 
   /**
@@ -86,7 +86,7 @@ public class StatusResultMatchers {
    */
   public ResultMatcher is3xxRedirection() {
     return result -> assertEquals("Range for response status value " + result.getResponse().getStatus(),
-            HttpStatus.Series.REDIRECTION, getHttpStatusSeries(result));
+                                  HttpStatus.Series.REDIRECTION, getHttpStatusSeries(result));
   }
 
   /**
@@ -94,7 +94,7 @@ public class StatusResultMatchers {
    */
   public ResultMatcher is4xxClientError() {
     return result -> assertEquals("Range for response status value " + result.getResponse().getStatus(),
-            HttpStatus.Series.CLIENT_ERROR, getHttpStatusSeries(result));
+                                  HttpStatus.Series.CLIENT_ERROR, getHttpStatusSeries(result));
   }
 
   /**
@@ -102,7 +102,7 @@ public class StatusResultMatchers {
    */
   public ResultMatcher is5xxServerError() {
     return result -> assertEquals("Range for response status value " + result.getResponse().getStatus(),
-            HttpStatus.Series.SERVER_ERROR, getHttpStatusSeries(result));
+                                  HttpStatus.Series.SERVER_ERROR, getHttpStatusSeries(result));
   }
 
   private HttpStatus.Series getHttpStatusSeries(MvcResult result) {

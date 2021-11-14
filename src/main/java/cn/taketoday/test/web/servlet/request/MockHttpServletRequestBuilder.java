@@ -20,6 +20,20 @@
 
 package cn.taketoday.test.web.servlet.request;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import cn.taketoday.beans.factory.NoSuchBeanDefinitionException;
 import cn.taketoday.core.DefaultMultiValueMap;
 import cn.taketoday.core.MultiValueMap;
@@ -51,20 +65,6 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 /**
  * Default builder for {@link MockHttpServletRequest} required as input to
@@ -133,7 +133,6 @@ public class MockHttpServletRequestBuilder
 
   private final List<RequestPostProcessor> postProcessors = new ArrayList<>();
 
-
   /**
    * Package private constructor. To get an instance, use static factory
    * methods in {@link MockMvcRequestBuilders}.
@@ -179,7 +178,6 @@ public class MockHttpServletRequestBuilder
     this.method = httpMethod;
     this.url = url;
   }
-
 
   /**
    * Specify the portion of the requestURI that represents the context path.
@@ -567,7 +565,6 @@ public class MockHttpServletRequestBuilder
     return this;
   }
 
-
   /**
    * {@inheritDoc}
    *
@@ -817,7 +814,7 @@ public class MockHttpServletRequestBuilder
       }
       String extraPath = requestUri.substring(this.contextPath.length() + this.servletPath.length());
       this.pathInfo = (StringUtils.hasText(extraPath) ?
-              UrlPathHelper.defaultInstance.decodeRequestString(request, extraPath) : null);
+                       UrlPathHelper.defaultInstance.decodeRequestString(request, extraPath) : null);
     }
     request.setPathInfo(this.pathInfo);
   }
@@ -872,7 +869,6 @@ public class MockHttpServletRequestBuilder
     }
     return request;
   }
-
 
   private static void addToMap(Map<String, Object> map, String name, Object value) {
     Assert.hasLength(name, "'name' must not be empty");

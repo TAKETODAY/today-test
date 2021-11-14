@@ -35,12 +35,12 @@ import cn.taketoday.test.context.TestExecutionListener;
 import cn.taketoday.test.context.support.AbstractTestExecutionListener;
 import cn.taketoday.test.context.support.DependencyInjectionTestExecutionListener;
 import cn.taketoday.web.RequestContextHolder;
+import cn.taketoday.web.WebApplicationContext;
 import jakarta.servlet.ServletContext;
 
 /**
  * {@code TestExecutionListener} which provides mock Servlet API support to
- * {@link WebApplicationContext WebApplicationContexts} loaded by the <em>Spring
- * TestContext Framework</em>.
+ * {@link WebApplicationContext WebApplicationContexts} loaded by the <em> * TestContext Framework</em>.
  *
  * <p>Specifically, {@code ServletTestExecutionListener} sets up thread-local
  * state via Spring Web's {@link RequestContextHolder} during {@linkplain
@@ -102,9 +102,7 @@ public class ServletTestExecutionListener extends AbstractTestExecutionListener 
   public static final String ACTIVATE_LISTENER = Conventions.getQualifiedAttributeName(
           ServletTestExecutionListener.class, "activateListener");
 
-
   private static final Logger logger = LoggerFactory.getLogger(ServletTestExecutionListener.class);
-
 
   /**
    * Returns {@code 1000}.
@@ -165,7 +163,7 @@ public class ServletTestExecutionListener extends AbstractTestExecutionListener 
       }
       RequestContextHolder.resetContext();
       testContext.setAttribute(DependencyInjectionTestExecutionListener.REINJECT_DEPENDENCIES_ATTRIBUTE,
-              Boolean.TRUE);
+                               Boolean.TRUE);
     }
     testContext.removeAttribute(POPULATED_REQUEST_CONTEXT_HOLDER_ATTRIBUTE);
     testContext.removeAttribute(RESET_REQUEST_CONTEXT_HOLDER_ATTRIBUTE);

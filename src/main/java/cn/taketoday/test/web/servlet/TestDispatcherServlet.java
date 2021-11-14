@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet;
 
+import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockAsyncContext;
@@ -27,14 +31,11 @@ import cn.taketoday.mock.web.MockHttpServletRequest;
 import cn.taketoday.web.servlet.DispatcherServlet;
 import cn.taketoday.web.servlet.WebServletApplicationContext;
 import cn.taketoday.web.util.WebUtils;
+import cn.taketoday.web.view.ModelAndView;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * A sub-class of {@code DispatcherServlet} that saves the result in an
@@ -48,7 +49,6 @@ import java.util.concurrent.CountDownLatch;
 final class TestDispatcherServlet extends DispatcherServlet {
 
   private static final String KEY = TestDispatcherServlet.class.getName() + ".interceptor";
-
 
   /**
    * Create a new instance with the given web application context.
@@ -90,21 +90,21 @@ final class TestDispatcherServlet extends DispatcherServlet {
   private void registerAsyncResultInterceptors(HttpServletRequest request) {
 
     WebAsyncUtils.getAsyncManager(request).registerCallableInterceptor(KEY,
-            new CallableProcessingInterceptor() {
-              @Override
-              public <T> void postProcess(NativeWebRequest r, Callable<T> task, Object value) {
-                // We got the result, must also wait for the dispatch
-                getMvcResult(request).setAsyncResult(value);
-              }
-            });
+                                                                       new CallableProcessingInterceptor() {
+                                                                         @Override
+                                                                         public <T> void postProcess(NativeWebRequest r, Callable<T> task, Object value) {
+                                                                           // We got the result, must also wait for the dispatch
+                                                                           getMvcResult(request).setAsyncResult(value);
+                                                                         }
+                                                                       });
 
     WebAsyncUtils.getAsyncManager(request).registerDeferredResultInterceptor(KEY,
-            new DeferredResultProcessingInterceptor() {
-              @Override
-              public <T> void postProcess(NativeWebRequest r, DeferredResult<T> result, Object value) {
-                getMvcResult(request).setAsyncResult(value);
-              }
-            });
+                                                                             new DeferredResultProcessingInterceptor() {
+                                                                               @Override
+                                                                               public <T> void postProcess(NativeWebRequest r, DeferredResult<T> result, Object value) {
+                                                                                 getMvcResult(request).setAsyncResult(value);
+                                                                               }
+                                                                             });
   }
 
   protected DefaultMvcResult getMvcResult(ServletRequest request) {

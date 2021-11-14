@@ -20,18 +20,18 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.context.ApplicationContextInitializer;
-import cn.taketoday.context.ConfigurableApplicationContext;
-import cn.taketoday.core.annotation.AliasFor;
-import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
-import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.context.ApplicationContextInitializer;
+import cn.taketoday.context.ConfigurableApplicationContext;
+import cn.taketoday.core.annotation.AliasFor;
+import cn.taketoday.test.context.junit.jupiter.TodayJUnitConfig;
+import cn.taketoday.test.context.junit.jupiter.web.TodayJUnitWebConfig;
 
 /**
  * {@code @ContextConfiguration} defines class-level metadata that is used to determine
@@ -40,16 +40,16 @@ import java.lang.annotation.Target;
  *
  * <h3>Supported Resource Types</h3>
  *
- * <p>Prior to Spring 3.1, only path-based resource locations (typically XML configuration
- * files) were supported. As of Spring 3.1, {@linkplain #loader context loaders} may
- * choose to support <em>either</em> path-based <em>or</em> class-based resources. As of
- * Spring 4.0.4, {@linkplain #loader context loaders} may choose to support path-based
+ * <p>only path-based resource locations (typically XML configuration
+ * files) were supported. {@linkplain #loader context loaders} may
+ * choose to support <em>either</em> path-based <em>or</em> class-based resources.
+ * {@linkplain #loader context loaders} may choose to support path-based
  * <em>and</em> class-based resources simultaneously. Consequently
  * {@code @ContextConfiguration} can be used to declare either path-based resource
  * locations (via the {@link #locations} or {@link #value} attribute) <em>or</em>
  * component classes (via the {@link #classes} attribute). Note, however, that most
- * implementations of {@link SmartContextLoader} only support a single resource type. As
- * of Spring 4.1, path-based resource locations may be either XML configuration files or
+ * implementations of {@link SmartContextLoader} only support a single resource type.
+ * path-based resource locations may be either XML configuration files or
  * Groovy scripts (if Groovy is on the classpath). Of course, third-party frameworks may
  * choose to support additional types of path-based resources.
  *
@@ -58,36 +58,36 @@ import java.lang.annotation.Target;
  * <p>The term <em>component class</em> can refer to any of the following.
  *
  * <ul>
- * <li>A class annotated with {@link cn.taketoday.context.annotation.Configuration @Configuration}</li>
+ * <li>A class annotated with {@link cn.taketoday.lang.Configuration @Configuration}</li>
  * <li>A component (i.e., a class annotated with
- * {@link cn.taketoday.stereotype.Component @Component},
- * {@link cn.taketoday.stereotype.Service @Service},
- * {@link cn.taketoday.stereotype.Repository @Repository}, etc.)</li>
+ * {@link cn.taketoday.lang.Component @Component},
+ * {@link cn.taketoday.lang.Service @Service},
+ * {@link cn.taketoday.lang.Repository @Repository}, etc.)</li>
  * <li>A JSR-330 compliant class that is annotated with {@code jakarta.inject} annotations</li>
  * <li>Any class that contains {@link cn.taketoday.context.annotation.Bean @Bean}-methods</li>
- * <li>Any other class that is intended to be registered as a Spring component (i.e., a Spring bean
+ * <li>Any other class that is intended to be registered as a component (i.e., a bean
  * in the {@code ApplicationContext}), potentially taking advantage of automatic autowiring of a
- * single constructor without the use of Spring annotations</li>
+ * single constructor without the use of annotations</li>
  * </ul>
  *
  * A bean will be registered in the {@code ApplicationContext} for each component
  * class, and such beans can therefore be injected into other beans or into the
  * instance of the test class.
  *
- * <p>Consult the Javadoc for {@link cn.taketoday.context.annotation.Configuration @Configuration}
+ * <p>Consult the Javadoc for {@link cn.taketoday.lang.Configuration @Configuration}
  * and {@link cn.taketoday.context.annotation.Bean @Bean} for further
  * information regarding the configuration and semantics of <em>component classes</em>.
  *
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
  * @author Sam Brannen
- * @see TodayJUnitConfig @SpringJUnitConfig
- * @see TodayJUnitWebConfig @SpringJUnitWebConfig
+ * @see TodayJUnitConfig @TodayJUnitConfig
+ * @see TodayJUnitWebConfig @TodayJUnitWebConfig
  * @see ContextHierarchy @ContextHierarchy
  * @see ActiveProfiles @ActiveProfiles
  * @see TestPropertySource @TestPropertySource
@@ -110,7 +110,7 @@ public @interface ContextConfiguration {
    * @see #inheritLocations
    */
   @AliasFor("locations")
-  String[] value() default { };
+  String[] value() default {};
 
   /**
    * The resource locations to use for loading an
@@ -137,7 +137,7 @@ public @interface ContextConfiguration {
    * @see #inheritLocations
    */
   @AliasFor("value")
-  String[] locations() default { };
+  String[] locations() default {};
 
   /**
    * The <em>component classes</em> to use for loading an
@@ -149,11 +149,11 @@ public @interface ContextConfiguration {
    * <em>component classes</em> are specified. See the documentation for
    * {@link #loader} for further details regarding default loaders.
    *
-   * @see cn.taketoday.context.annotation.Configuration
+   * @see cn.taketoday.lang.Configuration
    * @see cn.taketoday.test.context.support.AnnotationConfigContextLoader
    * @see #inheritLocations
    */
-  Class<?>[] classes() default { };
+  Class<?>[] classes() default {};
 
   /**
    * The application context <em>initializer classes</em> to use for initializing
@@ -162,7 +162,7 @@ public @interface ContextConfiguration {
    * declared initializer must be compatible with the type of {@code ApplicationContext}
    * created by the {@link SmartContextLoader} in use.
    * <p>{@code SmartContextLoader} implementations typically detect whether
-   * Spring's {@link cn.taketoday.core.Ordered Ordered} interface has been
+   * Today's {@link cn.taketoday.core.Ordered Ordered} interface has been
    * implemented or if the @{@link cn.taketoday.core.annotation.Order Order}
    * annotation is present and sort instances accordingly prior to invoking them.
    *
@@ -171,7 +171,7 @@ public @interface ContextConfiguration {
    * @see #inheritInitializers
    * @see #loader
    */
-  Class<? extends ApplicationContextInitializer<?>>[] initializers() default { };
+  Class<? extends ApplicationContextInitializer<?>>[] initializers() default {};
 
   /**
    * Whether or not {@linkplain #locations resource locations} or

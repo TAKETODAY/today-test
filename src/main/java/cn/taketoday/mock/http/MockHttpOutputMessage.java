@@ -20,15 +20,15 @@
 
 package cn.taketoday.mock.http;
 
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.HttpOutputMessage;
-import cn.taketoday.util.StreamUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.http.HttpOutputMessage;
+import cn.taketoday.util.StreamUtils;
 
 /**
  * Mock implementation of {@link HttpOutputMessage}.
@@ -42,7 +42,6 @@ public class MockHttpOutputMessage implements HttpOutputMessage {
   private final HttpHeaders headers = HttpHeaders.create();
 
   private final ByteArrayOutputStream body = new ByteArrayOutputStream(1024);
-
 
   /**
    * Return the headers.

@@ -20,12 +20,13 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.MockMvc;
 import cn.taketoday.test.web.servlet.setup.MockMvcConfigurer;
 import cn.taketoday.web.context.WebApplicationContext;
-import com.gargoylesoftware.htmlunit.WebClient;
 
 /**
  * {@code MockMvcWebClientBuilder} simplifies the creation of an HtmlUnit
@@ -48,7 +49,6 @@ public class MockMvcWebClientBuilder extends MockMvcWebConnectionBuilderSupport<
   @Nullable
   private WebClient webClient;
 
-
   protected MockMvcWebClientBuilder(MockMvc mockMvc) {
     super(mockMvc);
   }
@@ -60,7 +60,6 @@ public class MockMvcWebClientBuilder extends MockMvcWebConnectionBuilderSupport<
   protected MockMvcWebClientBuilder(WebApplicationContext context, MockMvcConfigurer configurer) {
     super(context, configurer);
   }
-
 
   /**
    * Create a new {@code MockMvcWebClientBuilder} based on the supplied

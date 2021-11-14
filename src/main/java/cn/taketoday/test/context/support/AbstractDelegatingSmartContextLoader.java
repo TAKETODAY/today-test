@@ -84,7 +84,6 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
    */
   protected abstract SmartContextLoader getAnnotationConfigLoader();
 
-
   // ContextLoader
 
   /**
@@ -114,7 +113,6 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
             "DelegatingSmartContextLoaders do not support the ContextLoader SPI. " +
                     "Call loadContext(MergedContextConfiguration) instead.");
   }
-
 
   // SmartContextLoader
 
@@ -154,8 +152,8 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
   public void processContextConfiguration(final ContextConfigurationAttributes configAttributes) {
     Assert.notNull(configAttributes, "configAttributes must not be null");
     Assert.isTrue(!(configAttributes.hasLocations() && configAttributes.hasClasses()),
-            () -> String.format("Cannot process locations AND classes for context configuration %s: " +
-                    "configure one or the other, but not both.", configAttributes));
+                  () -> String.format("Cannot process locations AND classes for context configuration %s: " +
+                                              "configure one or the other, but not both.", configAttributes));
 
     // If the original locations or classes were not empty, there's no
     // need to bother with default detection checks; just let the
@@ -176,7 +174,7 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
       if (xmlLoaderDetectedDefaults) {
         if (logger.isInfoEnabled()) {
           logger.info(String.format("%s detected default locations for context configuration %s.",
-                  name(getXmlLoader()), configAttributes));
+                                    name(getXmlLoader()), configAttributes));
         }
       }
 
@@ -190,7 +188,7 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
       if (configAttributes.hasClasses()) {
         if (logger.isInfoEnabled()) {
           logger.info(String.format("%s detected default configuration classes for context configuration %s.",
-                  name(getAnnotationConfigLoader()), configAttributes));
+                                    name(getAnnotationConfigLoader()), configAttributes));
         }
       }
 
@@ -261,11 +259,10 @@ public abstract class AbstractDelegatingSmartContextLoader implements SmartConte
             name(getXmlLoader()), name(getAnnotationConfigLoader()), mergedConfig));
   }
 
-
   private static void delegateProcessing(SmartContextLoader loader, ContextConfigurationAttributes configAttributes) {
     if (logger.isDebugEnabled()) {
       logger.debug(String.format("Delegating to %s to process context configuration %s.",
-              name(loader), configAttributes));
+                                 name(loader), configAttributes));
     }
     loader.processContextConfiguration(configAttributes);
   }

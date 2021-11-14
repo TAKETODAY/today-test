@@ -20,6 +20,9 @@
 
 package cn.taketoday.test.context.event;
 
+import java.io.Serializable;
+import java.util.function.Supplier;
+
 import cn.taketoday.beans.factory.ConfigurableBeanFactory;
 import cn.taketoday.context.AbstractApplicationContext;
 import cn.taketoday.context.ApplicationContext;
@@ -28,9 +31,6 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.test.context.TestContext;
 import cn.taketoday.test.context.TestContextAnnotationUtils;
 import cn.taketoday.test.context.support.AbstractTestExecutionListener;
-
-import java.io.Serializable;
-import java.util.function.Supplier;
 
 /**
  * {@code TestExecutionListener} which provides support for {@link ApplicationEvents}.
@@ -61,7 +61,6 @@ public class ApplicationEventsTestExecutionListener extends AbstractTestExecutio
           ApplicationEventsTestExecutionListener.class, "recordApplicationEvents");
 
   private static final Object applicationEventsMonitor = new Object();
-
 
   /**
    * Returns {@code 1800}.
@@ -103,7 +102,7 @@ public class ApplicationEventsTestExecutionListener extends AbstractTestExecutio
 
   private void registerListenerAndResolvableDependencyIfNecessary(ApplicationContext applicationContext) {
     Assert.isInstanceOf(AbstractApplicationContext.class, applicationContext,
-            "The ApplicationContext for the test must be an AbstractApplicationContext");
+                        "The ApplicationContext for the test must be an AbstractApplicationContext");
     AbstractApplicationContext aac = (AbstractApplicationContext) applicationContext;
     // Synchronize to avoid race condition in parallel test execution
     synchronized(applicationEventsMonitor) {
@@ -124,7 +123,6 @@ public class ApplicationEventsTestExecutionListener extends AbstractTestExecutio
   /**
    * Factory that exposes the current {@link ApplicationEvents} object on demand.
    */
-  @SuppressWarnings("serial")
   private static class ApplicationEventsObjectFactory implements Supplier<ApplicationEvents>, Serializable {
 
     @Override

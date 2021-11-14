@@ -20,21 +20,20 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
-import cn.taketoday.util.ReflectionUtils;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+import cn.taketoday.util.ReflectionUtils;
+
 /**
- * {@code TestContextManager} is the main entry point into the <em>Spring
- * TestContext Framework</em>.
+ * {@code TestContextManager} is the main entry point into the <em> * TestContext Framework</em>.
  *
  * <p>Specifically, a {@code TestContextManager} is responsible for managing a
  * single {@link TestContext} and signaling events to each registered
@@ -222,7 +221,7 @@ public class TestContextManager {
    * <p>This method should be called immediately after instantiation of the test
    * class or as soon after instantiation as possible (as is the case with the
    * {@link TodayMethodRule
-   * SpringMethodRule}). In any case, this method must be called prior to any
+   * TodayMethodRule}). In any case, this method must be called prior to any
    * framework-specific lifecycle callbacks.
    * <p>The managed {@link TestContext} will be updated with the supplied
    * {@code testInstance}.
@@ -248,7 +247,7 @@ public class TestContextManager {
       catch (Throwable ex) {
         if (logger.isErrorEnabled()) {
           logger.error("Caught exception while allowing TestExecutionListener [" + testExecutionListener +
-                  "] to prepare test instance [" + testInstance + "]", ex);
+                               "] to prepare test instance [" + testInstance + "]", ex);
         }
         ReflectionUtils.rethrowException(ex);
       }
@@ -518,7 +517,7 @@ public class TestContextManager {
           String callbackName, Object testInstance, Method testMethod, @Nullable Throwable exception) {
     if (logger.isTraceEnabled()) {
       logger.trace(String.format("%s(): instance [%s], method [%s], exception [%s]",
-              callbackName, testInstance, testMethod, exception));
+                                 callbackName, testInstance, testMethod, exception));
     }
     getTestContext().updateState(testInstance, testMethod, exception);
   }
@@ -535,8 +534,8 @@ public class TestContextManager {
 
     if (logger.isWarnEnabled()) {
       logger.warn(String.format("Caught exception while invoking '%s' callback on " +
-                      "TestExecutionListener [%s] for test class [%s]", callbackName, testExecutionListener,
-              testClass), ex);
+                                        "TestExecutionListener [%s] for test class [%s]", callbackName, testExecutionListener,
+                                testClass), ex);
     }
   }
 
@@ -545,11 +544,10 @@ public class TestContextManager {
 
     if (logger.isWarnEnabled()) {
       logger.warn(String.format("Caught exception while invoking '%s' callback on " +
-                      "TestExecutionListener [%s] for test method [%s] and test instance [%s]",
-              callbackName, testExecutionListener, testMethod, testInstance), ex);
+                                        "TestExecutionListener [%s] for test method [%s] and test instance [%s]",
+                                callbackName, testExecutionListener, testMethod, testInstance), ex);
     }
   }
-
 
   /**
    * Attempt to create a copy of the supplied {@code TestContext} using its
@@ -566,7 +564,7 @@ public class TestContextManager {
       }
       catch (Exception ex) {
         logger.info("Failed to invoke copy constructor for [%s]; " +
-                "concurrent test execution is therefore likely not supported.", testContext, ex);
+                            "concurrent test execution is therefore likely not supported.", testContext, ex);
       }
     }
 

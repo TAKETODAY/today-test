@@ -20,12 +20,12 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import cn.taketoday.lang.Assert;
 import jakarta.servlet.ReadListener;
 import jakarta.servlet.ServletInputStream;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Delegating implementation of {@link jakarta.servlet.ServletInputStream}.
@@ -41,7 +41,6 @@ public class DelegatingServletInputStream extends ServletInputStream {
   private final InputStream sourceStream;
 
   private boolean finished = false;
-
 
   /**
    * Create a DelegatingServletInputStream for the given source stream.
@@ -59,7 +58,6 @@ public class DelegatingServletInputStream extends ServletInputStream {
   public final InputStream getSourceStream() {
     return this.sourceStream;
   }
-
 
   @Override
   public int read() throws IOException {

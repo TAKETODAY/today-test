@@ -28,7 +28,7 @@ import cn.taketoday.lang.Assert;
  * {@code AopTestUtils} is a collection of AOP-related utility methods for
  * use in unit and integration testing scenarios.
  *
- * <p>For Spring's core AOP utilities, see
+ * <p>For core AOP utilities, see
  * {@link cn.taketoday.aop.support.AopUtils AopUtils} and
  * {@link cn.taketoday.aop.proxy.AopProxyUtils AopProxyUtils}.
  *
@@ -42,12 +42,12 @@ public abstract class AopTestUtils {
 
   /**
    * Get the <em>target</em> object of the supplied {@code candidate} object.
-   * <p>If the supplied {@code candidate} is a Spring
+   * <p>If the supplied {@code candidate} is a
    * {@linkplain AopUtils#isAopProxy proxy}, the target of the proxy will
    * be returned; otherwise, the {@code candidate} will be returned
    * <em>as is</em>.
    *
-   * @param candidate the instance to check (potentially a Spring AOP proxy;
+   * @param candidate the instance to check (potentially a AOP proxy;
    * never {@code null})
    * @return the target object or the {@code candidate} (never {@code null})
    * @throws IllegalStateException if an error occurs while unwrapping a proxy
@@ -76,12 +76,12 @@ public abstract class AopTestUtils {
    * Get the ultimate <em>target</em> object of the supplied {@code candidate}
    * object, unwrapping not only a top-level proxy but also any number of
    * nested proxies.
-   * <p>If the supplied {@code candidate} is a Spring
+   * <p>If the supplied {@code candidate} is a
    * {@linkplain AopUtils#isAopProxy proxy}, the ultimate target of all
    * nested proxies will be returned; otherwise, the {@code candidate}
    * will be returned <em>as is</em>.
    *
-   * @param candidate the instance to check (potentially a Spring AOP proxy;
+   * @param candidate the instance to check (potentially a AOP proxy;
    * never {@code null})
    * @return the target object or the {@code candidate} (never {@code null})
    * @throws IllegalStateException if an error occurs while unwrapping a proxy

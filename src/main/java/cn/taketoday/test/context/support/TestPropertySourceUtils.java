@@ -20,6 +20,18 @@
 
 package cn.taketoday.test.context.support;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 import cn.taketoday.context.ConfigurableApplicationContext;
 import cn.taketoday.core.annotation.MergedAnnotation;
 import cn.taketoday.core.annotation.MergedAnnotations;
@@ -42,18 +54,6 @@ import cn.taketoday.test.context.util.TestContextResourceUtils;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
 /**
  * Utility methods for working with {@link TestPropertySource @TestPropertySource}
  * and adding test {@link PropertySource PropertySources} to the {@code Environment}.
@@ -75,7 +75,6 @@ public abstract class TestPropertySourceUtils {
   public static final String INLINED_PROPERTIES_PROPERTY_SOURCE_NAME = "Inlined Test Properties";
 
   private static final Logger logger = LoggerFactory.getLogger(TestPropertySourceUtils.class);
-
 
   static MergedTestPropertySources buildMergedTestPropertySources(Class<?> testClass) {
     List<TestPropertySourceAttributes> attributesList = new ArrayList<>();
@@ -135,8 +134,8 @@ public abstract class TestPropertySourceUtils {
 
     if (duplicationDetected && logger.isDebugEnabled()) {
       logger.debug(String.format("Ignoring duplicate %s declaration on %s since it is also declared on %s",
-              currentAttributes, currentAttributes.getDeclaringClass().getName(),
-              previousAttributes.getDeclaringClass().getName()));
+                                 currentAttributes, currentAttributes.getDeclaringClass().getName(),
+                                 previousAttributes.getDeclaringClass().getName()));
     }
 
     return duplicationDetected;
@@ -273,7 +272,7 @@ public abstract class TestPropertySourceUtils {
     if (!ObjectUtils.isEmpty(inlinedProperties)) {
       if (logger.isDebugEnabled()) {
         logger.debug("Adding inlined properties to environment: " +
-                ObjectUtils.nullSafeToString(inlinedProperties));
+                             ObjectUtils.nullSafeToString(inlinedProperties));
       }
       MapPropertySource ps = (MapPropertySource)
               environment.getPropertySources().get(INLINED_PROPERTIES_PROPERTY_SOURCE_NAME);

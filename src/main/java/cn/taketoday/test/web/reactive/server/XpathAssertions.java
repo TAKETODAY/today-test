@@ -20,18 +20,20 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import org.hamcrest.Matcher;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.util.XpathExpectationsHelper;
 import cn.taketoday.util.MimeType;
-import org.hamcrest.Matcher;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Consumer;
 
 /**
  * XPath assertions for the {@link WebTestClient}.
@@ -44,7 +46,6 @@ public class XpathAssertions {
   private final WebTestClient.BodyContentSpec bodySpec;
 
   private final XpathExpectationsHelper xpathHelper;
-
 
   XpathAssertions(WebTestClient.BodyContentSpec spec,
                   String expression, @Nullable Map<String, String> namespaces, Object... args) {
@@ -63,7 +64,6 @@ public class XpathAssertions {
       throw new AssertionError("XML parsing error", ex);
     }
   }
-
 
   /**
    * Delegates to {@link XpathExpectationsHelper#assertString(byte[], String, String)}.
@@ -183,18 +183,16 @@ public class XpathAssertions {
             .name();
   }
 
-
   @Override
   public boolean equals(Object obj) {
     throw new AssertionError("Object#equals is disabled " +
-            "to avoid being used in error instead of XPathAssertions#isEqualTo(String).");
+                                     "to avoid being used in error instead of XPathAssertions#isEqualTo(String).");
   }
 
   @Override
   public int hashCode() {
     return super.hashCode();
   }
-
 
   /**
    * Lets us be able to use lambda expressions that could throw checked exceptions, since

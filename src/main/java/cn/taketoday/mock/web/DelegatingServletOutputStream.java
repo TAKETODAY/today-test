@@ -20,12 +20,12 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import cn.taketoday.lang.Assert;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.WriteListener;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Delegating implementation of {@link jakarta.servlet.ServletOutputStream}.
@@ -39,7 +39,6 @@ import java.io.OutputStream;
 public class DelegatingServletOutputStream extends ServletOutputStream {
 
   private final OutputStream targetStream;
-
 
   /**
    * Create a DelegatingServletOutputStream for the given target stream.
@@ -57,7 +56,6 @@ public class DelegatingServletOutputStream extends ServletOutputStream {
   public final OutputStream getTargetStream() {
     return this.targetStream;
   }
-
 
   @Override
   public void write(int b) throws IOException {

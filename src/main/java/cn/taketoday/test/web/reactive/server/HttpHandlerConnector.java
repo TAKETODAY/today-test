@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import org.reactivestreams.Publisher;
+
+import java.net.URI;
+import java.util.function.Function;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.http.HttpCookie;
 import cn.taketoday.http.HttpHeaders;
@@ -39,14 +44,10 @@ import cn.taketoday.mock.http.client.reactive.MockClientHttpResponse;
 import cn.taketoday.mock.http.server.reactive.MockServerHttpRequest;
 import cn.taketoday.mock.http.server.reactive.MockServerHttpResponse;
 import cn.taketoday.util.MultiValueMap;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Schedulers;
-
-import java.net.URI;
-import java.util.function.Function;
 
 /**
  * Connector that handles requests by invoking an {@link HttpHandler} rather
@@ -64,7 +65,6 @@ public class HttpHandlerConnector implements ClientHttpConnector {
 
   private final HttpHandler handler;
 
-
   /**
    * Constructor with the {@link HttpHandler} to handle requests with.
    */
@@ -72,7 +72,6 @@ public class HttpHandlerConnector implements ClientHttpConnector {
     Assert.notNull(handler, "HttpHandler is required");
     this.handler = handler;
   }
-
 
   @Override
   public Mono<ClientHttpResponse> connect(HttpMethod httpMethod, URI uri,
@@ -105,10 +104,10 @@ public class HttpHandlerConnector implements ClientHttpConnector {
     });
 
     mockServerResponse.setWriteHandler(responseBody ->
-            Mono.fromRunnable(() -> {
-              log("Creating client response for ", httpMethod, uri);
-              savedResponse[0] = adaptResponse(mockServerResponse, responseBody);
-            }));
+                                               Mono.fromRunnable(() -> {
+                                                 log("Creating client response for ", httpMethod, uri);
+                                                 savedResponse[0] = adaptResponse(mockServerResponse, responseBody);
+                                               }));
 
     log("Writing client request for ", httpMethod, uri);
     requestCallback.apply(mockClientRequest).subscribe(
@@ -122,7 +121,7 @@ public class HttpHandlerConnector implements ClientHttpConnector {
               return response != null ? new FailureAfterResponseCompletedException(response, ex) : ex;
             })
             .then(Mono.fromCallable(() -> savedResponse[0] != null ?
-                    savedResponse[0] : adaptResponse(mockServerResponse, Flux.empty())));
+                                          savedResponse[0] : adaptResponse(mockServerResponse, Flux.empty())));
   }
 
   private void log(String message, HttpMethod httpMethod, URI uri) {
@@ -152,7 +151,6 @@ public class HttpHandlerConnector implements ClientHttpConnector {
     return clientResponse;
   }
 
-
   /**
    * Indicates that an error occurred after the server response was completed,
    * via {@link ServerHttpResponse#writeWith} or {@link ServerHttpResponse#setComplete()},
@@ -168,12 +166,10 @@ public class HttpHandlerConnector implements ClientHttpConnector {
 
     private final ClientHttpResponse completedResponse;
 
-
     private FailureAfterResponseCompletedException(ClientHttpResponse response, Throwable cause) {
       super("Error occurred after response was completed: " + response, cause);
       this.completedResponse = response;
     }
-
 
     public ClientHttpResponse getCompletedResponse() {
       return this.completedResponse;

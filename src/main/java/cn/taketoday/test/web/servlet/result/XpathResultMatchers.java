@@ -20,16 +20,18 @@
 
 package cn.taketoday.test.web.servlet.result;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.mock.web.MockHttpServletResponse;
-import cn.taketoday.test.util.XpathExpectationsHelper;
-import cn.taketoday.test.web.servlet.ResultMatcher;
 import org.hamcrest.Matcher;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPathExpressionException;
 import java.util.Map;
+
+import javax.xml.xpath.XPathExpressionException;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.mock.web.MockHttpServletResponse;
+import cn.taketoday.test.util.XpathExpectationsHelper;
+import cn.taketoday.test.web.servlet.ResultMatcher;
 
 /**
  * Factory for assertions on the response content using XPath expressions.
@@ -42,7 +44,6 @@ import java.util.Map;
 public class XpathResultMatchers {
 
   private final XpathExpectationsHelper xpathHelper;
-
 
   /**
    * Protected constructor, not for direct instantiation. Use
@@ -59,7 +60,6 @@ public class XpathResultMatchers {
 
     this.xpathHelper = new XpathExpectationsHelper(expression, namespaces, args);
   }
-
 
   /**
    * Evaluate the XPath and assert the {@link Node} content found with the

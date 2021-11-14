@@ -20,6 +20,9 @@
 
 package cn.taketoday.test.context.web;
 
+import java.io.Serial;
+import java.util.Set;
+
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.lang.Nullable;
@@ -29,9 +32,6 @@ import cn.taketoday.test.context.ContextLoader;
 import cn.taketoday.test.context.MergedContextConfiguration;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
-
-import java.io.Serial;
-import java.util.Set;
 
 /**
  * {@code WebMergedContextConfiguration} encapsulates the <em>merged</em>
@@ -108,7 +108,7 @@ public class WebMergedContextConfiguration extends MergedContextConfiguration {
                                        CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate, @Nullable MergedContextConfiguration parent) {
 
     this(testClass, locations, classes, contextInitializerClasses, activeProfiles, propertySourceLocations,
-            propertySourceProperties, null, resourceBasePath, contextLoader, cacheAwareContextLoaderDelegate, parent);
+         propertySourceProperties, null, resourceBasePath, contextLoader, cacheAwareContextLoaderDelegate, parent);
   }
 
   /**
@@ -144,7 +144,7 @@ public class WebMergedContextConfiguration extends MergedContextConfiguration {
                                        CacheAwareContextLoaderDelegate cacheAwareContextLoaderDelegate, @Nullable MergedContextConfiguration parent) {
 
     super(testClass, locations, classes, contextInitializerClasses, activeProfiles, propertySourceLocations,
-            propertySourceProperties, contextCustomizers, contextLoader, cacheAwareContextLoaderDelegate, parent);
+          propertySourceProperties, contextCustomizers, contextLoader, cacheAwareContextLoaderDelegate, parent);
 
     this.resourceBasePath = (StringUtils.hasText(resourceBasePath) ? resourceBasePath : "");
   }
@@ -158,7 +158,6 @@ public class WebMergedContextConfiguration extends MergedContextConfiguration {
   public String getResourceBasePath() {
     return this.resourceBasePath;
   }
-
 
   /**
    * Determine if the supplied object is equal to this {@code WebMergedContextConfiguration}

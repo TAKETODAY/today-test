@@ -31,7 +31,7 @@ import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
  * in this API. For example, {@link #beforeTestExecution} and
  * {@link #afterTestExecution} are not supported in conjunction with JUnit 4 when
  * using the {@link TodayMethodRule
- * SpringMethodRule}.
+ * TodayMethodRule}.
  *
  * <p>This interface provides empty {@code default} implementations for all methods.
  * Concrete implementations can therefore choose to override only those methods
@@ -47,7 +47,7 @@ import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
  * {@link cn.taketoday.core.Order @Order} annotation. See
  * {@link TestContextBootstrapper#getTestExecutionListeners()} for details.
  *
- * <p>Spring provides the following out-of-the-box implementations (all of
+ * <p> provides the following out-of-the-box implementations (all of
  * which implement {@code Ordered}):
  * <ul>
  * <li>{@link cn.taketoday.test.context.web.ServletTestExecutionListener
@@ -60,10 +60,6 @@ import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
  * DependencyInjectionTestExecutionListener}</li>
  * <li>{@link cn.taketoday.test.context.support.DirtiesContextTestExecutionListener
  * DirtiesContextTestExecutionListener}</li>
- * <li>{@link cn.taketoday.test.context.transaction.TransactionalTestExecutionListener
- * TransactionalTestExecutionListener}</li>
- * <li>{@link cn.taketoday.test.context.jdbc.SqlScriptsTestExecutionListener
- * SqlScriptsTestExecutionListener}</li>
  * <li>{@link cn.taketoday.test.context.event.EventPublishingTestExecutionListener
  * EventPublishingTestExecutionListener}</li>
  * </ul>
@@ -96,7 +92,7 @@ public interface TestExecutionListener {
    * <p>This method should be called immediately after instantiation of the test
    * class or as soon after instantiation as possible (as is the case with the
    * {@link TodayMethodRule
-   * SpringMethodRule}). In any case, this method must be called prior to any
+   * TodayMethodRule}). In any case, this method must be called prior to any
    * framework-specific lifecycle callbacks.
    * <p>The default implementation is <em>empty</em>. Can be overridden by
    * concrete classes as necessary.

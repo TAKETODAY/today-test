@@ -61,12 +61,11 @@ public interface ResultMatcher {
    */
   void match(MvcResult result) throws Exception;
 
-
   /**
    * Static method for matching with an array of result matchers.
    *
    * @param matchers the matchers
-   * @deprecated as of Spring Framework 5.3.10, in favor of
+   * @deprecated in favor of
    * {@link ResultActions#andExpectAll(ResultMatcher...)}
    */
   @Deprecated

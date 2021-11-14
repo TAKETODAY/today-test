@@ -20,6 +20,14 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.lang.Assert;
@@ -33,19 +41,11 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Part;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Mock implementation of the
  * {@link cn.taketoday.web.multipart.MultipartHttpServletRequest} interface.
  *
- * <p>As of Spring 5.0, this set of mocks is designed on a Servlet 4.0 baseline.
+ * <p>this set of mocks is designed on a Servlet 4.0 baseline.
  *
  * <p>Useful for testing application controllers that access multipart uploads.
  * {@link MockMultipartFile} can be used to populate these mock requests with files.
@@ -58,7 +58,6 @@ import java.util.Map;
 public class MockMultipartHttpServletRequest extends MockHttpServletRequest implements MultipartHttpServletRequest {
 
   private final MultiValueMap<String, MultipartFile> multipartFiles = new DefaultMultiValueMap<>();
-
 
   /**
    * Create a new {@code MockMultipartHttpServletRequest} with a default
@@ -81,7 +80,6 @@ public class MockMultipartHttpServletRequest extends MockHttpServletRequest impl
     setMethod("POST");
     setContentType("multipart/form-data");
   }
-
 
   /**
    * Add a file to this request. The parameter name from the multipart

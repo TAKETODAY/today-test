@@ -32,10 +32,6 @@ import java.lang.annotation.Target;
  * <em>test-managed transaction</em> should be <em>committed</em> after
  * the test method has completed.
  *
- * <p>Consult the class-level Javadoc for
- * {@link cn.taketoday.test.context.transaction.TransactionalTestExecutionListener}
- * for an explanation of <em>test-managed transactions</em>.
- *
  * <p>When declared as a class-level annotation, {@code @Commit} defines
  * the default commit semantics for all test methods within the test class
  * hierarchy. When declared as a method-level annotation, {@code @Commit}
@@ -48,14 +44,9 @@ import java.lang.annotation.Target;
  * {@code @Commit} and {@code @Rollback} on the same test method or on the
  * same test class is unsupported and may lead to unpredictable results.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
- * enclosing test class by default. See
- * {@link cn.taketoday.test.context.NestedTestConfiguration @NestedTestConfiguration}
- * for details.
- *
  * @author Sam Brannen
  * @see Rollback
- * @see cn.taketoday.test.context.transaction.TransactionalTestExecutionListener
+ * @see cn.taketoday.test.context.NestedTestConfiguration
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

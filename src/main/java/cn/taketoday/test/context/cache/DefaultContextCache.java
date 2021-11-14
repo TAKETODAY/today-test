@@ -20,16 +20,6 @@
 
 package cn.taketoday.test.context.cache;
 
-import cn.taketoday.context.ApplicationContext;
-import cn.taketoday.context.ConfigurableApplicationContext;
-import cn.taketoday.core.style.ToStringBuilder;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.annotation.DirtiesContext.HierarchyMode;
-import cn.taketoday.test.context.MergedContextConfiguration;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -40,6 +30,16 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import cn.taketoday.context.ApplicationContext;
+import cn.taketoday.context.ConfigurableApplicationContext;
+import cn.taketoday.core.style.ToStringBuilder;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.annotation.DirtiesContext.HierarchyMode;
+import cn.taketoday.test.context.MergedContextConfiguration;
+
 /**
  * Default implementation of the {@link ContextCache} API.
  *
@@ -48,8 +48,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link ApplicationContext} instances.
  *
  * <p>The maximum size may be supplied as a {@linkplain #DefaultContextCache(int)
- * constructor argument} or set via a system property or Spring property named
- * {@code spring.test.context.cache.maxSize}.
+ * constructor argument} or set via a system property or property named
+ * {@code today.test.context.cache.maxSize}.
  *
  * @author Sam Brannen
  * @author Juergen Hoeller
@@ -59,7 +59,7 @@ public class DefaultContextCache implements ContextCache {
   private static final Logger statsLogger = LoggerFactory.getLogger(CONTEXT_CACHE_LOGGING_CATEGORY);
 
   /**
-   * Map of context keys to Spring {@code ApplicationContext} instances.
+   * Map of context keys to {@code ApplicationContext} instances.
    */
   private final Map<MergedContextConfiguration, ApplicationContext> contextMap =
           Collections.synchronizedMap(new LruCache(32, 0.75f));
@@ -78,7 +78,6 @@ public class DefaultContextCache implements ContextCache {
   private final AtomicInteger hitCount = new AtomicInteger();
 
   private final AtomicInteger missCount = new AtomicInteger();
-
 
   /**
    * Create a new {@code DefaultContextCache} using the maximum cache size
@@ -104,7 +103,6 @@ public class DefaultContextCache implements ContextCache {
     Assert.isTrue(maxSize > 0, "'maxSize' must be positive");
     this.maxSize = maxSize;
   }
-
 
   /**
    * {@inheritDoc}
@@ -288,7 +286,7 @@ public class DefaultContextCache implements ContextCache {
   @Override
   public void logStatistics() {
     if (statsLogger.isDebugEnabled()) {
-      statsLogger.debug("Spring test ApplicationContext cache statistics: " + this);
+      statsLogger.debug("test ApplicationContext cache statistics: " + this);
     }
   }
 
@@ -310,7 +308,6 @@ public class DefaultContextCache implements ContextCache {
             .append("missCount", getMissCount())
             .toString();
   }
-
 
   /**
    * Simple cache implementation based on {@link LinkedHashMap} with a maximum

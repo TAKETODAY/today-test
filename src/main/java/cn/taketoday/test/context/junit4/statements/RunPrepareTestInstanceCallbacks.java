@@ -20,12 +20,13 @@
 
 package cn.taketoday.test.context.junit4.statements;
 
-import cn.taketoday.test.context.TestContextManager;
 import org.junit.runners.model.Statement;
+
+import cn.taketoday.test.context.TestContextManager;
 
 /**
  * {@code RunPrepareTestInstanceCallbacks} is a custom JUnit {@link Statement} which
- * allows the <em>Spring TestContext Framework</em> to be plugged into the JUnit
+ * allows the <em>TestContext Framework</em> to be plugged into the JUnit
  * execution chain by calling {@link TestContextManager#prepareTestInstance(Object)
  * prepareTestInstance()} on the supplied {@link TestContextManager}.
  *
@@ -40,7 +41,6 @@ public class RunPrepareTestInstanceCallbacks extends Statement {
 
   private final TestContextManager testContextManager;
 
-
   /**
    * Construct a new {@code RunPrepareTestInstanceCallbacks} statement.
    *
@@ -54,7 +54,6 @@ public class RunPrepareTestInstanceCallbacks extends Statement {
     this.testInstance = testInstance;
     this.testContextManager = testContextManager;
   }
-
 
   /**
    * Invoke {@link TestContextManager#prepareTestInstance(Object)} and

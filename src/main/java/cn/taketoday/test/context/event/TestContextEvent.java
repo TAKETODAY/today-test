@@ -56,7 +56,7 @@ public abstract class TestContextEvent extends ApplicationEvent {
   /**
    * Alias for {@link #getSource()}.
    * <p>This method may be favored over {@code getSource()} &mdash; for example,
-   * to improve readability in SpEL expressions for event processing
+   * to improve readability in EL expressions for event processing
    * {@linkplain cn.taketoday.context.event.EventListener#condition conditions}.
    *
    * @return the {@code TestContext} associated with this event (never {@code null})

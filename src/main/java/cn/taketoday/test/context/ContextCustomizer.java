@@ -24,8 +24,7 @@ import cn.taketoday.context.ConfigurableApplicationContext;
 
 /**
  * Strategy interface for customizing {@link ConfigurableApplicationContext
- * application contexts} that are created and managed by the <em>Spring
- * TestContext Framework</em>.
+ * application contexts} that are created and managed by the <em> * TestContext Framework</em>.
  *
  * <p>Customizers are created by {@link ContextCustomizerFactory} implementations.
  *

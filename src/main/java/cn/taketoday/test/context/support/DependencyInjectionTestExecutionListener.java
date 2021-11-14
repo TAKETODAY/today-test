@@ -55,7 +55,6 @@ public class DependencyInjectionTestExecutionListener extends AbstractTestExecut
 
   private static final Logger logger = LoggerFactory.getLogger(DependencyInjectionTestExecutionListener.class);
 
-
   /**
    * Returns {@code 2000}.
    */

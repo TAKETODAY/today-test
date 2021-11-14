@@ -20,10 +20,10 @@
 
 package cn.taketoday.mock.jndi;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.util.StringUtils;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.naming.Binding;
 import javax.naming.Context;
@@ -34,10 +34,11 @@ import javax.naming.NameParser;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.OperationNotSupportedException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.util.StringUtils;
 
 /**
  * Simple implementation of a JNDI naming context.
@@ -52,7 +53,7 @@ import java.util.Map;
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see SimpleNamingContextBuilder
- * @deprecated Deprecated as of Spring Framework 5.2 in favor of complete solutions from
+ * @deprecated Deprecated  in favor of complete solutions from
  * third parties such as <a href="https://github.com/h-thurow/Simple-JNDI">Simple-JNDI</a>
  */
 @Deprecated
@@ -65,7 +66,6 @@ public class SimpleNamingContext implements Context {
   private final Hashtable<String, Object> boundObjects;
 
   private final Hashtable<String, Object> environment = new Hashtable<>();
-
 
   /**
    * Create a new naming context.
@@ -95,7 +95,6 @@ public class SimpleNamingContext implements Context {
       this.environment.putAll(env);
     }
   }
-
 
   // Actual implementations of Context methods follow
 
@@ -230,7 +229,6 @@ public class SimpleNamingContext implements Context {
   public void close() {
   }
 
-
   // Unsupported methods follow: no support for javax.naming.Name
 
   @Override
@@ -303,7 +301,6 @@ public class SimpleNamingContext implements Context {
     throw new OperationNotSupportedException("SimpleNamingContext does not support [javax.naming.Name]");
   }
 
-
   private abstract static class AbstractNamingEnumeration<T> implements NamingEnumeration<T> {
 
     private final Iterator<T> iterator;
@@ -363,7 +360,6 @@ public class SimpleNamingContext implements Context {
     }
   }
 
-
   private static final class NameClassPairEnumeration extends AbstractNamingEnumeration<NameClassPair> {
 
     private NameClassPairEnumeration(SimpleNamingContext context, String root) throws NamingException {
@@ -375,7 +371,6 @@ public class SimpleNamingContext implements Context {
       return new NameClassPair(strippedName, obj.getClass().getName());
     }
   }
-
 
   private static final class BindingEnumeration extends AbstractNamingEnumeration<Binding> {
 

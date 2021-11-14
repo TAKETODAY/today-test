@@ -20,21 +20,21 @@
 
 package cn.taketoday.test.web;
 
-import cn.taketoday.util.ObjectUtils;
-import cn.taketoday.web.servlet.ModelAndView;
-
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.taketoday.util.ObjectUtils;
+import cn.taketoday.web.view.ModelAndView;
+
 import static cn.taketoday.test.util.AssertionErrors.assertTrue;
 import static cn.taketoday.test.util.AssertionErrors.fail;
 
 /**
  * A collection of assertions intended to simplify testing scenarios dealing
- * with Spring Web MVC {@link cn.taketoday.web.servlet.ModelAndView
+ * with Web MVC {@link cn.taketoday.web.view.ModelAndView
  * ModelAndView} objects.
  *
  * <p>Intended for use with JUnit 4 and TestNG. All {@code assert*()} methods
@@ -43,7 +43,6 @@ import static cn.taketoday.test.util.AssertionErrors.fail;
  * @author Sam Brannen
  * @author Alef Arendsen
  * @author Bram Smeets
- * @see cn.taketoday.web.servlet.ModelAndView
  */
 public abstract class ModelAndViewAssert {
 
@@ -59,13 +58,12 @@ public abstract class ModelAndViewAssert {
    */
   @SuppressWarnings("unchecked")
   public static <T> T assertAndReturnModelAttributeOfType(ModelAndView mav, String modelName, Class<T> expectedType) {
-    Map<String, Object> model = mav.getModel();
-    Object obj = model.get(modelName);
+    Object obj = mav.getAttribute(modelName);
     if (obj == null) {
       fail("Model attribute with name '" + modelName + "' is null");
     }
     assertTrue("Model attribute is not of expected type '" + expectedType.getName() + "' but rather of type '" +
-            obj.getClass().getName() + "'", expectedType.isAssignableFrom(obj.getClass()));
+                       obj.getClass().getName() + "'", expectedType.isAssignableFrom(obj.getClass()));
     return (T) obj;
   }
 
@@ -80,9 +78,9 @@ public abstract class ModelAndViewAssert {
   public static void assertCompareListModelAttribute(ModelAndView mav, String modelName, List expectedList) {
     List modelList = assertAndReturnModelAttributeOfType(mav, modelName, List.class);
     assertTrue("Size of model list is '" + modelList.size() + "' while size of expected list is '" +
-            expectedList.size() + "'", expectedList.size() == modelList.size());
+                       expectedList.size() + "'", expectedList.size() == modelList.size());
     assertTrue("List in model under name '" + modelName + "' is not equal to the expected list.",
-            expectedList.equals(modelList));
+               expectedList.equals(modelList));
   }
 
   /**
@@ -92,8 +90,7 @@ public abstract class ModelAndViewAssert {
    * @param modelName name of the object to add to the model (never {@code null})
    */
   public static void assertModelAttributeAvailable(ModelAndView mav, String modelName) {
-    Map<String, Object> model = mav.getModel();
-    assertTrue("Model attribute with name '" + modelName + "' is not available", model.containsKey(modelName));
+    assertTrue("Model attribute with name '" + modelName + "' is not available", mav.containsAttribute(modelName));
   }
 
   /**
@@ -107,7 +104,7 @@ public abstract class ModelAndViewAssert {
   public static void assertModelAttributeValue(ModelAndView mav, String modelName, Object expectedValue) {
     Object modelValue = assertAndReturnModelAttributeOfType(mav, modelName, Object.class);
     assertTrue("Model value with name '" + modelName + "' is not the same as the expected value which was '" +
-            expectedValue + "'", modelValue.equals(expectedValue));
+                       expectedValue + "'", modelValue.equals(expectedValue));
   }
 
   /**
@@ -118,8 +115,7 @@ public abstract class ModelAndViewAssert {
    * @param expectedModel the expected model
    */
   public static void assertModelAttributeValues(ModelAndView mav, Map<String, Object> expectedModel) {
-    Map<String, Object> model = mav.getModel();
-
+    Map<String, Object> model = mav.asMap();
     if (!model.keySet().equals(expectedModel.keySet())) {
       StringBuilder sb = new StringBuilder("Keyset of expected model does not match.\n");
       appendNonMatchingSetsErrorMessage(expectedModel.keySet(), model.keySet(), sb);
@@ -157,13 +153,13 @@ public abstract class ModelAndViewAssert {
 
     List modelList = assertAndReturnModelAttributeOfType(mav, modelName, List.class);
     assertTrue("Size of model list is '" + modelList.size() + "' while size of expected list is '" +
-            expectedList.size() + "'", expectedList.size() == modelList.size());
+                       expectedList.size() + "'", expectedList.size() == modelList.size());
 
     modelList.sort(comparator);
     expectedList.sort(comparator);
 
     assertTrue("List in model under name '" + modelName + "' is not equal to the expected list.",
-            expectedList.equals(modelList));
+               expectedList.equals(modelList));
   }
 
   /**
@@ -174,10 +170,9 @@ public abstract class ModelAndViewAssert {
    * @param expectedName the name of the model value
    */
   public static void assertViewName(ModelAndView mav, String expectedName) {
-    assertTrue("View name is not equal to '" + expectedName + "' but was '" + mav.getViewName() + "'",
-            ObjectUtils.nullSafeEquals(expectedName, mav.getViewName()));
+    assertTrue("View name is not equal to '" + expectedName + "' but was '" + mav.getView() + "'",
+               ObjectUtils.nullSafeEquals(expectedName, mav.getView()));
   }
-
 
   private static void appendNonMatchingSetsErrorMessage(
           Set<String> assertionSet, Set<String> incorrectSet, StringBuilder sb) {

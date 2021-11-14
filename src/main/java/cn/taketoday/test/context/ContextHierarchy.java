@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
  *
  * <h4>Single Test Class with Context Hierarchy</h4>
  * <p>{@code ControllerIntegrationTests} represents a typical integration testing
- * scenario for a Spring MVC web application by declaring a context hierarchy
+ * scenario for a  MVC web application by declaring a context hierarchy
  * consisting of two levels, one for the <em>root</em> {@code WebApplicationContext}
  * (with {@code TestAppConfig}) and one for the <em>dispatcher servlet</em>
  * {@code WebApplicationContext} (with {@code WebConfig}). The {@code
@@ -46,7 +46,7 @@ import java.lang.annotation.Target;
  * the one for the child context (i.e., the lowest context in the hierarchy).
  *
  * <pre class="code">
- * &#064;RunWith(SpringRunner.class)
+ * &#064;RunWith(TodayRunner.class)
  * &#064;WebAppConfiguration
  * &#064;ContextHierarchy({
  *     &#064;ContextConfiguration(classes = TestAppConfig.class),
@@ -63,7 +63,7 @@ import java.lang.annotation.Target;
  * <h4>Class Hierarchy with Implicit Parent Context</h4>
  * <p>The following test classes define a context hierarchy within a test class
  * hierarchy. {@code AbstractWebTests} declares the configuration for a root
- * {@code WebApplicationContext} in a Spring-powered web application. Note,
+ * {@code WebApplicationContext} in a -powered web application. Note,
  * however, that {@code AbstractWebTests} does not declare {@code @ContextHierarchy};
  * consequently, subclasses of {@code AbstractWebTests} can optionally participate
  * in a context hierarchy or follow the standard semantics for {@code @ContextConfiguration}.
@@ -75,7 +75,7 @@ import java.lang.annotation.Target;
  * the parent context for each of the contexts loaded for the concrete subclasses.
  *
  * <pre class="code">
- * &#064;RunWith(SpringRunner.class)
+ * &#064;RunWith(TodayRunner.class)
  * &#064;WebAppConfiguration
  * &#064;ContextConfiguration("file:src/main/webapp/WEB-INF/applicationContext.xml")
  * public abstract class AbstractWebTests {}
@@ -91,7 +91,7 @@ import java.lang.annotation.Target;
  * in order to <em>merge</em> the configuration for specific levels in a context
  * hierarchy. {@code BaseTests} defines two levels in the hierarchy, {@code parent}
  * and {@code child}. {@code ExtendedTests} extends {@code BaseTests} and instructs
- * the Spring TestContext Framework to merge the context configuration for the
+ * the TestContext Framework to merge the context configuration for the
  * {@code child} hierarchy level, simply by ensuring that the names declared via
  * {@link ContextConfiguration#name} are both {@code "child"}. The result is that
  * three application contexts will be loaded: one for {@code "/app-config.xml"},
@@ -102,7 +102,7 @@ import java.lang.annotation.Target;
  * "/order-config.xml"}</code>.
  *
  * <pre class="code">
- * &#064;RunWith(SpringRunner.class)
+ * &#064;RunWith(TodayRunner.class)
  * &#064;ContextHierarchy({
  *     &#064;ContextConfiguration(name = "parent", locations = "/app-config.xml"),
  *     &#064;ContextConfiguration(name = "child",  locations = "/user-config.xml")
@@ -123,7 +123,7 @@ import java.lang.annotation.Target;
  * context loaded from {@code "/app-config.xml"}.
  *
  * <pre class="code">
- * &#064;RunWith(SpringRunner.class)
+ * &#064;RunWith(TodayRunner.class)
  * &#064;ContextHierarchy({
  *     &#064;ContextConfiguration(name = "parent", locations = "/app-config.xml"),
  *     &#064;ContextConfiguration(name = "child",  locations = "/user-config.xml")
@@ -138,7 +138,7 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *

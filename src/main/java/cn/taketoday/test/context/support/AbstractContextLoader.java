@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.ApplicationContextException;
@@ -42,17 +46,13 @@ import cn.taketoday.test.context.util.TestContextResourceUtils;
 import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 /**
  * Abstract application context loader that provides a basis for all concrete
  * implementations of the {@link ContextLoader} SPI. Provides a
  * <em>Template Method</em> based approach for {@link #processLocations processing}
  * resource locations.
  *
- * <p>As of Spring 3.1, {@code AbstractContextLoader} also provides a basis
+ * <p>As of Today 3.1, {@code AbstractContextLoader} also provides a basis
  * for all concrete implementations of the {@link SmartContextLoader} SPI. For
  * backwards compatibility with the {@code ContextLoader} SPI,
  * {@link #processContextConfiguration(ContextConfigurationAttributes)} delegates
@@ -72,7 +72,6 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
   private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
   private static final Logger logger = LoggerFactory.getLogger(AbstractContextLoader.class);
-
 
   // SmartContextLoader
 
@@ -190,7 +189,6 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
     }
   }
 
-
   // ContextLoader
 
   /**
@@ -216,7 +214,7 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
   @Override
   public final String[] processLocations(Class<?> clazz, String... locations) {
     return (ObjectUtils.isEmpty(locations) && isGenerateDefaultLocations()) ?
-            generateDefaultLocations(clazz) : modifyLocations(clazz, locations);
+           generateDefaultLocations(clazz) : modifyLocations(clazz, locations);
   }
 
   /**
@@ -228,7 +226,7 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
    * is the value of the first configured
    * {@linkplain #getResourceSuffixes() resource suffix} for which the
    * generated location actually exists in the classpath.
-   * <p>As of Spring 3.1, the implementation of this method adheres to the
+   * <p>the implementation of this method adheres to the
    * contract defined in the {@link SmartContextLoader} SPI. Specifically,
    * this method will <em>preemptively</em> verify that the generated default
    * location actually exists. If it does not exist, this method will log a
@@ -252,19 +250,19 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
         String prefixedResourcePath = ResourceLoader.CLASSPATH_URL_PREFIX + resourcePath;
         if (logger.isInfoEnabled()) {
           logger.info(String.format("Detected default resource location \"%s\" for test class [%s]",
-                  prefixedResourcePath, clazz.getName()));
+                                    prefixedResourcePath, clazz.getName()));
         }
         return new String[] { prefixedResourcePath };
       }
       else if (logger.isDebugEnabled()) {
         logger.debug(String.format("Did not detect default resource location for test class [%s]: " +
-                "%s does not exist", clazz.getName(), classPathResource));
+                                           "%s does not exist", clazz.getName(), classPathResource));
       }
     }
 
     if (logger.isInfoEnabled()) {
       logger.info(String.format("Could not detect default resource locations for test class [%s]: " +
-              "no resource found for suffixes %s.", clazz.getName(), ObjectUtils.nullSafeToString(suffixes)));
+                                        "no resource found for suffixes %s.", clazz.getName(), ObjectUtils.nullSafeToString(suffixes)));
     }
 
     return EMPTY_STRING_ARRAY;
@@ -289,7 +287,7 @@ public abstract class AbstractContextLoader implements SmartContextLoader {
    * Determine whether or not <em>default</em> resource locations should be
    * generated if the {@code locations} provided to
    * {@link #processLocations(Class, String...)} are {@code null} or empty.
-   * <p>As of Spring 3.1, the semantics of this method have been overloaded
+   * <p> the semantics of this method have been overloaded
    * to include detection of either default resource locations or default
    * configuration classes. Consequently, this method can also be used to
    * determine whether or not <em>default</em> configuration classes should be

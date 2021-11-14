@@ -22,7 +22,7 @@ package cn.taketoday.test.context.support;
 
 import cn.taketoday.beans.factory.support.BeanDefinitionReader;
 import cn.taketoday.context.annotation.AnnotatedBeanDefinitionReader;
-import cn.taketoday.context.support.GenericApplicationContext;
+import cn.taketoday.context.support.DefaultApplicationContext;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.ContextConfigurationAttributes;
@@ -51,14 +51,13 @@ import cn.taketoday.util.ObjectUtils;
  * @author Sam Brannen
  * @see #processContextConfiguration(ContextConfigurationAttributes)
  * @see #detectDefaultConfigurationClasses(Class)
- * @see #loadBeanDefinitions(GenericApplicationContext, MergedContextConfiguration)
+ * @see #loadBeanDefinitions(DefaultApplicationContext, MergedContextConfiguration)
  * @see GenericXmlContextLoader
  * @see GenericGroovyXmlContextLoader
  */
 public class AnnotationConfigContextLoader extends AbstractGenericContextLoader {
 
   private static final Logger logger = LoggerFactory.getLogger(AnnotationConfigContextLoader.class);
-
 
   // SmartContextLoader
 
@@ -85,7 +84,6 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
     }
   }
 
-
   // AnnotationConfigContextLoader
 
   /**
@@ -101,7 +99,6 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
   protected Class<?>[] detectDefaultConfigurationClasses(Class<?> declaringClass) {
     return AnnotationConfigContextLoaderUtils.detectDefaultConfigurationClasses(declaringClass);
   }
-
 
   // AbstractContextLoader
 
@@ -150,7 +147,6 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
             "AnnotationConfigContextLoader does not support the getResourceSuffix() method");
   }
 
-
   // AbstractGenericContextLoader
 
   /**
@@ -163,16 +159,16 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
   protected void validateMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
     if (mergedConfig.hasLocations()) {
       String msg = String.format("Test class [%s] has been configured with @ContextConfiguration's 'locations' " +
-                      "(or 'value') attribute %s, but %s does not support resource locations.",
-              mergedConfig.getTestClass().getName(), ObjectUtils.nullSafeToString(mergedConfig.getLocations()),
-              getClass().getSimpleName());
+                                         "(or 'value') attribute %s, but %s does not support resource locations.",
+                                 mergedConfig.getTestClass().getName(), ObjectUtils.nullSafeToString(mergedConfig.getLocations()),
+                                 getClass().getSimpleName());
       logger.error(msg);
       throw new IllegalStateException(msg);
     }
   }
 
   /**
-   * Register classes in the supplied {@link GenericApplicationContext context}
+   * Register classes in the supplied {@link DefaultApplicationContext context}
    * from the classes in the supplied {@link MergedContextConfiguration}.
    * <p>Each class must represent a <em>component class</em>. An
    * {@link AnnotatedBeanDefinitionReader} is used to register the appropriate
@@ -186,7 +182,7 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
    * @see AbstractGenericContextLoader#loadBeanDefinitions
    */
   @Override
-  protected void loadBeanDefinitions(GenericApplicationContext context, MergedContextConfiguration mergedConfig) {
+  protected void loadBeanDefinitions(DefaultApplicationContext context, MergedContextConfiguration mergedConfig) {
     Class<?>[] componentClasses = mergedConfig.getClasses();
     if (logger.isDebugEnabled()) {
       logger.debug("Registering component classes: " + ObjectUtils.nullSafeToString(componentClasses));
@@ -205,9 +201,9 @@ public class AnnotationConfigContextLoader extends AbstractGenericContextLoader 
    * @see AbstractGenericContextLoader#createBeanDefinitionReader
    */
   @Override
-  protected BeanDefinitionReader createBeanDefinitionReader(GenericApplicationContext context) {
+  protected BeanDefinitionReader createBeanDefinitionReader(DefaultApplicationContext context) {
     throw new UnsupportedOperationException(
-            "AnnotationConfigContextLoader does not support the createBeanDefinitionReader(GenericApplicationContext) method");
+            "AnnotationConfigContextLoader does not support the createBeanDefinitionReader(DefaultApplicationContext) method");
   }
 
 }

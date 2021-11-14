@@ -63,7 +63,6 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 
   protected static final Logger logger = LoggerFactory.getLogger(AbstractGenericWebContextLoader.class);
 
-
   // SmartContextLoader
 
   /**
@@ -103,14 +102,14 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
   @Override
   public final ConfigurableApplicationContext loadContext(@NonNull MergedContextConfiguration mergedConfig) throws Exception {
     Assert.isTrue(mergedConfig instanceof WebMergedContextConfiguration,
-            () -> String.format("Cannot load WebApplicationContext from non-web merged context configuration %s. " +
-                    "Consider annotating your test class with @WebAppConfiguration.", mergedConfig));
+                  () -> String.format("Cannot load WebApplicationContext from non-web merged context configuration %s. " +
+                                              "Consider annotating your test class with @WebAppConfiguration.", mergedConfig));
 
     WebMergedContextConfiguration webMergedConfig = (WebMergedContextConfiguration) mergedConfig;
 
     if (logger.isDebugEnabled()) {
       logger.debug(String.format("Loading WebApplicationContext for merged context configuration %s.",
-              webMergedConfig));
+                                 webMergedConfig));
     }
 
     validateMergedContextConfiguration(webMergedConfig);
@@ -186,7 +185,7 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
     if (!(parent instanceof WebApplicationContext)) {
       String resourceBasePath = webMergedConfig.getResourceBasePath();
       ResourceLoader resourceLoader = (resourceBasePath.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX) ?
-              new DefaultResourceLoader() : new FileSystemResourceLoader());
+                                       new DefaultResourceLoader() : new FileSystemResourceLoader());
       ServletContext servletContext = new MockServletContext(resourceBasePath, resourceLoader);
       servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
       context.setServletContext(servletContext);
@@ -254,7 +253,6 @@ public abstract class AbstractGenericWebContextLoader extends AbstractContextLoa
 
     super.customizeContext(context, webMergedConfig);
   }
-
 
   // ContextLoader
 

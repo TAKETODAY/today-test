@@ -20,13 +20,6 @@
 
 package cn.taketoday.test.context.junit4.rules;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.context.TestContextManager;
-import cn.taketoday.test.context.junit4.statements.ProfileValueChecker;
-import cn.taketoday.test.context.junit4.statements.RunAfterTestClassCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunBeforeTestClassCallbacks;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -34,37 +27,46 @@ import org.junit.runners.model.Statement;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import cn.taketoday.lang.Assert;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.context.TestContextManager;
+import cn.taketoday.test.context.junit4.TodayJUnit4ClassRunner;
+import cn.taketoday.test.context.junit4.statements.ProfileValueChecker;
+import cn.taketoday.test.context.junit4.statements.RunAfterTestClassCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunBeforeTestClassCallbacks;
+
 /**
  * {@code TodayClassRule} is a custom JUnit {@link TestRule} that supports
- * <em>class-level</em> features of the <em>Spring TestContext Framework</em>
+ * <em>class-level</em> features of the <em>TestContext Framework</em>
  * in standard JUnit tests by means of the {@link TestContextManager} and
  * associated support classes and annotations.
  *
- * <p>In contrast to the {@link cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
- * SpringJUnit4ClassRunner}, Spring's rule-based JUnit support has the advantage
+ * <p>In contrast to the {@link TodayJUnit4ClassRunner
+ * TodayJUnit4ClassRunner}, Today's rule-based JUnit support has the advantage
  * that it is independent of any {@link org.junit.runner.Runner Runner} and
  * can therefore be combined with existing alternative runners like JUnit's
  * {@code Parameterized} or third-party runners such as the {@code MockitoJUnitRunner}.
  *
- * <p>In order to achieve the same functionality as the {@code SpringJUnit4ClassRunner},
- * however, a {@code SpringClassRule} must be combined with a {@link TodayMethodRule},
- * since {@code SpringClassRule} only supports the class-level features of the
- * {@code SpringJUnit4ClassRunner}.
+ * <p>In order to achieve the same functionality as the {@code TodayJUnit4ClassRunner},
+ * however, a {@code TodayClassRule} must be combined with a {@link TodayMethodRule},
+ * since {@code TodayClassRule} only supports the class-level features of the
+ * {@code TodayJUnit4ClassRunner}.
  *
  * <h3>Example Usage</h3>
- * <pre><code> public class ExampleSpringIntegrationTest {
+ * <pre><code> public class ExampleTodayIntegrationTest {
  *
  *    &#064;ClassRule
- *    public static final SpringClassRule springClassRule = new SpringClassRule();
+ *    public static final TodayClassRule TodayClassRule = new TodayClassRule();
  *
  *    &#064;Rule
- *    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+ *    public final TodayMethodRule TodayMethodRule = new TodayMethodRule();
  *
  *    // ...
  * }</code></pre>
  *
  * <p>The following list constitutes all annotations currently supported directly
- * or indirectly by {@code SpringClassRule}. <em>(Note that additional annotations
+ * or indirectly by {@code TodayClassRule}. <em>(Note that additional annotations
  * may be supported by various
  * {@link cn.taketoday.test.context.TestExecutionListener TestExecutionListener} or
  * {@link cn.taketoday.test.context.TestContextBootstrapper TestContextBootstrapper}
@@ -75,14 +77,14 @@ import java.util.concurrent.ConcurrentHashMap;
  * <li>{@link cn.taketoday.test.annotation.IfProfileValue @IfProfileValue}</li>
  * </ul>
  *
- * <p><strong>NOTE:</strong> As of Spring Framework 4.3, this class requires JUnit 4.12 or higher.
+ * <p><strong>NOTE:</strong> this class requires JUnit 4.12 or higher.
  *
  * @author Sam Brannen
  * @author Philippe Marschall
  * @see #apply(Statement, Description)
  * @see TodayMethodRule
  * @see cn.taketoday.test.context.TestContextManager
- * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
+ * @see TodayJUnit4ClassRunner
  */
 public class TodayClassRule implements TestRule {
 
@@ -93,9 +95,8 @@ public class TodayClassRule implements TestRule {
    */
   private static final Map<Class<?>, TestContextManager> testContextManagerCache = new ConcurrentHashMap<>(64);
 
-
   /**
-   * Apply <em>class-level</em> features of the <em>Spring TestContext
+   * Apply <em>class-level</em> features of the <em>TestContext
    * Framework</em> to the supplied {@code base} statement.
    * <p>Specifically, this method retrieves the {@link TestContextManager}
    * used by this rule and its associated {@link TodayMethodRule} and
@@ -111,7 +112,7 @@ public class TodayClassRule implements TestRule {
    * @param base the base {@code Statement} that this rule should be applied to
    * @param description a {@code Description} of the current test execution
    * @return a statement that wraps the supplied {@code base} with class-level
-   * features of the Spring TestContext Framework
+   * features of the TestContext Framework
    * @see #getTestContextManager
    * @see #withBeforeTestClassCallbacks
    * @see #withAfterTestClassCallbacks
@@ -122,7 +123,7 @@ public class TodayClassRule implements TestRule {
   public Statement apply(Statement base, Description description) {
     Class<?> testClass = description.getTestClass();
     if (logger.isDebugEnabled()) {
-      logger.debug("Applying SpringClassRule to test class [" + testClass.getName() + "]");
+      logger.debug("Applying TodayClassRule to test class [" + testClass.getName() + "]");
     }
     TestContextManager testContextManager = getTestContextManager(testClass);
 
@@ -179,7 +180,6 @@ public class TodayClassRule implements TestRule {
     Assert.notNull(testClass, "Test Class must not be null");
     return testContextManagerCache.computeIfAbsent(testClass, TestContextManager::new);
   }
-
 
   private static class TestContextManagerCacheEvictor extends Statement {
 

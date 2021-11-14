@@ -43,15 +43,13 @@ public final class MockServerWebExchange extends DefaultServerWebExchange {
 
   private MockServerWebExchange(MockServerHttpRequest request, WebSessionManager sessionManager) {
     super(request, new MockServerHttpResponse(), sessionManager,
-            ServerCodecConfigurer.create(), new AcceptHeaderLocaleContextResolver());
+          ServerCodecConfigurer.create(), new AcceptHeaderLocaleContextResolver());
   }
-
 
   @Override
   public MockServerHttpResponse getResponse() {
     return (MockServerHttpResponse) super.getResponse();
   }
-
 
   /**
    * Create a {@link MockServerWebExchange} from the given mock request.
@@ -92,7 +90,6 @@ public final class MockServerWebExchange extends DefaultServerWebExchange {
   public static Builder builder(MockServerHttpRequest.BaseBuilder<?> requestBuilder) {
     return new Builder(requestBuilder.build());
   }
-
 
   /**
    * Builder for a {@link MockServerWebExchange}.
@@ -137,7 +134,7 @@ public final class MockServerWebExchange extends DefaultServerWebExchange {
      */
     public MockServerWebExchange build() {
       return new MockServerWebExchange(this.request,
-              this.sessionManager != null ? this.sessionManager : new DefaultWebSessionManager());
+                                       this.sessionManager != null ? this.sessionManager : new DefaultWebSessionManager());
     }
   }
 

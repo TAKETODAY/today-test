@@ -20,12 +20,12 @@
 
 package cn.taketoday.test.web.client;
 
+import java.io.IOException;
+
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.http.client.ClientHttpResponse;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.client.response.MockRestResponseCreators;
-
-import java.io.IOException;
 
 /**
  * A contract for creating a {@link ClientHttpResponse}.

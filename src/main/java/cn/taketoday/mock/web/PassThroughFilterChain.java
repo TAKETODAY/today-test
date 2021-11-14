@@ -20,6 +20,8 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import jakarta.servlet.Filter;
@@ -28,8 +30,6 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-
-import java.io.IOException;
 
 /**
  * Implementation of the {@link jakarta.servlet.FilterConfig} interface which
@@ -52,7 +52,6 @@ public class PassThroughFilterChain implements FilterChain {
 
   @Nullable
   private Servlet servlet;
-
 
   /**
    * Create a new PassThroughFilterChain that delegates to the given Filter,
@@ -77,7 +76,6 @@ public class PassThroughFilterChain implements FilterChain {
     Assert.notNull(servlet, "Servlet must not be null");
     this.servlet = servlet;
   }
-
 
   /**
    * Pass the call on to the Filter/Servlet.

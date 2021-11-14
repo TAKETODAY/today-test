@@ -20,6 +20,13 @@
 
 package cn.taketoday.test.web.servlet.setup;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
 import cn.taketoday.beans.BeansException;
 import cn.taketoday.beans.TypeConverter;
 import cn.taketoday.beans.factory.BeanFactory;
@@ -48,13 +55,6 @@ import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.web.context.WebApplicationContext;
 import cn.taketoday.web.context.support.ServletContextResourcePatternResolver;
 import jakarta.servlet.ServletContext;
-
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * A stub WebApplicationContext that accepts registrations of object instances.
@@ -86,12 +86,10 @@ class StubWebApplicationContext implements WebApplicationContext {
 
   private final ResourcePatternResolver resourcePatternResolver;
 
-
   public StubWebApplicationContext(ServletContext servletContext) {
     this.servletContext = servletContext;
     this.resourcePatternResolver = new ServletContextResourcePatternResolver(servletContext);
   }
-
 
   /**
    * Returns an instance that can initialize {@link ApplicationContextAware} beans.
@@ -105,7 +103,6 @@ class StubWebApplicationContext implements WebApplicationContext {
   public ServletContext getServletContext() {
     return this.servletContext;
   }
-
 
   //---------------------------------------------------------------------
   // Implementation of ApplicationContext interface
@@ -153,7 +150,6 @@ class StubWebApplicationContext implements WebApplicationContext {
       }
     }
   }
-
 
   //---------------------------------------------------------------------
   // Implementation of BeanFactory interface
@@ -233,7 +229,6 @@ class StubWebApplicationContext implements WebApplicationContext {
   public String[] getAliases(String name) {
     return this.beanFactory.getAliases(name);
   }
-
 
   //---------------------------------------------------------------------
   // Implementation of ListableBeanFactory interface
@@ -316,7 +311,6 @@ class StubWebApplicationContext implements WebApplicationContext {
     return this.beanFactory.findAnnotationOnBean(beanName, annotationType);
   }
 
-
   //---------------------------------------------------------------------
   // Implementation of HierarchicalBeanFactory interface
   //---------------------------------------------------------------------
@@ -330,7 +324,6 @@ class StubWebApplicationContext implements WebApplicationContext {
   public boolean containsLocalBean(String name) {
     return this.beanFactory.containsBean(name);
   }
-
 
   //---------------------------------------------------------------------
   // Implementation of MessageSource interface
@@ -351,7 +344,6 @@ class StubWebApplicationContext implements WebApplicationContext {
     return this.messageSource.getMessage(resolvable, locale);
   }
 
-
   //---------------------------------------------------------------------
   // Implementation of ResourceLoader interface
   //---------------------------------------------------------------------
@@ -366,7 +358,6 @@ class StubWebApplicationContext implements WebApplicationContext {
   public Resource getResource(String location) {
     return this.resourcePatternResolver.getResource(location);
   }
-
 
   //---------------------------------------------------------------------
   // Other
@@ -384,7 +375,6 @@ class StubWebApplicationContext implements WebApplicationContext {
   public Resource[] getResources(String locationPattern) throws IOException {
     return this.resourcePatternResolver.getResources(locationPattern);
   }
-
 
   /**
    * An extension of StaticListableBeanFactory that implements

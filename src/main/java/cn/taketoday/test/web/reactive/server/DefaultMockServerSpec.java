@@ -34,12 +34,10 @@ class DefaultMockServerSpec extends AbstractMockServerSpec<DefaultMockServerSpec
 
   private final WebHandler webHandler;
 
-
   DefaultMockServerSpec(WebHandler webHandler) {
     Assert.notNull(webHandler, "WebHandler is required");
     this.webHandler = webHandler;
   }
-
 
   @Override
   protected WebHttpHandlerBuilder initHttpHandlerBuilder() {

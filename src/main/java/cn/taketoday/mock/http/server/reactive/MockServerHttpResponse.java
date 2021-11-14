@@ -20,6 +20,14 @@
 
 package cn.taketoday.mock.http.server.reactive;
 
+import org.reactivestreams.Publisher;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DataBufferFactory;
 import cn.taketoday.core.io.buffer.DataBufferUtils;
@@ -29,16 +37,9 @@ import cn.taketoday.http.ResponseCookie;
 import cn.taketoday.http.server.reactive.AbstractServerHttpResponse;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.util.MimeType;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
-
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * Mock extension of {@link AbstractServerHttpResponse} for use in tests without
@@ -57,7 +58,6 @@ public class MockServerHttpResponse extends AbstractServerHttpResponse {
 
   private Function<Flux<DataBuffer>, Mono<Void>> writeHandler;
 
-
   public MockServerHttpResponse() {
     this(DefaultDataBufferFactory.sharedInstance);
   }
@@ -72,7 +72,6 @@ public class MockServerHttpResponse extends AbstractServerHttpResponse {
       return completion.asMono();
     };
   }
-
 
   /**
    * Configure a custom handler to consume the response body.
@@ -93,7 +92,6 @@ public class MockServerHttpResponse extends AbstractServerHttpResponse {
   public <T> T getNativeResponse() {
     throw new IllegalStateException("This is a mock. No running server, no native response.");
   }
-
 
   @Override
   protected void applyStatusCode() {

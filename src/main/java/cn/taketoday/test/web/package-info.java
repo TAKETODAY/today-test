@@ -1,4 +1,4 @@
 /**
- * Helper classes for unit tests based on Spring's web support.
+ * Helper classes for unit tests based on web support.
  */
 package cn.taketoday.test.web;

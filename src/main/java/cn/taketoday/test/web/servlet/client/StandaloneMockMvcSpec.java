@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.web.servlet.client;
 
+import java.util.function.Supplier;
+
 import cn.taketoday.format.support.FormattingConversionService;
 import cn.taketoday.http.converter.HttpMessageConverter;
 import cn.taketoday.lang.Nullable;
@@ -39,8 +41,6 @@ import cn.taketoday.web.servlet.ViewResolver;
 import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import cn.taketoday.web.util.pattern.PathPatternParser;
 
-import java.util.function.Supplier;
-
 /**
  * Simple wrapper around a {@link StandaloneMockMvcBuilder} that implements
  * {@link MockMvcWebTestClient.ControllerSpec}.
@@ -51,7 +51,6 @@ class StandaloneMockMvcSpec extends AbstractMockMvcServerSpec<MockMvcWebTestClie
         implements MockMvcWebTestClient.ControllerSpec {
 
   private final StandaloneMockMvcBuilder mockMvcBuilder;
-
 
   StandaloneMockMvcSpec(Object... controllers) {
     this.mockMvcBuilder = MockMvcBuilders.standaloneSetup(controllers);

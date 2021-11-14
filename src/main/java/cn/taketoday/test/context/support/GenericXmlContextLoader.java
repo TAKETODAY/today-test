@@ -22,7 +22,7 @@ package cn.taketoday.test.context.support;
 
 import cn.taketoday.beans.factory.support.BeanDefinitionReader;
 import cn.taketoday.beans.factory.xml.XmlBeanDefinitionReader;
-import cn.taketoday.context.support.GenericApplicationContext;
+import cn.taketoday.context.support.DefaultApplicationContext;
 import cn.taketoday.test.context.MergedContextConfiguration;
 import cn.taketoday.util.ObjectUtils;
 
@@ -46,7 +46,7 @@ public class GenericXmlContextLoader extends AbstractGenericContextLoader {
    * @return a new {@code XmlBeanDefinitionReader}
    */
   @Override
-  protected BeanDefinitionReader createBeanDefinitionReader(GenericApplicationContext context) {
+  protected BeanDefinitionReader createBeanDefinitionReader(DefaultApplicationContext context) {
     return new XmlBeanDefinitionReader(context);
   }
 

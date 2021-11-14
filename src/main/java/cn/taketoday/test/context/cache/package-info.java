@@ -1,5 +1,5 @@
 /**
- * Support for context caching within the <em>Spring TestContext Framework</em>.
+ * Support for context caching within the <em>TestContext Framework</em>.
  */
 @NonNullApi
 @NonNullFields

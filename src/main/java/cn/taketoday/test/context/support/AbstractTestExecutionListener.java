@@ -21,6 +21,7 @@
 package cn.taketoday.test.context.support;
 
 import cn.taketoday.core.Ordered;
+import cn.taketoday.lang.NonNull;
 import cn.taketoday.test.context.TestContext;
 import cn.taketoday.test.context.TestExecutionListener;
 
@@ -50,7 +51,7 @@ public abstract class AbstractTestExecutionListener implements TestExecutionList
    * subclasses as necessary.
    */
   @Override
-  public void beforeTestClass(TestContext testContext) throws Exception {
+  public void beforeTestClass(@NonNull TestContext testContext) throws Exception {
     /* no-op */
   }
 

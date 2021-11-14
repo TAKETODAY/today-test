@@ -49,8 +49,7 @@ public interface CacheAwareContextLoaderDelegate {
    * DefaultCacheAwareContextLoaderDelegate} will be used as the default.
    */
   String DEFAULT_CACHE_AWARE_CONTEXT_LOADER_DELEGATE_PROPERTY_NAME =
-          "spring.test.context.default.CacheAwareContextLoaderDelegate";
-
+          "today.test.context.default.CacheAwareContextLoaderDelegate";
 
   /**
    * Determine if the {@linkplain ApplicationContext application context} for
@@ -64,7 +63,7 @@ public interface CacheAwareContextLoaderDelegate {
    * Custom {@code CacheAwareContextLoaderDelegate} implementations are
    * therefore highly encouraged to override this method with a more meaningful
    * implementation. Note that the standard {@code CacheAwareContextLoaderDelegate}
-   * implementation in Spring overrides this method appropriately.
+   * implementation in Context overrides this method appropriately.
    *
    * @param mergedContextConfiguration the merged context configuration used
    * to load the application context; never {@code null}

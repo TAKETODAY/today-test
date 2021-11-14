@@ -38,11 +38,9 @@ class DefaultRouterFunctionSpec extends AbstractMockServerSpec<WebTestClient.Rou
 
   private HandlerStrategies handlerStrategies = HandlerStrategies.withDefaults();
 
-
   DefaultRouterFunctionSpec(RouterFunction<?> routerFunction) {
     this.routerFunction = routerFunction;
   }
-
 
   @Override
   public WebTestClient.RouterFunctionSpec handlerStrategies(HandlerStrategies handlerStrategies) {

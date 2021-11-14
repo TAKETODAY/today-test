@@ -20,16 +20,16 @@
 
 package cn.taketoday.mock.http.client;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.http.client.ClientHttpResponse;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.http.MockHttpOutputMessage;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Mock implementation of {@link ClientHttpRequest}.
@@ -68,7 +68,6 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
     this.httpMethod = httpMethod;
     this.uri = uri;
   }
-
 
   public void setMethod(HttpMethod httpMethod) {
     this.httpMethod = httpMethod;
@@ -123,7 +122,6 @@ public class MockClientHttpRequest extends MockHttpOutputMessage implements Clie
     Assert.state(this.clientHttpResponse != null, "No ClientHttpResponse");
     return this.clientHttpResponse;
   }
-
 
   @Override
   public String toString() {

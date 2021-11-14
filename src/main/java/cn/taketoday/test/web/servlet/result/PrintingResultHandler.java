@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.lang.Nullable;
@@ -41,11 +46,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 /**
  * Result handler that prints {@link MvcResult} details to a given output
  * stream &mdash; for example: {@code System.out}, {@code System.err}, a
@@ -63,7 +63,6 @@ public class PrintingResultHandler implements ResultHandler {
   private static final String MISSING_CHARACTER_ENCODING = "<no character encoding set>";
 
   private final ResultValuePrinter printer;
-
 
   /**
    * Protected constructor.
@@ -115,7 +114,7 @@ public class PrintingResultHandler implements ResultHandler {
    */
   protected void printRequest(MockHttpServletRequest request) throws Exception {
     String body = (request.getCharacterEncoding() != null ?
-            request.getContentAsString() : MISSING_CHARACTER_ENCODING);
+                   request.getContentAsString() : MISSING_CHARACTER_ENCODING);
 
     this.printer.printValue("HTTP Method", request.getMethod());
     this.printer.printValue("Request URI", request.getRequestURI());
@@ -288,7 +287,6 @@ public class PrintingResultHandler implements ResultHandler {
     }
     return headers;
   }
-
 
   /**
    * A contract for how to actually write result information.

@@ -20,13 +20,13 @@
 
 package cn.taketoday.mock.http;
 
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.HttpInputMessage;
-import cn.taketoday.lang.Assert;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.http.HttpInputMessage;
+import cn.taketoday.lang.Assert;
 
 /**
  * Mock implementation of {@link HttpInputMessage}.
@@ -39,7 +39,6 @@ public class MockHttpInputMessage implements HttpInputMessage {
 
   private final InputStream body;
 
-
   public MockHttpInputMessage(byte[] content) {
     Assert.notNull(content, "Byte array must not be null");
     this.body = new ByteArrayInputStream(content);
@@ -49,7 +48,6 @@ public class MockHttpInputMessage implements HttpInputMessage {
     Assert.notNull(body, "InputStream must not be null");
     this.body = body;
   }
-
 
   @Override
   public HttpHeaders getHeaders() {

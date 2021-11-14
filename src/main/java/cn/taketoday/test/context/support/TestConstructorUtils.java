@@ -20,6 +20,9 @@
 
 package cn.taketoday.test.context.support;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.lang.Autowired;
 import cn.taketoday.lang.Nullable;
@@ -27,9 +30,6 @@ import cn.taketoday.lang.TodayStrategies;
 import cn.taketoday.test.context.TestConstructor;
 import cn.taketoday.test.context.TestConstructor.AutowireMode;
 import cn.taketoday.test.context.TestContextAnnotationUtils;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Executable;
 
 /**
  * Utility methods for working with {@link TestConstructor @TestConstructor}.
@@ -88,11 +88,10 @@ public abstract class TestConstructorUtils {
    * @return {@code true} if the executable is an autowirable constructor
    * @see #isAutowirableConstructor(Constructor, Class, PropertyProvider)
    */
-  public static boolean isAutowirableConstructor(Executable executable, Class<?> testClass,
-                                                 @Nullable PropertyProvider fallbackPropertyProvider) {
-
-    return (executable instanceof Constructor &&
-            isAutowirableConstructor((Constructor<?>) executable, testClass, fallbackPropertyProvider));
+  public static boolean isAutowirableConstructor(
+          Executable executable, Class<?> testClass, @Nullable PropertyProvider fallbackPropertyProvider) {
+    return executable instanceof Constructor
+            && isAutowirableConstructor((Constructor<?>) executable, testClass, fallbackPropertyProvider);
   }
 
   /**
@@ -129,8 +128,7 @@ public abstract class TestConstructorUtils {
       return true;
     }
 
-    AutowireMode autowireMode = null;
-
+    AutowireMode autowireMode;
     // Is the test class annotated with @TestConstructor?
     TestConstructor testConstructor = TestContextAnnotationUtils.findMergedAnnotation(testClass, TestConstructor.class);
     if (testConstructor != null) {

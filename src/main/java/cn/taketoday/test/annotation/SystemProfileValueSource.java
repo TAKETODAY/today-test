@@ -33,20 +33,17 @@ public final class SystemProfileValueSource implements ProfileValueSource {
 
   private static final SystemProfileValueSource INSTANCE = new SystemProfileValueSource();
 
-
   /**
    * Obtain the canonical instance of this ProfileValueSource.
    */
-  public static final SystemProfileValueSource getInstance() {
+  public static SystemProfileValueSource getInstance() {
     return INSTANCE;
   }
-
 
   /**
    * Private constructor, enforcing the singleton pattern.
    */
-  private SystemProfileValueSource() {
-  }
+  private SystemProfileValueSource() { }
 
   /**
    * Get the <em>profile value</em> indicated by the specified key from the

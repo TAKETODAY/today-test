@@ -40,7 +40,6 @@ public class ExceptionCollector {
 
   private final List<Throwable> exceptions = new ArrayList<>();
 
-
   /**
    * Execute the supplied {@link Executable} and track any exception thrown.
    *
@@ -113,7 +112,6 @@ public class ExceptionCollector {
     this.exceptions.forEach(assertionError::addSuppressed);
     throw assertionError;
   }
-
 
   /**
    * {@code Executable} is a functional interface that can be used to implement

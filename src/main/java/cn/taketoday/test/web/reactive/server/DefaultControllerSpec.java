@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.annotation.AnnotationConfigApplicationContext;
@@ -38,10 +42,6 @@ import cn.taketoday.web.reactive.config.WebFluxConfigurer;
 import cn.taketoday.web.reactive.result.method.annotation.ArgumentResolverConfigurer;
 import cn.taketoday.web.server.adapter.WebHttpHandlerBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
 /**
  * Default implementation of {@link WebTestClient.ControllerSpec}.
  *
@@ -56,7 +56,6 @@ class DefaultControllerSpec extends AbstractMockServerSpec<WebTestClient.Control
 
   private final TestWebFluxConfigurer configurer = new TestWebFluxConfigurer();
 
-
   DefaultControllerSpec(Object... controllers) {
     Assert.isTrue(!ObjectUtils.isEmpty(controllers), "At least one controller is required");
     this.controllers = instantiateIfNecessary(controllers);
@@ -69,7 +68,6 @@ class DefaultControllerSpec extends AbstractMockServerSpec<WebTestClient.Control
     }
     return instances;
   }
-
 
   @Override
   public DefaultControllerSpec controllerAdvice(Object... controllerAdvices) {
@@ -125,7 +123,6 @@ class DefaultControllerSpec extends AbstractMockServerSpec<WebTestClient.Control
     return this;
   }
 
-
   @Override
   protected WebHttpHandlerBuilder initHttpHandlerBuilder() {
     return WebHttpHandlerBuilder.applicationContext(initApplicationContext());
@@ -146,7 +143,6 @@ class DefaultControllerSpec extends AbstractMockServerSpec<WebTestClient.Control
     context.refresh();
     return context;
   }
-
 
   private class TestWebFluxConfigurer implements WebFluxConfigurer {
 

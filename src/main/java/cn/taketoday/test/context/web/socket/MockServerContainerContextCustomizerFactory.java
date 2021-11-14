@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.context.web.socket;
 
+import java.util.List;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.lang.NonNull;
@@ -28,8 +30,6 @@ import cn.taketoday.test.context.ContextConfigurationAttributes;
 import cn.taketoday.test.context.ContextCustomizer;
 import cn.taketoday.test.context.ContextCustomizerFactory;
 import cn.taketoday.util.ClassUtils;
-
-import java.util.List;
 
 /**
  * {@link ContextCustomizerFactory} which creates a {@link MockServerContainerContextCustomizer}
@@ -47,8 +47,7 @@ class MockServerContainerContextCustomizerFactory implements ContextCustomizerFa
           "cn.taketoday.test.context.web.socket.MockServerContainerContextCustomizer";
 
   private static final boolean webSocketPresent = ClassUtils.isPresent("jakarta.websocket.server.ServerContainer",
-          MockServerContainerContextCustomizerFactory.class.getClassLoader());
-
+                                                                       MockServerContainerContextCustomizerFactory.class.getClassLoader());
 
   @Override
   @Nullable
@@ -58,12 +57,12 @@ class MockServerContainerContextCustomizerFactory implements ContextCustomizerFa
     if (webSocketPresent && isAnnotatedWithWebAppConfiguration(testClass)) {
       try {
         Class<?> clazz = ClassUtils.forName(MOCK_SERVER_CONTAINER_CONTEXT_CUSTOMIZER_CLASS_NAME,
-                getClass().getClassLoader());
+                                            getClass().getClassLoader());
         return (ContextCustomizer) BeanUtils.newInstance(clazz);
       }
       catch (Throwable ex) {
         throw new IllegalStateException("Failed to enable WebSocket test support; could not load class: " +
-                MOCK_SERVER_CONTAINER_CONTEXT_CUSTOMIZER_CLASS_NAME, ex);
+                                                MOCK_SERVER_CONTAINER_CONTEXT_CUSTOMIZER_CLASS_NAME, ex);
       }
     }
 
@@ -73,7 +72,7 @@ class MockServerContainerContextCustomizerFactory implements ContextCustomizerFa
 
   private static boolean isAnnotatedWithWebAppConfiguration(Class<?> testClass) {
     return (AnnotatedElementUtils.findMergedAnnotationAttributes(testClass,
-            WEB_APP_CONFIGURATION_ANNOTATION_CLASS_NAME, false, false) != null);
+                                                                 WEB_APP_CONFIGURATION_ANNOTATION_CLASS_NAME, false, false) != null);
   }
 
 }

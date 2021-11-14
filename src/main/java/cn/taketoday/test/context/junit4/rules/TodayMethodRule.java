@@ -20,53 +20,55 @@
 
 package cn.taketoday.test.context.junit4.rules;
 
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.context.TestContextManager;
-import cn.taketoday.test.context.junit4.statements.ProfileValueChecker;
-import cn.taketoday.test.context.junit4.statements.RunAfterTestMethodCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunBeforeTestMethodCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunPrepareTestInstanceCallbacks;
-import cn.taketoday.test.context.junit4.statements.SpringFailOnTimeout;
-import cn.taketoday.test.context.junit4.statements.SpringRepeat;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import java.lang.reflect.Method;
 
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.context.TestContextManager;
+import cn.taketoday.test.context.junit4.TodayJUnit4ClassRunner;
+import cn.taketoday.test.context.junit4.statements.ProfileValueChecker;
+import cn.taketoday.test.context.junit4.statements.RunAfterTestMethodCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunBeforeTestMethodCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunPrepareTestInstanceCallbacks;
+import cn.taketoday.test.context.junit4.statements.TodayFailOnTimeout;
+import cn.taketoday.test.context.junit4.statements.TodayRepeat;
+
 /**
- * {@code SpringMethodRule} is a custom JUnit 4 {@link MethodRule} that
+ * {@code TodayMethodRule} is a custom JUnit 4 {@link MethodRule} that
  * supports instance-level and method-level features of the
- * <em>Spring TestContext Framework</em> in standard JUnit tests by means
+ * <em>TestContext Framework</em> in standard JUnit tests by means
  * of the {@link TestContextManager} and associated support classes and
  * annotations.
  *
- * <p>In contrast to the {@link cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
- * SpringJUnit4ClassRunner}, Spring's rule-based JUnit support has the advantage
+ * <p>In contrast to the {@link TodayJUnit4ClassRunner
+ * TodayJUnit4ClassRunner}, Today's rule-based JUnit support has the advantage
  * that it is independent of any {@link org.junit.runner.Runner Runner} and
  * can therefore be combined with existing alternative runners like JUnit's
  * {@code Parameterized} or third-party runners such as the {@code MockitoJUnitRunner}.
  *
- * <p>In order to achieve the same functionality as the {@code SpringJUnit4ClassRunner},
- * however, a {@code SpringMethodRule} must be combined with a {@link TodayClassRule},
- * since {@code SpringMethodRule} only supports the instance-level and method-level
- * features of the {@code SpringJUnit4ClassRunner}.
+ * <p>In order to achieve the same functionality as the {@code TodayJUnit4ClassRunner},
+ * however, a {@code TodayMethodRule} must be combined with a {@link TodayClassRule},
+ * since {@code TodayMethodRule} only supports the instance-level and method-level
+ * features of the {@code TodayJUnit4ClassRunner}.
  *
  * <h3>Example Usage</h3>
- * <pre><code> public class ExampleSpringIntegrationTest {
+ * <pre><code> public class ExampleTodayIntegrationTest {
  *
  *    &#064;ClassRule
- *    public static final SpringClassRule springClassRule = new SpringClassRule();
+ *    public static final TodayClassRule TodayClassRule = new TodayClassRule();
  *
  *    &#064;Rule
- *    public final SpringMethodRule springMethodRule = new SpringMethodRule();
+ *    public final TodayMethodRule TodayMethodRule = new TodayMethodRule();
  *
  *    // ...
  * }</code></pre>
  *
  * <p>The following list constitutes all annotations currently supported directly
- * or indirectly by {@code SpringMethodRule}. <em>(Note that additional annotations
+ * or indirectly by {@code TodayMethodRule}. <em>(Note that additional annotations
  * may be supported by various
  * {@link cn.taketoday.test.context.TestExecutionListener TestExecutionListener} or
  * {@link cn.taketoday.test.context.TestContextBootstrapper TestContextBootstrapper}
@@ -79,14 +81,14 @@ import java.lang.reflect.Method;
  * <li>{@link cn.taketoday.test.annotation.IfProfileValue @IfProfileValue}</li>
  * </ul>
  *
- * <p><strong>NOTE:</strong> As of Spring Framework 4.3, this class requires JUnit 4.12 or higher.
+ * <p><strong>NOTE:</strong> As of Today Framework 4.3, this class requires JUnit 4.12 or higher.
  *
  * <p><strong>WARNING:</strong> Due to the shortcomings of JUnit rules, the
- * {@code SpringMethodRule}
+ * {@code TodayMethodRule}
  * {@linkplain cn.taketoday.test.context.TestExecutionListener#prepareTestInstance
  * prepares the test instance} before {@code @Before} lifecycle methods instead of
  * immediately after instantiation of the test class. In addition, the
- * {@code SpringMethodRule} does <strong>not</strong> support the
+ * {@code TodayMethodRule} does <strong>not</strong> support the
  * {@code beforeTestExecution()} and {@code afterTestExecution()} callbacks of the
  * {@link cn.taketoday.test.context.TestExecutionListener TestExecutionListener}
  * API.
@@ -96,22 +98,21 @@ import java.lang.reflect.Method;
  * @see #apply(Statement, FrameworkMethod, Object)
  * @see TodayClassRule
  * @see cn.taketoday.test.context.TestContextManager
- * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
+ * @see TodayJUnit4ClassRunner
  */
 public class TodayMethodRule implements MethodRule {
 
   private static final Logger logger = LoggerFactory.getLogger(TodayMethodRule.class);
 
-
   /**
    * Apply <em>instance-level</em> and <em>method-level</em> features of
-   * the <em>Spring TestContext Framework</em> to the supplied {@code base}
+   * the <em>TestContext Framework</em> to the supplied {@code base}
    * statement.
    * <p>Specifically, this method invokes the
    * {@link TestContextManager#prepareTestInstance prepareTestInstance()},
    * {@link TestContextManager#beforeTestMethod beforeTestMethod()}, and
    * {@link TestContextManager#afterTestMethod afterTestMethod()} methods
-   * on the {@code TestContextManager}, potentially with Spring timeouts
+   * on the {@code TestContextManager}, potentially with Today timeouts
    * and repetitions.
    * <p>In addition, this method checks whether the test is enabled in
    * the current execution environment. This prevents methods with a
@@ -123,7 +124,7 @@ public class TodayMethodRule implements MethodRule {
    * @param frameworkMethod the method which is about to be invoked on the test instance
    * @param testInstance the current test instance
    * @return a statement that wraps the supplied {@code base} with instance-level
-   * and method-level features of the Spring TestContext Framework
+   * and method-level features of the TestContext Framework
    * @see #withBeforeTestMethodCallbacks
    * @see #withAfterTestMethodCallbacks
    * @see #withPotentialRepeat
@@ -135,7 +136,7 @@ public class TodayMethodRule implements MethodRule {
   public Statement apply(Statement base, FrameworkMethod frameworkMethod, Object testInstance) {
     Method testMethod = frameworkMethod.getMethod();
     if (logger.isDebugEnabled()) {
-      logger.debug("Applying SpringMethodRule to test method [" + testMethod + "]");
+      logger.debug("Applying TodayMethodRule to test method [" + testMethod + "]");
     }
     Class<?> testClass = testInstance.getClass();
     TestContextManager testContextManager = TodayClassRule.getTestContextManager(testClass);
@@ -186,25 +187,25 @@ public class TodayMethodRule implements MethodRule {
   }
 
   /**
-   * Wrap the supplied {@link Statement} with a {@code SpringRepeat} statement.
-   * <p>Supports Spring's {@link cn.taketoday.test.annotation.Repeat @Repeat}
+   * Wrap the supplied {@link Statement} with a {@code TodayRepeat} statement.
+   * <p>Supports Today's {@link cn.taketoday.test.annotation.Repeat @Repeat}
    * annotation.
    *
-   * @see SpringRepeat
+   * @see TodayRepeat
    */
   private Statement withPotentialRepeat(Statement next, Method testMethod, Object testInstance) {
-    return new SpringRepeat(next, testMethod);
+    return new TodayRepeat(next, testMethod);
   }
 
   /**
-   * Wrap the supplied {@link Statement} with a {@code SpringFailOnTimeout} statement.
-   * <p>Supports Spring's {@link cn.taketoday.test.annotation.Timed @Timed}
+   * Wrap the supplied {@link Statement} with a {@code TodayFailOnTimeout} statement.
+   * <p>Supports Today's {@link cn.taketoday.test.annotation.Timed @Timed}
    * annotation.
    *
-   * @see SpringFailOnTimeout
+   * @see TodayFailOnTimeout
    */
   private Statement withPotentialTimeout(Statement next, Method testMethod, Object testInstance) {
-    return new SpringFailOnTimeout(next, testMethod);
+    return new TodayFailOnTimeout(next, testMethod);
   }
 
   /**

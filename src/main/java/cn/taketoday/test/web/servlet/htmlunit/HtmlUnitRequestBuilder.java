@@ -20,32 +20,12 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.mock.web.MockHttpServletRequest;
-import cn.taketoday.mock.web.MockHttpSession;
-import cn.taketoday.mock.web.MockPart;
-import cn.taketoday.test.Mergeable;
-import cn.taketoday.test.web.servlet.RequestBuilder;
-import cn.taketoday.test.web.servlet.SmartRequestBuilder;
-import cn.taketoday.test.web.servlet.request.MockHttpServletRequestBuilder;
-import cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders;
-import cn.taketoday.test.web.servlet.request.RequestPostProcessor;
-import cn.taketoday.util.MediaType;
-import cn.taketoday.util.ObjectUtils;
-import cn.taketoday.util.StringUtils;
-import cn.taketoday.web.util.UriComponents;
-import cn.taketoday.web.util.UriComponentsBuilder;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.FormEncodingType;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.util.KeyDataPair;
 import com.gargoylesoftware.htmlunit.util.NameValuePair;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,9 +43,30 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.mock.web.MockHttpServletRequest;
+import cn.taketoday.mock.web.MockHttpSession;
+import cn.taketoday.mock.web.MockPart;
+import cn.taketoday.test.Mergeable;
+import cn.taketoday.test.web.servlet.RequestBuilder;
+import cn.taketoday.test.web.servlet.SmartRequestBuilder;
+import cn.taketoday.test.web.servlet.request.MockHttpServletRequestBuilder;
+import cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders;
+import cn.taketoday.test.web.servlet.request.RequestPostProcessor;
+import cn.taketoday.util.MediaType;
+import cn.taketoday.util.ObjectUtils;
+import cn.taketoday.util.StringUtils;
+import cn.taketoday.web.util.UriComponents;
+import cn.taketoday.web.util.UriComponentsBuilder;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 /**
  * Internal class used to transform a {@link WebRequest} into a
- * {@link MockHttpServletRequest} using Spring MVC Test's {@link RequestBuilder}.
+ * {@link MockHttpServletRequest} using Today MVC Test's {@link RequestBuilder}.
  *
  * <p>By default the first path segment of the URL is used as the context path.
  * To override this default see {@link #setContextPath(String)}.
@@ -111,7 +112,6 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
     this.webClient = webClient;
     this.webRequest = webRequest;
   }
-
 
   @Override
   public MockHttpServletRequest buildRequest(ServletContext servletContext) {
@@ -270,8 +270,8 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
     else {
       String path = uriComponents.getPath();
       Assert.isTrue(path != null && path.startsWith(this.contextPath),
-              () -> "\"" + uriComponents.getPath() +
-                      "\" should start with context path \"" + this.contextPath + "\"");
+                    () -> "\"" + uriComponents.getPath() +
+                            "\" should start with context path \"" + this.contextPath + "\"");
       request.setContextPath(this.contextPath);
     }
   }
@@ -285,8 +285,8 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
       while (tokens.hasMoreTokens()) {
         String cookieName = tokens.nextToken().trim();
         Assert.isTrue(tokens.hasMoreTokens(),
-                () -> "Expected value for cookie name '" + cookieName +
-                        "': full cookie header was [" + cookieHeaderValue + "]");
+                      () -> "Expected value for cookie name '" + cookieName +
+                              "': full cookie header was [" + cookieHeaderValue + "]");
         String cookieValue = tokens.nextToken().trim();
         processCookie(request, cookies, new Cookie(cookieName, cookieValue));
       }
@@ -353,7 +353,7 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
 
   private com.gargoylesoftware.htmlunit.util.Cookie createCookie(MockHttpServletRequest request, String sessionid) {
     return new com.gargoylesoftware.htmlunit.util.Cookie(request.getServerName(), "JSESSIONID", sessionid,
-            request.getContextPath() + "/", null, request.isSecure(), true);
+                                                         request.getContextPath() + "/", null, request.isSecure(), true);
   }
 
   private void locales(MockHttpServletRequest request) {
@@ -387,7 +387,7 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
           part = new MockPart(pair.getName(), pair.getValue(), pair.getData());
         }
         MediaType mediaType = (pair.getMimeType() != null ? MediaType.valueOf(pair.getMimeType()) :
-                MediaType.APPLICATION_OCTET_STREAM);
+                               MediaType.APPLICATION_OCTET_STREAM);
         part.getHeaders().setContentType(mediaType);
         request.addPart(part);
       }
@@ -468,7 +468,6 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
     return this.webClient.getCookieManager();
   }
 
-
   /**
    * An extension to {@link MockHttpServletRequest} that ensures that when a
    * new {@link HttpSession} is created, it is added to the managed sessions.
@@ -496,7 +495,6 @@ final class HtmlUnitRequestBuilder implements RequestBuilder, Mergeable {
       return session;
     }
   }
-
 
   /**
    * An extension to {@link MockHttpSession} that ensures when

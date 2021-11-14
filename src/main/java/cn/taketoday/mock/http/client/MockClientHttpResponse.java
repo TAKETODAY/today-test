@@ -20,13 +20,13 @@
 
 package cn.taketoday.mock.http.client;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import cn.taketoday.http.HttpStatus;
 import cn.taketoday.http.client.ClientHttpResponse;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.mock.http.MockHttpInputMessage;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Mock implementation of {@link ClientHttpResponse}.
@@ -36,7 +36,6 @@ import java.io.InputStream;
 public class MockClientHttpResponse extends MockHttpInputMessage implements ClientHttpResponse {
 
   private final HttpStatus status;
-
 
   /**
    * Constructor with response body as a byte array.
@@ -55,7 +54,6 @@ public class MockClientHttpResponse extends MockHttpInputMessage implements Clie
     Assert.notNull(statusCode, "HttpStatus is required");
     this.status = statusCode;
   }
-
 
   @Override
   public HttpStatus getStatusCode() throws IOException {

@@ -20,18 +20,18 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.context.annotation.Configuration;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Configuration;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.SmartContextLoader;
 import cn.taketoday.util.ClassUtils;
-
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Utility methods for {@link SmartContextLoader SmartContextLoaders} that deal
@@ -42,7 +42,6 @@ import java.util.List;
 public abstract class AnnotationConfigContextLoaderUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(AnnotationConfigContextLoaderUtils.class);
-
 
   /**
    * Detect the default configuration classes for the supplied test class.
@@ -84,8 +83,8 @@ public abstract class AnnotationConfigContextLoaderUtils {
     if (configClasses.isEmpty()) {
       if (logger.isInfoEnabled()) {
         logger.info(String.format("Could not detect default configuration classes for test class [%s]: " +
-                "%s does not declare any static, non-private, non-final, nested classes " +
-                "annotated with @Configuration.", declaringClass.getName(), declaringClass.getSimpleName()));
+                                          "%s does not declare any static, non-private, non-final, nested classes " +
+                                          "annotated with @Configuration.", declaringClass.getName(), declaringClass.getSimpleName()));
       }
     }
 

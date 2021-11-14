@@ -20,6 +20,22 @@
 
 package cn.taketoday.test.web.client.match;
 
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.apache.tomcat.util.http.fileupload.UploadContext;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.hamcrest.Matcher;
+import org.w3c.dom.Node;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+
 import cn.taketoday.core.DefaultMultiValueMap;
 import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.core.io.Resource;
@@ -34,20 +50,6 @@ import cn.taketoday.test.util.XmlExpectationsHelper;
 import cn.taketoday.test.web.client.RequestMatcher;
 import cn.taketoday.util.MediaType;
 import cn.taketoday.util.StreamUtils;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
-import org.apache.tomcat.util.http.fileupload.UploadContext;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.hamcrest.Matcher;
-import org.w3c.dom.Node;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertTrue;
@@ -65,7 +67,6 @@ public class ContentRequestMatchers {
 
   private final JsonExpectationsHelper jsonHelper;
 
-
   /**
    * Class constructor, not for direct instantiation.
    * Use {@link MockRestRequestMatchers#content()}.
@@ -74,7 +75,6 @@ public class ContentRequestMatchers {
     this.xmlHelper = new XmlExpectationsHelper();
     this.jsonHelper = new JsonExpectationsHelper();
   }
-
 
   /**
    * Assert the request content type as a String.
@@ -112,7 +112,7 @@ public class ContentRequestMatchers {
       assertTrue("Content type not set", actualContentType != null);
       if (actualContentType != null) {
         assertTrue("Content type [" + actualContentType + "] is not compatible with [" + contentType + "]",
-                actualContentType.isCompatibleWith(contentType));
+                   actualContentType.isCompatibleWith(contentType));
       }
     };
   }
@@ -228,8 +228,8 @@ public class ContentRequestMatchers {
         List<?> values = entry.getValue();
         assertTrue("No Multipart '" + name + "'", actualMap.get(name) != null);
         assertTrue("Multipart value count " + values.size(), containsExactly ?
-                values.size() == actualMap.get(name).size() :
-                values.size() <= actualMap.get(name).size());
+                                                             values.size() == actualMap.get(name).size() :
+                                                             values.size() <= actualMap.get(name).size());
         for (int i = 0; i < values.size(); i++) {
           Object expected = values.get(i);
           Object actual = actualMap.get(name).get(i);
@@ -356,7 +356,6 @@ public class ContentRequestMatchers {
     protected abstract void matchInternal(MockClientHttpRequest request) throws Exception;
   }
 
-
   private static class MultipartHelper {
 
     public static MultiValueMap<String, ?> parse(MockClientHttpRequest request) {
@@ -392,7 +391,7 @@ public class ContentRequestMatchers {
         MultiValueMap<String, Object> result = new DefaultMultiValueMap<>();
         for (FileItem fileItem : fileItems) {
           result.add(fileItem.getFieldName(),
-                  (fileItem.isFormField() ? fileItem.getString() : fileItem.get()));
+                     (fileItem.isFormField() ? fileItem.getString() : fileItem.get()));
         }
         return result;
       }

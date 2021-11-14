@@ -20,18 +20,19 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.test.web.servlet.MockMvc;
-import cn.taketoday.test.web.servlet.htmlunit.DelegatingWebConnection.DelegateWebConnection;
-import cn.taketoday.test.web.servlet.setup.MockMvcBuilders;
-import cn.taketoday.test.web.servlet.setup.MockMvcConfigurer;
-import cn.taketoday.web.context.WebApplicationContext;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebConnection;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import cn.taketoday.lang.Assert;
+import cn.taketoday.test.web.servlet.MockMvc;
+import cn.taketoday.test.web.servlet.htmlunit.DelegatingWebConnection.DelegateWebConnection;
+import cn.taketoday.test.web.servlet.setup.MockMvcBuilders;
+import cn.taketoday.test.web.servlet.setup.MockMvcConfigurer;
+import cn.taketoday.web.context.WebApplicationContext;
 
 /**
  * Support class that simplifies the creation of a {@link WebConnection} that
@@ -54,7 +55,6 @@ public abstract class MockMvcWebConnectionBuilderSupport<T extends MockMvcWebCon
   private String contextPath = "";
 
   private boolean alwaysUseMockMvc;
-
 
   /**
    * Create a new instance using the supplied {@link MockMvc} instance.
@@ -88,7 +88,6 @@ public abstract class MockMvcWebConnectionBuilderSupport<T extends MockMvcWebCon
   protected MockMvcWebConnectionBuilderSupport(WebApplicationContext context, MockMvcConfigurer configurer) {
     this(MockMvcBuilders.webAppContextSetup(context).apply(configurer).build());
   }
-
 
   /**
    * Set the context path to use.

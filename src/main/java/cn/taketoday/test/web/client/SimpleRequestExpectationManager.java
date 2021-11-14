@@ -20,12 +20,12 @@
 
 package cn.taketoday.test.web.client;
 
+import java.io.IOException;
+import java.util.Iterator;
+
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
-
-import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * Simple {@code RequestExpectationManager} that matches requests to expectations
@@ -46,7 +46,6 @@ public class SimpleRequestExpectationManager extends AbstractRequestExpectationM
 
   /** Track expectations that have a remaining count. */
   private final RequestExpectationGroup repeatExpectations = new RequestExpectationGroup();
-
 
   @Override
   protected void afterExpectationsDeclared() {

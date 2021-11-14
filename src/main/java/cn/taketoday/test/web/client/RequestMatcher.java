@@ -20,9 +20,9 @@
 
 package cn.taketoday.test.web.client;
 
-import cn.taketoday.http.client.ClientHttpRequest;
-
 import java.io.IOException;
+
+import cn.taketoday.http.client.ClientHttpRequest;
 
 /**
  * A contract for matching requests to expectations.

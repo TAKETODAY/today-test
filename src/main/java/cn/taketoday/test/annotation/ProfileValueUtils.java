@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.annotation;
 
+import java.lang.reflect.Method;
+
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.core.annotation.AnnotationUtils;
 import cn.taketoday.lang.Assert;
@@ -29,8 +31,6 @@ import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.ReflectionUtils;
 import cn.taketoday.util.StringUtils;
-
-import java.lang.reflect.Method;
 
 /**
  * General utility methods for working with <em>profile values</em>.
@@ -44,7 +44,6 @@ import java.lang.reflect.Method;
 public abstract class ProfileValueUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(ProfileValueUtils.class);
-
 
   /**
    * Retrieves the {@link ProfileValueSource} type for the specified
@@ -69,10 +68,7 @@ public abstract class ProfileValueUtils {
 
     Class<ProfileValueSourceConfiguration> annotationType = ProfileValueSourceConfiguration.class;
     ProfileValueSourceConfiguration config = AnnotatedElementUtils.findMergedAnnotation(testClass, annotationType);
-    if (logger.isDebugEnabled()) {
-      logger.debug("Retrieved @ProfileValueSourceConfiguration [" + config + "] for test class [" +
-              testClass.getName() + "]");
-    }
+    logger.debug("Retrieved @ProfileValueSourceConfiguration [{}] for test class [{}]", config, testClass.getName());
 
     Class<? extends ProfileValueSource> profileValueSourceType;
     if (config != null) {
@@ -82,10 +78,7 @@ public abstract class ProfileValueUtils {
       profileValueSourceType = (Class<? extends ProfileValueSource>) AnnotationUtils.getDefaultValue(annotationType);
       Assert.state(profileValueSourceType != null, "No default ProfileValueSource class");
     }
-    if (logger.isDebugEnabled()) {
-      logger.debug("Retrieved ProfileValueSource type [" + profileValueSourceType + "] for class [" +
-              testClass.getName() + "]");
-    }
+    logger.debug("Retrieved ProfileValueSource type [{}] for class [{}]", profileValueSourceType, testClass.getName());
 
     ProfileValueSource profileValueSource;
     if (SystemProfileValueSource.class == profileValueSourceType) {
@@ -96,10 +89,8 @@ public abstract class ProfileValueUtils {
         profileValueSource = ReflectionUtils.accessibleConstructor(profileValueSourceType).newInstance();
       }
       catch (Exception ex) {
-        if (logger.isWarnEnabled()) {
-          logger.warn("Could not instantiate a ProfileValueSource of type [" + profileValueSourceType +
-                  "] for class [" + testClass.getName() + "]: using default.", ex);
-        }
+        logger.warn("Could not instantiate a ProfileValueSource of type [{}] for class [{}]: using default.",
+                    profileValueSourceType, testClass.getName(), ex);
         profileValueSource = SystemProfileValueSource.getInstance();
       }
     }
@@ -157,8 +148,8 @@ public abstract class ProfileValueUtils {
    * @return {@code true} if the test is <em>enabled</em> in the current
    * environment
    */
-  public static boolean isTestEnabledInThisEnvironment(ProfileValueSource profileValueSource, Method testMethod,
-                                                       Class<?> testClass) {
+  public static boolean isTestEnabledInThisEnvironment(
+          ProfileValueSource profileValueSource, Method testMethod, Class<?> testClass) {
 
     IfProfileValue ifProfileValue = AnnotatedElementUtils.findMergedAnnotation(testClass, IfProfileValue.class);
     boolean classLevelEnabled = isTestEnabledInThisEnvironment(profileValueSource, ifProfileValue);
@@ -184,9 +175,8 @@ public abstract class ProfileValueUtils {
    * environment or if the supplied {@code ifProfileValue} is
    * {@code null}
    */
-  private static boolean isTestEnabledInThisEnvironment(ProfileValueSource profileValueSource,
-                                                        @Nullable IfProfileValue ifProfileValue) {
-
+  private static boolean isTestEnabledInThisEnvironment(
+          ProfileValueSource profileValueSource, @Nullable IfProfileValue ifProfileValue) {
     if (ifProfileValue == null) {
       return true;
     }
@@ -194,11 +184,11 @@ public abstract class ProfileValueUtils {
     String environmentValue = profileValueSource.get(ifProfileValue.name());
     String[] annotatedValues = ifProfileValue.values();
     if (StringUtils.isNotEmpty(ifProfileValue.value())) {
-      Assert.isTrue(annotatedValues.length == 0, () -> "Setting both the 'value' and 'values' attributes " +
-              "of @IfProfileValue is not allowed: choose one or the other.");
+      Assert.isTrue(annotatedValues.length == 0,
+                    "Setting both the 'value' and 'values' attributes " +
+                            "of @IfProfileValue is not allowed: choose one or the other.");
       annotatedValues = new String[] { ifProfileValue.value() };
     }
-
     for (String value : annotatedValues) {
       if (ObjectUtils.nullSafeEquals(value, environmentValue)) {
         return true;

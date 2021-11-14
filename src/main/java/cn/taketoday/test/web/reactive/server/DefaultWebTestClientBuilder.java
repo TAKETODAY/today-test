@@ -20,6 +20,15 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import cn.taketoday.core.DefaultMultiValueMap;
+import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.client.reactive.ClientHttpConnector;
 import cn.taketoday.http.client.reactive.HttpComponentsClientHttpConnector;
@@ -30,8 +39,6 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.CollectionUtils;
-import cn.taketoday.util.DefaultMultiValueMap;
-import cn.taketoday.util.MultiValueMap;
 import cn.taketoday.web.reactive.function.client.ExchangeFilterFunction;
 import cn.taketoday.web.reactive.function.client.ExchangeFunction;
 import cn.taketoday.web.reactive.function.client.ExchangeFunctions;
@@ -39,13 +46,6 @@ import cn.taketoday.web.reactive.function.client.ExchangeStrategies;
 import cn.taketoday.web.server.adapter.WebHttpHandlerBuilder;
 import cn.taketoday.web.util.DefaultUriBuilderFactory;
 import cn.taketoday.web.util.UriBuilderFactory;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Default implementation of {@link WebTestClient.Builder}.
@@ -72,7 +72,6 @@ class DefaultWebTestClientBuilder implements WebTestClient.Builder {
     webFluxPresent = ClassUtils.isPresent(
             "cn.taketoday.web.reactive.function.client.ExchangeFunction", loader);
   }
-
 
   @Nullable
   private final WebHttpHandlerBuilder httpHandlerBuilder;
@@ -106,7 +105,6 @@ class DefaultWebTestClientBuilder implements WebTestClient.Builder {
   @Nullable
   private Duration responseTimeout;
 
-
   /** Determine connector via classpath detection. */
   DefaultWebTestClientBuilder() {
     this(null, null);
@@ -126,11 +124,11 @@ class DefaultWebTestClientBuilder implements WebTestClient.Builder {
           @Nullable WebHttpHandlerBuilder httpHandlerBuilder, @Nullable ClientHttpConnector connector) {
 
     Assert.isTrue(httpHandlerBuilder == null || connector == null,
-            "Expected WebHttpHandlerBuilder or ClientHttpConnector but not both.");
+                  "Expected WebHttpHandlerBuilder or ClientHttpConnector but not both.");
 
     // Helpful message especially for MockMvcWebTestClient users
     Assert.state(webFluxPresent,
-            "To use WebTestClient, please add spring-webflux to the test classpath.");
+                 "To use WebTestClient, please add spring-webflux to the test classpath.");
 
     this.connector = connector;
     this.httpHandlerBuilder = (httpHandlerBuilder != null ? httpHandlerBuilder.clone() : null);
@@ -152,14 +150,13 @@ class DefaultWebTestClientBuilder implements WebTestClient.Builder {
       this.defaultHeaders = null;
     }
     this.defaultCookies = (other.defaultCookies != null ?
-            new DefaultMultiValueMap<>(other.defaultCookies) : null);
+                           new DefaultMultiValueMap<>(other.defaultCookies) : null);
     this.filters = (other.filters != null ? new ArrayList<>(other.filters) : null);
     this.entityResultConsumer = other.entityResultConsumer;
     this.strategies = other.strategies;
     this.strategiesConfigurers = (other.strategiesConfigurers != null ?
-            new ArrayList<>(other.strategiesConfigurers) : null);
+                                  new ArrayList<>(other.strategiesConfigurers) : null);
   }
-
 
   @Override
   public WebTestClient.Builder baseUrl(String baseUrl) {
@@ -298,9 +295,9 @@ class DefaultWebTestClientBuilder implements WebTestClient.Builder {
 
     };
     return new DefaultWebTestClient(connectorToUse, exchangeFactory, initUriBuilderFactory(),
-            this.defaultHeaders != null ? HttpHeaders.readOnlyHttpHeaders(this.defaultHeaders) : null,
-            this.defaultCookies != null ? CollectionUtils.unmodifiableMultiValueMap(this.defaultCookies) : null,
-            this.entityResultConsumer, this.responseTimeout, new DefaultWebTestClientBuilder(this));
+                                    this.defaultHeaders != null ? HttpHeaders.readOnlyHttpHeaders(this.defaultHeaders) : null,
+                                    this.defaultCookies != null ? CollectionUtils.unmodifiableMultiValueMap(this.defaultCookies) : null,
+                                    this.entityResultConsumer, this.responseTimeout, new DefaultWebTestClientBuilder(this));
   }
 
   private static ClientHttpConnector initConnector() {

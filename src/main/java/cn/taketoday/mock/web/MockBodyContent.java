@@ -20,15 +20,15 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.lang.Nullable;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.jsp.JspWriter;
-import jakarta.servlet.jsp.tagext.BodyContent;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+
+import cn.taketoday.lang.Nullable;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspWriter;
+import jakarta.servlet.jsp.tagext.BodyContent;
 
 /**
  * Mock implementation of the {@link jakarta.servlet.jsp.tagext.BodyContent} class.
@@ -39,7 +39,6 @@ import java.io.Writer;
 public class MockBodyContent extends BodyContent {
 
   private final String content;
-
 
   /**
    * Create a MockBodyContent for the given response.
@@ -82,7 +81,6 @@ public class MockBodyContent extends BodyContent {
     }
   }
 
-
   @Override
   public Reader getReader() {
     return new StringReader(this.content);
@@ -97,7 +95,6 @@ public class MockBodyContent extends BodyContent {
   public void writeOut(Writer writer) throws IOException {
     writer.write(this.content);
   }
-
 
   //---------------------------------------------------------------------
   // Delegating implementations of JspWriter's abstract methods

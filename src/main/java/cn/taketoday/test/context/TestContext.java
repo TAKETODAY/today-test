@@ -20,21 +20,21 @@
 
 package cn.taketoday.test.context;
 
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.util.function.Function;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.event.ApplicationEvent;
 import cn.taketoday.core.AttributeAccessor;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.annotation.DirtiesContext.HierarchyMode;
 
-import java.io.Serializable;
-import java.lang.reflect.Method;
-import java.util.function.Function;
-
 /**
  * {@code TestContext} encapsulates the context in which a test is executed,
  * agnostic of the actual testing framework in use.
  *
- * <p>As of Spring Framework 5.0, concrete implementations are highly encouraged
+ * <p>concrete implementations are highly encouraged
  * to implement a <em>copy constructor</em> in order to allow the immutable state
  * and attributes of a {@code TestContext} to be used as a template for additional
  * contexts created for parallel test execution. The copy constructor must accept a
@@ -58,7 +58,7 @@ public interface TestContext extends AttributeAccessor, Serializable {
    * <p>The default implementation of this method always returns {@code false}.
    * Custom {@code TestContext} implementations are therefore highly encouraged
    * to override this method with a more meaningful implementation. Note that
-   * the standard {@code TestContext} implementation in Spring overrides this
+   * the standard {@code TestContext} implementation in overrides this
    * method appropriately.
    *
    * @return {@code true} if the application context has already been loaded

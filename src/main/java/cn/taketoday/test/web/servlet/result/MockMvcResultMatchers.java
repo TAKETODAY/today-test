@@ -20,14 +20,16 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
+import java.util.Map;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import cn.taketoday.util.AntPathMatcher;
 import cn.taketoday.web.util.UriComponentsBuilder;
-import org.hamcrest.Matcher;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.util.Map;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertTrue;
@@ -46,7 +48,6 @@ import static cn.taketoday.test.util.AssertionErrors.assertTrue;
 public abstract class MockMvcResultMatchers {
 
   private static final AntPathMatcher pathMatcher = new AntPathMatcher();
-
 
   /**
    * Access to request-related assertions.
@@ -117,10 +118,10 @@ public abstract class MockMvcResultMatchers {
   public static ResultMatcher forwardedUrlPattern(String urlPattern) {
     return result -> {
       assertTrue("'" + urlPattern + "' is not an Ant-style path pattern",
-              pathMatcher.isPattern(urlPattern));
+                 pathMatcher.isPattern(urlPattern));
       String url = result.getResponse().getForwardedUrl();
       assertTrue("Forwarded URL '" + url + "' does not match the expected URL pattern '" + urlPattern + "'",
-              (url != null && pathMatcher.match(urlPattern, url)));
+                 (url != null && pathMatcher.match(urlPattern, url)));
     };
   }
 
@@ -158,10 +159,10 @@ public abstract class MockMvcResultMatchers {
   public static ResultMatcher redirectedUrlPattern(String urlPattern) {
     return result -> {
       assertTrue("'" + urlPattern + "' is not an Ant-style path pattern",
-              pathMatcher.isPattern(urlPattern));
+                 pathMatcher.isPattern(urlPattern));
       String url = result.getResponse().getRedirectedUrl();
       assertTrue("Redirected URL '" + url + "' does not match the expected URL pattern '" + urlPattern + "'",
-              (url != null && pathMatcher.match(urlPattern, url)));
+                 (url != null && pathMatcher.match(urlPattern, url)));
     };
   }
 

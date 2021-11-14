@@ -20,9 +20,9 @@
 
 package cn.taketoday.test.context.event;
 
-import cn.taketoday.context.event.ApplicationEvent;
-
 import java.util.stream.Stream;
+
+import cn.taketoday.context.event.ApplicationEvent;
 
 /**
  * {@code ApplicationEvents} encapsulates all {@linkplain ApplicationEvent

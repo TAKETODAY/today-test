@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.client;
 
+import java.io.IOException;
+import java.net.URI;
+import java.time.Duration;
+
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.client.BufferingClientHttpRequestFactory;
 import cn.taketoday.http.client.ClientHttpRequest;
@@ -29,10 +33,6 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.mock.http.client.MockClientHttpRequest;
 import cn.taketoday.web.client.RestTemplate;
 import cn.taketoday.web.client.support.RestGatewaySupport;
-
-import java.io.IOException;
-import java.net.URI;
-import java.time.Duration;
 
 /**
  * <strong>Main entry point for client-side REST testing</strong>. Used for tests
@@ -71,7 +71,6 @@ public final class MockRestServiceServer {
 
   private final RequestExpectationManager expectationManager;
 
-
   /**
    * Private constructor with {@code RequestExpectationManager}.
    * See static builder methods and {@code createServer} shortcut methods.
@@ -79,7 +78,6 @@ public final class MockRestServiceServer {
   private MockRestServiceServer(RequestExpectationManager expectationManager) {
     this.expectationManager = expectationManager;
   }
-
 
   /**
    * Set up an expectation for a single HTTP request. The returned
@@ -141,7 +139,6 @@ public final class MockRestServiceServer {
     this.expectationManager.reset();
   }
 
-
   /**
    * Return a builder for a {@code MockRestServiceServer} that should be used
    * to reply to the given {@code RestTemplate}.
@@ -158,7 +155,6 @@ public final class MockRestServiceServer {
     Assert.notNull(restGatewaySupport, "'restGatewaySupport' must not be null");
     return new DefaultBuilder(restGatewaySupport.getRestTemplate());
   }
-
 
   /**
    * A shortcut for {@code bindTo(restTemplate).build()}.
@@ -179,7 +175,6 @@ public final class MockRestServiceServer {
   public static MockRestServiceServer createServer(RestGatewaySupport restGateway) {
     return bindTo(restGateway).build();
   }
-
 
   /**
    * Builder to create a {@code MockRestServiceServer}.
@@ -218,7 +213,6 @@ public final class MockRestServiceServer {
     MockRestServiceServer build(RequestExpectationManager manager);
   }
 
-
   private static class DefaultBuilder implements MockRestServiceServerBuilder {
 
     private final RestTemplate restTemplate;
@@ -226,7 +220,6 @@ public final class MockRestServiceServer {
     private boolean ignoreExpectOrder;
 
     private boolean bufferContent;
-
 
     public DefaultBuilder(RestTemplate restTemplate) {
       Assert.notNull(restTemplate, "RestTemplate must not be null");
@@ -268,7 +261,6 @@ public final class MockRestServiceServer {
       return server;
     }
   }
-
 
   /**
    * Mock ClientHttpRequestFactory that creates requests by iterating

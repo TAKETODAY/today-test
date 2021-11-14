@@ -47,7 +47,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
   private static final Logger logger = LoggerFactory.getLogger(DefaultCacheAwareContextLoaderDelegate.class);
 
   /**
-   * Default static cache of Spring application contexts.
+   * Default static cache of application contexts.
    */
   static final ContextCache defaultContextCache = new DefaultContextCache();
 
@@ -128,7 +128,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
           context = loadContextInternal(mergedContextConfiguration);
           if (logger.isDebugEnabled()) {
             logger.debug(String.format("Storing ApplicationContext [%s] in cache under key [%s]",
-                    System.identityHashCode(context), mergedContextConfiguration));
+                                       System.identityHashCode(context), mergedContextConfiguration));
           }
           this.contextCache.put(mergedContextConfiguration, context);
         }
@@ -139,7 +139,7 @@ public class DefaultCacheAwareContextLoaderDelegate implements CacheAwareContext
       else {
         if (logger.isDebugEnabled()) {
           logger.debug(String.format("Retrieved ApplicationContext [%s] from cache with key [%s]",
-                  System.identityHashCode(context), mergedContextConfiguration));
+                                     System.identityHashCode(context), mergedContextConfiguration));
         }
       }
 

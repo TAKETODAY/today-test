@@ -20,16 +20,18 @@
 
 package cn.taketoday.test.web.client.match;
 
+import org.hamcrest.Matcher;
+import org.w3c.dom.Node;
+
+import java.util.Map;
+
+import javax.xml.xpath.XPathExpressionException;
+
 import cn.taketoday.http.client.ClientHttpRequest;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.http.client.MockClientHttpRequest;
 import cn.taketoday.test.util.XpathExpectationsHelper;
 import cn.taketoday.test.web.client.RequestMatcher;
-import org.hamcrest.Matcher;
-import org.w3c.dom.Node;
-
-import javax.xml.xpath.XPathExpressionException;
-import java.util.Map;
 
 /**
  * Factory methods for request content {@code RequestMatcher} implementations
@@ -48,7 +50,6 @@ public class XpathRequestMatchers {
 
   private final XpathExpectationsHelper xpathHelper;
 
-
   /**
    * Class constructor, not for direct instantiation.
    * <p>Use {@link MockRestRequestMatchers#xpath(String, Object...)} or
@@ -65,7 +66,6 @@ public class XpathRequestMatchers {
 
     this.xpathHelper = new XpathExpectationsHelper(expression, namespaces, args);
   }
-
 
   /**
    * Apply the XPath and assert it with the given {@code Matcher<Node>}.
@@ -147,7 +147,6 @@ public class XpathRequestMatchers {
     return (XpathRequestMatcher) request ->
             this.xpathHelper.assertBoolean(request.getBodyAsBytes(), DEFAULT_ENCODING, value);
   }
-
 
   /**
    * Functional interface for XPath {@link RequestMatcher} implementations.

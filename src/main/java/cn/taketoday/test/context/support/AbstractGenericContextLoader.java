@@ -20,12 +20,10 @@
 
 package cn.taketoday.test.context.support;
 
-import cn.taketoday.beans.factory.support.BeanDefinitionReader;
-import cn.taketoday.beans.factory.support.DefaultListableBeanFactory;
+import cn.taketoday.beans.factory.ConfigurableBeanFactory;
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.ConfigurableApplicationContext;
-import cn.taketoday.context.annotation.AnnotationConfigUtils;
-import cn.taketoday.context.support.GenericApplicationContext;
+import cn.taketoday.context.DefaultApplicationContext;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.context.MergedContextConfiguration;
@@ -33,7 +31,7 @@ import cn.taketoday.util.StringUtils;
 
 /**
  * Abstract, generic extension of {@link AbstractContextLoader} that loads a
- * {@link GenericApplicationContext}.
+ * {@link DefaultApplicationContext}.
  *
  * <ul>
  * <li>If instances of concrete subclasses are invoked via the
@@ -63,35 +61,34 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
 
   protected static final Logger logger = LoggerFactory.getLogger(AbstractGenericContextLoader.class);
 
-
   /**
    * Load a Spring ApplicationContext from the supplied {@link MergedContextConfiguration}.
    * <p>Implementation details:
    * <ul>
    * <li>Calls {@link #validateMergedContextConfiguration(MergedContextConfiguration)}
    * to allow subclasses to validate the supplied configuration before proceeding.</li>
-   * <li>Calls {@link #createContext()} to create a {@link GenericApplicationContext}
+   * <li>Calls {@link #createContext()} to create a {@link DefaultApplicationContext}
    * instance.</li>
    * <li>If the supplied {@code MergedContextConfiguration} references a
    * {@linkplain MergedContextConfiguration#getParent() parent configuration},
    * the corresponding {@link MergedContextConfiguration#getParentApplicationContext()
    * ApplicationContext} will be retrieved and
-   * {@linkplain GenericApplicationContext#setParent(ApplicationContext) set as the parent}
+   * {@linkplain DefaultApplicationContext#setParent(ApplicationContext) set as the parent}
    * for the context created by this method.</li>
-   * <li>Calls {@link #prepareContext(GenericApplicationContext)} for backwards
+   * <li>Calls {@link #prepareContext(DefaultApplicationContext)} for backwards
    * compatibility with the {@link cn.taketoday.test.context.ContextLoader
    * ContextLoader} SPI.</li>
    * <li>Calls {@link #prepareContext(ConfigurableApplicationContext, MergedContextConfiguration)}
    * to allow for customizing the context before bean definitions are loaded.</li>
    * <li>Calls {@link #customizeBeanFactory(DefaultListableBeanFactory)} to allow for customizing the
    * context's {@code DefaultListableBeanFactory}.</li>
-   * <li>Delegates to {@link #loadBeanDefinitions(GenericApplicationContext, MergedContextConfiguration)}
+   * <li>Delegates to {@link #loadBeanDefinitions(DefaultApplicationContext, MergedContextConfiguration)}
    * to populate the context from the locations or classes in the supplied
    * {@code MergedContextConfiguration}.</li>
    * <li>Delegates to {@link AnnotationConfigUtils} for
    * {@link AnnotationConfigUtils#registerAnnotationConfigProcessors registering}
    * annotation configuration processors.</li>
-   * <li>Calls {@link #customizeContext(GenericApplicationContext)} to allow for customizing the context
+   * <li>Calls {@link #customizeContext(DefaultApplicationContext)} to allow for customizing the context
    * before it is refreshed.</li>
    * <li>Calls {@link #customizeContext(ConfigurableApplicationContext, MergedContextConfiguration)} to
    * allow for customizing the context before it is refreshed.</li>
@@ -101,18 +98,17 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    *
    * @return a new application context
    * @see cn.taketoday.test.context.SmartContextLoader#loadContext(MergedContextConfiguration)
-   * @see GenericApplicationContext
+   * @see DefaultApplicationContext
    */
   @Override
   public final ConfigurableApplicationContext loadContext(MergedContextConfiguration mergedConfig) throws Exception {
     if (logger.isDebugEnabled()) {
-      logger.debug(String.format("Loading ApplicationContext for merged context configuration [%s].",
-              mergedConfig));
+      logger.debug("Loading ApplicationContext for merged context configuration [{}].", mergedConfig);
     }
 
     validateMergedContextConfiguration(mergedConfig);
 
-    GenericApplicationContext context = createContext();
+    DefaultApplicationContext context = createContext();
     ApplicationContext parent = mergedConfig.getParentApplicationContext();
     if (parent != null) {
       context.setParent(parent);
@@ -120,7 +116,7 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
 
     prepareContext(context);
     prepareContext(context, mergedConfig);
-    customizeBeanFactory(context.getDefaultListableBeanFactory());
+    customizeBeanFactory(context.getBeanFactory());
     loadBeanDefinitions(context, mergedConfig);
     AnnotationConfigUtils.registerAnnotationConfigProcessors(context);
     customizeContext(context);
@@ -150,19 +146,19 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    * Load a Spring ApplicationContext from the supplied {@code locations}.
    * <p>Implementation details:
    * <ul>
-   * <li>Calls {@link #createContext()} to create a {@link GenericApplicationContext}
+   * <li>Calls {@link #createContext()} to create a {@link DefaultApplicationContext}
    * instance.</li>
-   * <li>Calls {@link #prepareContext(GenericApplicationContext)} to allow for customizing the context
+   * <li>Calls {@link #prepareContext(DefaultApplicationContext)} to allow for customizing the context
    * before bean definitions are loaded.</li>
    * <li>Calls {@link #customizeBeanFactory(DefaultListableBeanFactory)} to allow for customizing the
    * context's {@code DefaultListableBeanFactory}.</li>
-   * <li>Delegates to {@link #createBeanDefinitionReader(GenericApplicationContext)} to create a
+   * <li>Delegates to {@link #createBeanDefinitionReader(DefaultApplicationContext)} to create a
    * {@link BeanDefinitionReader} which is then used to populate the context
    * from the specified locations.</li>
    * <li>Delegates to {@link AnnotationConfigUtils} for
    * {@link AnnotationConfigUtils#registerAnnotationConfigProcessors registering}
    * annotation configuration processors.</li>
-   * <li>Calls {@link #customizeContext(GenericApplicationContext)} to allow for customizing the context
+   * <li>Calls {@link #customizeContext(DefaultApplicationContext)} to allow for customizing the context
    * before it is refreshed.</li>
    * <li>{@link ConfigurableApplicationContext#refresh Refreshes} the
    * context and registers a JVM shutdown hook for it.</li>
@@ -174,17 +170,17 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    *
    * @return a new application context
    * @see cn.taketoday.test.context.ContextLoader#loadContext
-   * @see GenericApplicationContext
+   * @see DefaultApplicationContext
    * @see #loadContext(MergedContextConfiguration)
    */
   @Override
   public final ConfigurableApplicationContext loadContext(String... locations) throws Exception {
     if (logger.isDebugEnabled()) {
       logger.debug(String.format("Loading ApplicationContext for locations [%s].",
-              StringUtils.arrayToCommaDelimitedString(locations)));
+                                 StringUtils.arrayToCommaDelimitedString(locations)));
     }
 
-    GenericApplicationContext context = createContext();
+    DefaultApplicationContext context = createContext();
 
     prepareContext(context);
     customizeBeanFactory(context.getDefaultListableBeanFactory());
@@ -199,34 +195,34 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
   }
 
   /**
-   * Factory method for creating the {@link GenericApplicationContext} used by
+   * Factory method for creating the {@link DefaultApplicationContext} used by
    * this {@code ContextLoader}.
-   * <p>The default implementation creates a {@code GenericApplicationContext}
+   * <p>The default implementation creates a {@code DefaultApplicationContext}
    * using the default constructor. This method may get overridden e.g. to use
-   * a custom context subclass or to create a {@code GenericApplicationContext}
+   * a custom context subclass or to create a {@code DefaultApplicationContext}
    * with a custom {@link DefaultListableBeanFactory} implementation.
    *
-   * @return a newly instantiated {@code GenericApplicationContext}
+   * @return a newly instantiated {@code DefaultApplicationContext}
    */
-  protected GenericApplicationContext createContext() {
-    return new GenericApplicationContext();
+  protected DefaultApplicationContext createContext() {
+    return new DefaultApplicationContext();
   }
 
   /**
-   * Prepare the {@link GenericApplicationContext} created by this {@code ContextLoader}.
+   * Prepare the {@link DefaultApplicationContext} created by this {@code ContextLoader}.
    * Called <i>before</i> bean definitions are read.
    * <p>The default implementation is empty. Can be overridden in subclasses to
-   * customize {@code GenericApplicationContext}'s standard settings.
+   * customize {@code DefaultApplicationContext}'s standard settings.
    *
    * @param context the context that should be prepared
    * @see #loadContext(MergedContextConfiguration)
    * @see #loadContext(String...)
-   * @see GenericApplicationContext#setAllowBeanDefinitionOverriding
-   * @see GenericApplicationContext#setResourceLoader
-   * @see GenericApplicationContext#setId
+   * @see DefaultApplicationContext#setAllowBeanDefinitionOverriding
+   * @see DefaultApplicationContext#setResourceLoader
+   * @see DefaultApplicationContext#setId
    * @see #prepareContext(ConfigurableApplicationContext, MergedContextConfiguration)
    */
-  protected void prepareContext(GenericApplicationContext context) {
+  protected void prepareContext(DefaultApplicationContext context) {
   }
 
   /**
@@ -238,23 +234,19 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    * @param beanFactory the bean factory created by this {@code ContextLoader}
    * @see #loadContext(MergedContextConfiguration)
    * @see #loadContext(String...)
-   * @see DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
-   * @see DefaultListableBeanFactory#setAllowEagerClassLoading
-   * @see DefaultListableBeanFactory#setAllowCircularReferences
-   * @see DefaultListableBeanFactory#setAllowRawInjectionDespiteWrapping
    */
-  protected void customizeBeanFactory(DefaultListableBeanFactory beanFactory) {
+  protected void customizeBeanFactory(ConfigurableBeanFactory beanFactory) {
   }
 
   /**
-   * Load bean definitions into the supplied {@link GenericApplicationContext context}
+   * Load bean definitions into the supplied {@link DefaultApplicationContext context}
    * from the locations or classes in the supplied {@code MergedContextConfiguration}.
    * <p>The default implementation delegates to the {@link BeanDefinitionReader}
-   * returned by {@link #createBeanDefinitionReader(GenericApplicationContext)} to
+   * returned by {@link #createBeanDefinitionReader(DefaultApplicationContext)} to
    * {@link BeanDefinitionReader#loadBeanDefinitions(String) load} the
    * bean definitions.
    * <p>Subclasses must provide an appropriate implementation of
-   * {@link #createBeanDefinitionReader(GenericApplicationContext)}. Alternatively subclasses
+   * {@link #createBeanDefinitionReader(DefaultApplicationContext)}. Alternatively subclasses
    * may provide a <em>no-op</em> implementation of {@code createBeanDefinitionReader()}
    * and override this method to provide a custom strategy for loading or
    * registering bean definitions.
@@ -263,13 +255,13 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    * @param mergedConfig the merged context configuration
    * @see #loadContext(MergedContextConfiguration)
    */
-  protected void loadBeanDefinitions(GenericApplicationContext context, MergedContextConfiguration mergedConfig) {
+  protected void loadBeanDefinitions(DefaultApplicationContext context, MergedContextConfiguration mergedConfig) {
     createBeanDefinitionReader(context).loadBeanDefinitions(mergedConfig.getLocations());
   }
 
   /**
    * Factory method for creating a new {@link BeanDefinitionReader} for loading
-   * bean definitions into the supplied {@link GenericApplicationContext context}.
+   * bean definitions into the supplied {@link DefaultApplicationContext context}.
    *
    * @param context the context for which the {@code BeanDefinitionReader}
    * should be created
@@ -278,10 +270,10 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    * @see #loadBeanDefinitions
    * @see BeanDefinitionReader
    */
-  protected abstract BeanDefinitionReader createBeanDefinitionReader(GenericApplicationContext context);
+  protected abstract BeanDefinitionReader createBeanDefinitionReader(DefaultApplicationContext context);
 
   /**
-   * Customize the {@link GenericApplicationContext} created by this
+   * Customize the {@link DefaultApplicationContext} created by this
    * {@code ContextLoader} <i>after</i> bean definitions have been
    * loaded into the context but <i>before</i> the context is refreshed.
    * <p>The default implementation is empty but can be overridden in subclasses
@@ -292,7 +284,7 @@ public abstract class AbstractGenericContextLoader extends AbstractContextLoader
    * @see #loadContext(String...)
    * @see #customizeContext(ConfigurableApplicationContext, MergedContextConfiguration)
    */
-  protected void customizeContext(GenericApplicationContext context) {
+  protected void customizeContext(DefaultApplicationContext context) {
   }
 
 }

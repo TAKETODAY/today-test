@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.web.client.response;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
 import cn.taketoday.core.io.Resource;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpStatus;
@@ -30,11 +35,6 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.http.client.MockClientHttpResponse;
 import cn.taketoday.test.web.client.ResponseCreator;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 /**
  * A {@code ResponseCreator} with builder-style methods for adding response details.
@@ -52,7 +52,6 @@ public class DefaultResponseCreator implements ResponseCreator {
 
   private final HttpHeaders headers = HttpHeaders.create();
 
-
   /**
    * Protected constructor.
    * Use static factory methods in {@link MockRestResponseCreators}.
@@ -61,7 +60,6 @@ public class DefaultResponseCreator implements ResponseCreator {
     Assert.notNull(statusCode, "HttpStatus must not be null");
     this.statusCode = statusCode;
   }
-
 
   /**
    * Set the body as a UTF-8 String.
@@ -110,7 +108,6 @@ public class DefaultResponseCreator implements ResponseCreator {
     this.headers.putAll(headers);
     return this;
   }
-
 
   @Override
   public ClientHttpResponse createResponse(@Nullable ClientHttpRequest request) throws IOException {

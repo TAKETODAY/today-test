@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.util;
 
+import java.lang.annotation.Annotation;
+import java.util.HashSet;
+import java.util.Set;
+
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.core.annotation.AnnotationAttributes;
 import cn.taketoday.core.annotation.AnnotationUtils;
@@ -27,10 +31,6 @@ import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ObjectUtils;
-
-import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * {@code MetaAnnotationUtils} is a collection of utility methods that complements
@@ -44,7 +44,7 @@ import java.util.Set;
  * {@link AnnotationDescriptor}.
  *
  * <p>The additional information provided by an {@code AnnotationDescriptor} is
- * required by the <em>Spring TestContext Framework</em> in order to be able to
+ * required by the <em>TestContext Framework</em> in order to be able to
  * support class hierarchy traversals for annotations such as
  * {@link cn.taketoday.test.context.ContextConfiguration @ContextConfiguration},
  * {@link cn.taketoday.test.context.TestExecutionListeners @TestExecutionListeners},
@@ -56,7 +56,7 @@ import java.util.Set;
  * @author Sam Brannen
  * @see AnnotationUtils
  * @see AnnotationDescriptor
- * @deprecated as of Spring Framework 5.3 in favor of
+ * @deprecated in favor of
  * {@link cn.taketoday.test.context.TestContextAnnotationUtils}
  */
 @Deprecated
@@ -136,7 +136,7 @@ public abstract class MetaAnnotationUtils {
       AnnotationDescriptor<T> descriptor = findAnnotationDescriptor(ifc, visited, annotationType);
       if (descriptor != null) {
         return new AnnotationDescriptor<>(clazz, descriptor.getDeclaringClass(),
-                descriptor.getComposedAnnotation(), descriptor.getAnnotation());
+                                          descriptor.getComposedAnnotation(), descriptor.getAnnotation());
       }
     }
 
@@ -217,7 +217,7 @@ public abstract class MetaAnnotationUtils {
                 composedAnnotation.annotationType(), visited, annotationTypes);
         if (descriptor != null) {
           return new UntypedAnnotationDescriptor(clazz, descriptor.getDeclaringClass(),
-                  composedAnnotation, descriptor.getAnnotation());
+                                                 composedAnnotation, descriptor.getAnnotation());
         }
       }
     }
@@ -227,7 +227,7 @@ public abstract class MetaAnnotationUtils {
       UntypedAnnotationDescriptor descriptor = findAnnotationDescriptorForTypes(ifc, visited, annotationTypes);
       if (descriptor != null) {
         return new UntypedAnnotationDescriptor(clazz, descriptor.getDeclaringClass(),
-                descriptor.getComposedAnnotation(), descriptor.getAnnotation());
+                                               descriptor.getComposedAnnotation(), descriptor.getAnnotation());
       }
     }
 
@@ -245,7 +245,6 @@ public abstract class MetaAnnotationUtils {
       }
     }
   }
-
 
   /**
    * Descriptor for an {@link Annotation}, including the {@linkplain
@@ -381,7 +380,6 @@ public abstract class MetaAnnotationUtils {
               .toString();
     }
   }
-
 
   /**
    * <em>Untyped</em> extension of {@link AnnotationDescriptor} that is used

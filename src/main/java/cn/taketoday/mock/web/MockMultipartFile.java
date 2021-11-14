@@ -20,16 +20,16 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.NonNull;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.FileCopyUtils;
 import cn.taketoday.web.multipart.MultipartFile;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Mock implementation of the {@link cn.taketoday.web.multipart.MultipartFile}
@@ -52,7 +52,6 @@ public class MockMultipartFile implements MultipartFile {
   private final String contentType;
 
   private final byte[] content;
-
 
   /**
    * Create a new MockMultipartFile with the given content.
@@ -108,7 +107,6 @@ public class MockMultipartFile implements MultipartFile {
 
     this(name, originalFilename, contentType, FileCopyUtils.copyToByteArray(contentStream));
   }
-
 
   @Override
   public String getName() {

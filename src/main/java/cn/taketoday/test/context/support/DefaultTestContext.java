@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context.support;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.ConfigurableApplicationContext;
 import cn.taketoday.core.style.ToStringBuilder;
@@ -30,11 +35,6 @@ import cn.taketoday.test.context.CacheAwareContextLoaderDelegate;
 import cn.taketoday.test.context.MergedContextConfiguration;
 import cn.taketoday.test.context.TestContext;
 import cn.taketoday.util.StringUtils;
-
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 /**
  * Default implementation of the {@link TestContext} interface.
@@ -64,7 +64,6 @@ public class DefaultTestContext implements TestContext {
   @Nullable
   private volatile Throwable testException;
 
-
   /**
    * <em>Copy constructor</em> for creating a new {@code DefaultTestContext}
    * based on the <em>attributes</em> and immutable state of the supplied context.
@@ -77,7 +76,7 @@ public class DefaultTestContext implements TestContext {
    */
   public DefaultTestContext(DefaultTestContext testContext) {
     this(testContext.testClass, testContext.mergedContextConfiguration,
-            testContext.cacheAwareContextLoaderDelegate);
+         testContext.cacheAwareContextLoaderDelegate);
     this.attributes.putAll(testContext.attributes);
   }
 
@@ -213,7 +212,7 @@ public class DefaultTestContext implements TestContext {
     Assert.notNull(computeFunction, "Compute function must not be null");
     Object value = this.attributes.computeIfAbsent(name, computeFunction);
     Assert.state(value != null,
-            () -> String.format("Compute function must not return null for attribute named '%s'", name));
+                 () -> String.format("Compute function must not return null for attribute named '%s'", name));
     return (T) value;
   }
 
@@ -236,7 +235,6 @@ public class DefaultTestContext implements TestContext {
       return StringUtils.toStringArray(this.attributes.keySet());
     }
   }
-
 
   /**
    * Provide a String representation of this test context's state.

@@ -20,10 +20,6 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
-import cn.taketoday.http.HttpStatus;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.mock.web.MockHttpServletResponse;
-import cn.taketoday.util.StringUtils;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
 import com.gargoylesoftware.htmlunit.WebResponseData;
@@ -33,6 +29,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import cn.taketoday.http.HttpStatus;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.mock.web.MockHttpServletResponse;
+import cn.taketoday.util.StringUtils;
 
 /**
  * Builder used internally to create {@link WebResponse WebResponses}.
@@ -45,13 +46,11 @@ final class MockWebResponseBuilder {
 
   private static final String DEFAULT_STATUS_MESSAGE = "N/A";
 
-
   private final long startTime;
 
   private final WebRequest webRequest;
 
   private final MockHttpServletResponse response;
-
 
   public MockWebResponseBuilder(long startTime, WebRequest webRequest, MockHttpServletResponse response) {
     Assert.notNull(webRequest, "WebRequest must not be null");
@@ -60,7 +59,6 @@ final class MockWebResponseBuilder {
     this.webRequest = webRequest;
     this.response = response;
   }
-
 
   public WebResponse build() throws IOException {
     WebResponseData webResponseData = webResponseData();
@@ -71,7 +69,7 @@ final class MockWebResponseBuilder {
   private WebResponseData webResponseData() throws IOException {
     List<NameValuePair> responseHeaders = responseHeaders();
     int statusCode = (this.response.getRedirectedUrl() != null ?
-            HttpStatus.MOVED_PERMANENTLY.value() : this.response.getStatus());
+                      HttpStatus.MOVED_PERMANENTLY.value() : this.response.getStatus());
     String statusMessage = statusMessage(statusCode);
     return new WebResponseData(this.response.getContentAsByteArray(), statusCode, statusMessage, responseHeaders);
   }

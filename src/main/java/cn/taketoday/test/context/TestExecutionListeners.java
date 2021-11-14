@@ -20,14 +20,14 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.core.annotation.AliasFor;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.core.annotation.AliasFor;
 
 /**
  * {@code TestExecutionListeners} defines class-level metadata for configuring
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p></p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
  *
@@ -61,7 +61,7 @@ public @interface TestExecutionListeners {
    * {@link #listeners}, but it may be used instead of {@link #listeners}.
    */
   @AliasFor("listeners")
-  Class<? extends TestExecutionListener>[] value() default { };
+  Class<? extends TestExecutionListener>[] value() default {};
 
   /**
    * The {@link TestExecutionListener TestExecutionListeners} to register with
@@ -79,7 +79,7 @@ public @interface TestExecutionListeners {
    * @see cn.taketoday.test.context.event.EventPublishingTestExecutionListener
    */
   @AliasFor("value")
-  Class<? extends TestExecutionListener>[] listeners() default { };
+  Class<? extends TestExecutionListener>[] listeners() default {};
 
   /**
    * Whether or not {@link #listeners TestExecutionListeners} from superclasses
@@ -129,7 +129,6 @@ public @interface TestExecutionListeners {
    * @see MergeMode
    */
   MergeMode mergeMode() default MergeMode.REPLACE_DEFAULTS;
-
 
   /**
    * Enumeration of <em>modes</em> that dictate whether or not explicitly

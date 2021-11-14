@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  * <p>This annotation and its supporting infrastructure were originally designed
  * to allow properties from
  * <a href="https://www.testcontainers.org/">Testcontainers</a> based tests to be
- * exposed easily to Spring integration tests. However, this feature may also be
+ * exposed easily to  integration tests. However, this feature may also be
  * used with any form of external resource whose lifecycle is maintained outside
  * the test's {@code ApplicationContext}.
  *
@@ -45,7 +45,7 @@ import java.lang.annotation.Target;
  * is resolved. Typically, method references are used to supply values, as in the
  * example below.
  *
- * <p>As of Spring Framework 5.3.2, dynamic properties from methods annotated with
+ * <p>dynamic properties from methods annotated with
  * {@code @DynamicPropertySource} will be <em>inherited</em> from enclosing test
  * classes, analogous to inheritance from superclasses and interfaces. See
  * {@link NestedTestConfiguration @NestedTestConfiguration} for details.
@@ -69,7 +69,7 @@ import java.lang.annotation.Target;
  *
  * <h3>Example</h3>
  * <pre class="code">
- * &#064;SpringJUnitConfig(...)
+ * &#064;TodayJUnitConfig(...)
  * &#064;Testcontainers
  * class ExampleIntegrationTests {
  *

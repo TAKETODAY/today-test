@@ -20,13 +20,15 @@
 
 package cn.taketoday.test.annotation;
 
-import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import cn.taketoday.test.context.junit4.TodayJUnit4ClassRunner;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+import cn.taketoday.test.context.junit4.statements.TodayRepeat;
 
 /**
  * Test annotation for use with JUnit 4 to indicate that a test method should be
@@ -36,7 +38,7 @@ import java.lang.annotation.Target;
  * test method itself as well as any <em>set up</em> or <em>tear down</em> of
  * the test fixture. When used with the
  * {@link TodayMethodRule
- * SpringMethodRule}, the scope additionally includes
+ * TodayMethodRule}, the scope additionally includes
  * {@linkplain cn.taketoday.test.context.TestExecutionListener#prepareTestInstance
  * preparation of the test instance}.
  *
@@ -46,9 +48,9 @@ import java.lang.annotation.Target;
  * @author Rod Johnson
  * @author Sam Brannen
  * @see cn.taketoday.test.annotation.Timed
- * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
+ * @see TodayJUnit4ClassRunner
  * @see TodayMethodRule
- * @see cn.taketoday.test.context.junit4.statements.SpringRepeat
+ * @see TodayRepeat
  */
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)

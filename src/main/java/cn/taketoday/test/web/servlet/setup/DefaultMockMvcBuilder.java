@@ -45,7 +45,6 @@ public class DefaultMockMvcBuilder extends AbstractMockMvcBuilder<DefaultMockMvc
 
   private final WebApplicationContext webAppContext;
 
-
   /**
    * Protected constructor. Not intended for direct instantiation.
    *
@@ -56,7 +55,6 @@ public class DefaultMockMvcBuilder extends AbstractMockMvcBuilder<DefaultMockMvc
     Assert.notNull(webAppContext.getServletContext(), "WebApplicationContext must have a ServletContext");
     this.webAppContext = webAppContext;
   }
-
 
   @Override
   protected WebApplicationContext initWebAppContext() {

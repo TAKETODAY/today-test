@@ -20,24 +20,25 @@
 
 package cn.taketoday.test.context.junit4.statements;
 
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.annotation.TestAnnotationUtils;
 import org.junit.runners.model.Statement;
 
 import java.lang.reflect.Method;
 
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.annotation.TestAnnotationUtils;
+
 /**
- * {@code SpringRepeat} is a custom JUnit {@link Statement} which adds support
- * for Spring's {@link cn.taketoday.test.annotation.Repeat @Repeat}
+ * {@code TodayRepeat} is a custom JUnit {@link Statement} which adds support
+ * for {@link cn.taketoday.test.annotation.Repeat @Repeat}
  * annotation by repeating the test the specified number of times.
  *
  * @author Sam Brannen
  * @see #evaluate()
  */
-public class SpringRepeat extends Statement {
+public class TodayRepeat extends Statement {
 
-  protected static final Logger logger = LoggerFactory.getLogger(SpringRepeat.class);
+  protected static final Logger logger = LoggerFactory.getLogger(TodayRepeat.class);
 
   private final Statement next;
 
@@ -45,9 +46,8 @@ public class SpringRepeat extends Statement {
 
   private final int repeat;
 
-
   /**
-   * Construct a new {@code SpringRepeat} statement for the supplied
+   * Construct a new {@code TodayRepeat} statement for the supplied
    * {@code testMethod}, retrieving the configured repeat count from the
    * {@code @Repeat} annotation on the supplied method.
    *
@@ -55,24 +55,23 @@ public class SpringRepeat extends Statement {
    * @param testMethod the current test method
    * @see TestAnnotationUtils#getRepeatCount(Method)
    */
-  public SpringRepeat(Statement next, Method testMethod) {
+  public TodayRepeat(Statement next, Method testMethod) {
     this(next, testMethod, TestAnnotationUtils.getRepeatCount(testMethod));
   }
 
   /**
-   * Construct a new {@code SpringRepeat} statement for the supplied
+   * Construct a new {@code TodayRepeat} statement for the supplied
    * {@code testMethod} and {@code repeat} count.
    *
    * @param next the next {@code Statement} in the execution chain
    * @param testMethod the current test method
    * @param repeat the configured repeat count for the current test method
    */
-  public SpringRepeat(Statement next, Method testMethod, int repeat) {
+  public TodayRepeat(Statement next, Method testMethod, int repeat) {
     this.next = next;
     this.testMethod = testMethod;
     this.repeat = Math.max(1, repeat);
   }
-
 
   /**
    * Evaluate the next {@link Statement statement} in the execution chain
@@ -82,7 +81,8 @@ public class SpringRepeat extends Statement {
   public void evaluate() throws Throwable {
     for (int i = 0; i < this.repeat; i++) {
       if (this.repeat > 1 && logger.isInfoEnabled()) {
-        logger.info(String.format("Repetition %d of test %s#%s()", (i + 1),
+        logger.info(String.format(
+                "Repetition %d of test %s#%s()", (i + 1),
                 this.testMethod.getDeclaringClass().getSimpleName(), this.testMethod.getName()));
       }
       this.next.evaluate();

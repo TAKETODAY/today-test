@@ -20,25 +20,6 @@
 
 package cn.taketoday.test.context.junit4;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.test.annotation.ProfileValueUtils;
-import cn.taketoday.test.annotation.TestAnnotationUtils;
-import cn.taketoday.test.context.TestContextManager;
-import cn.taketoday.test.context.junit4.rules.TodayClassRule;
-import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
-import cn.taketoday.test.context.junit4.statements.RunAfterTestClassCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunAfterTestExecutionCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunAfterTestMethodCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunBeforeTestClassCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunBeforeTestExecutionCallbacks;
-import cn.taketoday.test.context.junit4.statements.RunBeforeTestMethodCallbacks;
-import cn.taketoday.test.context.junit4.statements.SpringFailOnTimeout;
-import cn.taketoday.test.context.junit4.statements.SpringRepeat;
-import cn.taketoday.util.ClassUtils;
-import cn.taketoday.util.ReflectionUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.internal.runners.model.ReflectiveCallable;
@@ -56,17 +37,37 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.test.annotation.ProfileValueUtils;
+import cn.taketoday.test.annotation.TestAnnotationUtils;
+import cn.taketoday.test.context.TestContextManager;
+import cn.taketoday.test.context.junit4.rules.TodayClassRule;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+import cn.taketoday.test.context.junit4.statements.RunAfterTestClassCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunAfterTestExecutionCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunAfterTestMethodCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunBeforeTestClassCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunBeforeTestExecutionCallbacks;
+import cn.taketoday.test.context.junit4.statements.RunBeforeTestMethodCallbacks;
+import cn.taketoday.test.context.junit4.statements.TodayFailOnTimeout;
+import cn.taketoday.test.context.junit4.statements.TodayRepeat;
+import cn.taketoday.util.ClassUtils;
+import cn.taketoday.util.ReflectionUtils;
+
 /**
- * {@code SpringJUnit4ClassRunner} is a custom extension of JUnit's
+ * {@code TodayJUnit4ClassRunner} is a custom extension of JUnit's
  * {@link BlockJUnit4ClassRunner} which provides functionality of the
- * <em>Spring TestContext Framework</em> to standard JUnit tests by means of the
+ * <em>TestContext Framework</em> to standard JUnit tests by means of the
  * {@link TestContextManager} and associated support classes and annotations.
  *
  * <p>To use this class, simply annotate a JUnit 4 based test class with
- * {@code @RunWith(SpringJUnit4ClassRunner.class)} or {@code @RunWith(SpringRunner.class)}.
+ * {@code @RunWith(TodayJUnit4ClassRunner.class)} or {@code @RunWith(TodayRunner.class)}.
  *
  * <p>The following list constitutes all annotations currently supported directly
- * or indirectly by {@code SpringJUnit4ClassRunner}. <em>(Note that additional
+ * or indirectly by {@code TodayJUnit4ClassRunner}. <em>(Note that additional
  * annotations may be supported by various
  * {@link cn.taketoday.test.context.TestExecutionListener TestExecutionListener}
  * or {@link cn.taketoday.test.context.TestContextBootstrapper TestContextBootstrapper}
@@ -82,66 +83,62 @@ import java.util.concurrent.TimeUnit;
  * <li>{@link cn.taketoday.test.annotation.IfProfileValue @IfProfileValue}</li>
  * </ul>
  *
- * <p>If you would like to use the Spring TestContext Framework with a runner
+ * <p>If you would like to use the TestContext Framework with a runner
  * other than this one, use {@link TodayClassRule} and {@link TodayMethodRule}.
  *
- * <p><strong>NOTE:</strong> As of Spring Framework 4.3, this class requires JUnit 4.12 or higher.
+ * <p><strong>NOTE:</strong>  this class requires JUnit 4.12 or higher.
  *
  * @author Sam Brannen
  * @author Juergen Hoeller
- * @see SpringRunner
+ * @see TodayRunner
  * @see TestContextManager
- * @see AbstractJUnit4SpringContextTests
+ * @see AbstractJUnit4TodayContextTests
  * @see TodayClassRule
  * @see TodayMethodRule
  */
-public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
+public class TodayJUnit4ClassRunner extends BlockJUnit4ClassRunner {
 
-  private static final Logger logger = LoggerFactory.getLogger(SpringJUnit4ClassRunner.class);
+  private static final Logger logger = LoggerFactory.getLogger(TodayJUnit4ClassRunner.class);
 
   private static final Method withRulesMethod;
 
   static {
-    Assert.state(ClassUtils.isPresent("org.junit.internal.Throwables", SpringJUnit4ClassRunner.class.getClassLoader()),
-            "SpringJUnit4ClassRunner requires JUnit 4.12 or higher.");
+    Assert.state(ClassUtils.isPresent("org.junit.internal.Throwables", TodayJUnit4ClassRunner.class.getClassLoader()),
+                 "TodayJUnit4ClassRunner requires JUnit 4.12 or higher.");
 
-    Method method = ReflectionUtils.findMethod(SpringJUnit4ClassRunner.class, "withRules",
-            FrameworkMethod.class, Object.class, Statement.class);
-    Assert.state(method != null, "SpringJUnit4ClassRunner requires JUnit 4.12 or higher");
+    Method method = ReflectionUtils.findMethod(
+            TodayJUnit4ClassRunner.class, "withRules", FrameworkMethod.class, Object.class, Statement.class);
+    Assert.state(method != null, "TodayJUnit4ClassRunner requires JUnit 4.12 or higher");
     ReflectionUtils.makeAccessible(method);
     withRulesMethod = method;
   }
 
-
   private final TestContextManager testContextManager;
-
 
   private static void ensureSpringRulesAreNotPresent(Class<?> testClass) {
     for (Field field : testClass.getFields()) {
       Assert.state(!TodayClassRule.class.isAssignableFrom(field.getType()), () -> String.format(
-              "Detected SpringClassRule field in test class [%s], " +
-                      "but SpringClassRule cannot be used with the SpringJUnit4ClassRunner.", testClass.getName()));
+              "Detected TodayClassRule field in test class [%s], " +
+                      "but TodayClassRule cannot be used with the TodayJUnit4ClassRunner.", testClass.getName()));
       Assert.state(!TodayMethodRule.class.isAssignableFrom(field.getType()), () -> String.format(
-              "Detected SpringMethodRule field in test class [%s], " +
-                      "but SpringMethodRule cannot be used with the SpringJUnit4ClassRunner.", testClass.getName()));
+              "Detected TodayMethodRule field in test class [%s], " +
+                      "but TodayMethodRule cannot be used with the TodayJUnit4ClassRunner.", testClass.getName()));
     }
   }
 
   /**
-   * Construct a new {@code SpringJUnit4ClassRunner} and initialize a
-   * {@link TestContextManager} to provide Spring testing functionality to
+   * Construct a new {@code TodayJUnit4ClassRunner} and initialize a
+   * {@link TestContextManager} to provide Today testing functionality to
    * standard JUnit tests.
    *
    * @param clazz the test class to be run
    * @see #createTestContextManager(Class)
    */
-  public SpringJUnit4ClassRunner(Class<?> clazz) throws InitializationError {
+  public TodayJUnit4ClassRunner(Class<?> clazz) throws InitializationError {
     super(clazz);
-    if (logger.isDebugEnabled()) {
-      logger.debug("SpringJUnit4ClassRunner constructor called with [" + clazz + "]");
-    }
-    ensureSpringRulesAreNotPresent(clazz);
+    ensureTodayRulesAreNotPresent(clazz);
     this.testContextManager = createTestContextManager(clazz);
+    logger.debug("TodayJUnit4ClassRunner constructor called with [{}]", clazz);
   }
 
   /**
@@ -198,7 +195,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the {@link Statement} returned by the parent implementation with a
    * {@code RunBeforeTestClassCallbacks} statement, thus preserving the
-   * default JUnit functionality while adding support for the Spring TestContext
+   * default JUnit functionality while adding support for the TestContext
    * Framework.
    *
    * @see RunBeforeTestClassCallbacks
@@ -212,7 +209,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the {@link Statement} returned by the parent implementation with a
    * {@code RunAfterTestClassCallbacks} statement, thus preserving the default
-   * JUnit functionality while adding support for the Spring TestContext Framework.
+   * JUnit functionality while adding support for the TestContext Framework.
    *
    * @see RunAfterTestClassCallbacks
    */
@@ -272,9 +269,9 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
    * executing the actual test method in a separate thread. Thus, the net
    * effect is that {@code @Before} and {@code @After} methods will be
    * executed in the same thread as the test method. As a consequence,
-   * JUnit-specified timeouts will work fine in combination with Spring
+   * JUnit-specified timeouts will work fine in combination with
    * transactions. However, JUnit-specific timeouts still differ from
-   * Spring-specific timeouts in that the former execute in a separate
+   * Today-specific timeouts in that the former execute in a separate
    * thread while the latter simply execute in the main thread (like regular
    * tests).
    *
@@ -333,8 +330,8 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
    */
   protected boolean isTestMethodIgnored(FrameworkMethod frameworkMethod) {
     Method method = frameworkMethod.getMethod();
-    return (method.isAnnotationPresent(Ignore.class) ||
-            !ProfileValueUtils.isTestEnabledInThisEnvironment(method, getTestClass().getJavaClass()));
+    return (method.isAnnotationPresent(Ignore.class)
+            || !ProfileValueUtils.isTestEnabledInThisEnvironment(method, getTestClass().getJavaClass()));
   }
 
   /**
@@ -366,14 +363,14 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Perform the same logic as
    * {@link BlockJUnit4ClassRunner#withPotentialTimeout(FrameworkMethod, Object, Statement)}
-   * but with additional support for Spring's {@code @Timed} annotation.
-   * <p>Supports both Spring's {@link cn.taketoday.test.annotation.Timed @Timed}
+   * but with additional support for Today's {@code @Timed} annotation.
+   * <p>Supports both Today's {@link cn.taketoday.test.annotation.Timed @Timed}
    * and JUnit's {@link Test#timeout() @Test(timeout=...)} annotations, but not both
    * simultaneously.
    *
-   * @return either a {@link SpringFailOnTimeout}, a {@link FailOnTimeout},
+   * @return either a {@link TodayFailOnTimeout}, a {@link FailOnTimeout},
    * or the supplied {@link Statement} as appropriate
-   * @see #getSpringTimeout(FrameworkMethod)
+   * @see #getTodayTimeout(FrameworkMethod)
    * @see #getJUnitTimeout(FrameworkMethod)
    */
   @Override
@@ -382,18 +379,19 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   // in BlockJUnit4ClassRunner has been deprecated.
   @SuppressWarnings("deprecation")
   protected Statement withPotentialTimeout(FrameworkMethod frameworkMethod, Object testInstance, Statement next) {
-    Statement statement = null;
-    long springTimeout = getSpringTimeout(frameworkMethod);
+    Statement statement;
+    long TodayTimeout = getSpringTimeout(frameworkMethod);
     long junitTimeout = getJUnitTimeout(frameworkMethod);
     if (springTimeout > 0 && junitTimeout > 0) {
-      String msg = String.format("Test method [%s] has been configured with Spring's @Timed(millis=%s) and " +
-              "JUnit's @Test(timeout=%s) annotations, but only one declaration of a 'timeout' is " +
-              "permitted per test method.", frameworkMethod.getMethod(), springTimeout, junitTimeout);
+      String msg = String.format(
+              "Test method [%s] has been configured with Spring's @Timed(millis=%s) and " +
+                      "JUnit's @Test(timeout=%s) annotations, but only one declaration of a 'timeout' is " +
+                      "permitted per test method.", frameworkMethod.getMethod(), springTimeout, junitTimeout);
       logger.error(msg);
       throw new IllegalStateException(msg);
     }
     else if (springTimeout > 0) {
-      statement = new SpringFailOnTimeout(next, springTimeout);
+      statement = new TodayFailOnTimeout(next, springTimeout);
     }
     else if (junitTimeout > 0) {
       statement = FailOnTimeout.builder().withTimeout(junitTimeout, TimeUnit.MILLISECONDS).build(next);
@@ -431,7 +429,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the supplied {@link Statement} with a {@code RunBeforeTestExecutionCallbacks}
    * statement, thus preserving the default functionality while adding support for the
-   * Spring TestContext Framework.
+   * TestContext Framework.
    *
    * @see RunBeforeTestExecutionCallbacks
    */
@@ -442,7 +440,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the supplied {@link Statement} with a {@code RunAfterTestExecutionCallbacks}
    * statement, thus preserving the default functionality while adding support for the
-   * Spring TestContext Framework.
+   * TestContext Framework.
    *
    * @see RunAfterTestExecutionCallbacks
    */
@@ -453,7 +451,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the {@link Statement} returned by the parent implementation with a
    * {@code RunBeforeTestMethodCallbacks} statement, thus preserving the
-   * default functionality while adding support for the Spring TestContext
+   * default functionality while adding support for the TestContext
    * Framework.
    *
    * @see RunBeforeTestMethodCallbacks
@@ -467,7 +465,7 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   /**
    * Wrap the {@link Statement} returned by the parent implementation with a
    * {@code RunAfterTestMethodCallbacks} statement, thus preserving the
-   * default functionality while adding support for the Spring TestContext
+   * default functionality while adding support for the TestContext
    * Framework.
    *
    * @see RunAfterTestMethodCallbacks
@@ -479,15 +477,15 @@ public class SpringJUnit4ClassRunner extends BlockJUnit4ClassRunner {
   }
 
   /**
-   * Wrap the supplied {@link Statement} with a {@code SpringRepeat} statement.
+   * Wrap the supplied {@link Statement} with a {@code TodayRepeat} statement.
    * <p>Supports Spring's {@link cn.taketoday.test.annotation.Repeat @Repeat}
    * annotation.
    *
    * @see TestAnnotationUtils#getRepeatCount(Method)
-   * @see SpringRepeat
+   * @see TodayRepeat
    */
   protected Statement withPotentialRepeat(FrameworkMethod frameworkMethod, Object testInstance, Statement next) {
-    return new SpringRepeat(next, frameworkMethod.getMethod());
+    return new TodayRepeat(next, frameworkMethod.getMethod());
   }
 
 }

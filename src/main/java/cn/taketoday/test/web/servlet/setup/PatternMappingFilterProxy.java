@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet.setup;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.web.util.UrlPathHelper;
 import jakarta.servlet.Filter;
@@ -29,10 +33,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A Filter that invokes a delegate {@link Filter} only if the request URL
@@ -57,7 +57,6 @@ final class PatternMappingFilterProxy implements Filter {
 
   /** Patterns that require the request URL to have a specific suffix, e.g. "*.html" */
   private final List<String> endsWithMatches = new ArrayList<>();
-
 
   /**
    * Creates a new instance.
@@ -89,7 +88,6 @@ final class PatternMappingFilterProxy implements Filter {
       this.exactMatches.add(urlPattern);
     }
   }
-
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)

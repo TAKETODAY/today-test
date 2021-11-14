@@ -20,12 +20,12 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.Arrays;
+
 import cn.taketoday.core.style.ToStringBuilder;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.context.TestPropertySource;
-
-import java.util.Arrays;
 
 /**
  * {@code MergedTestPropertySources} encapsulates the <em>merged</em>
@@ -43,14 +43,12 @@ class MergedTestPropertySources {
 
   private final String[] properties;
 
-
   /**
    * Factory for an <em>empty</em> {@code MergedTestPropertySources} instance.
    */
   static MergedTestPropertySources empty() {
     return empty;
   }
-
 
   /**
    * Create a {@code MergedTestPropertySources} instance with the supplied

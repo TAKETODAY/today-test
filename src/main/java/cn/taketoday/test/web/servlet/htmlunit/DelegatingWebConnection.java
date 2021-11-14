@@ -20,7 +20,6 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
-import cn.taketoday.lang.Assert;
 import com.gargoylesoftware.htmlunit.WebConnection;
 import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.WebResponse;
@@ -28,6 +27,8 @@ import com.gargoylesoftware.htmlunit.WebResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import cn.taketoday.lang.Assert;
 
 /**
  * Implementation of {@link WebConnection} that allows delegating to various
@@ -61,7 +62,6 @@ public final class DelegatingWebConnection implements WebConnection {
 
   private final WebConnection defaultConnection;
 
-
   public DelegatingWebConnection(WebConnection defaultConnection, List<DelegateWebConnection> connections) {
     Assert.notNull(defaultConnection, "Default WebConnection must not be null");
     Assert.notEmpty(connections, "Connections List must not be empty");
@@ -72,7 +72,6 @@ public final class DelegatingWebConnection implements WebConnection {
   public DelegatingWebConnection(WebConnection defaultConnection, DelegateWebConnection... connections) {
     this(defaultConnection, Arrays.asList(connections));
   }
-
 
   @Override
   public WebResponse getResponse(WebRequest request) throws IOException {
@@ -87,7 +86,6 @@ public final class DelegatingWebConnection implements WebConnection {
   @Override
   public void close() {
   }
-
 
   /**
    * The delegate web connection.

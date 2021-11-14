@@ -20,6 +20,18 @@
 
 package cn.taketoday.mock.http.server.reactive;
 
+import org.reactivestreams.Publisher;
+
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DefaultDataBufferFactory;
 import cn.taketoday.http.HttpCookie;
@@ -36,18 +48,7 @@ import cn.taketoday.util.MimeType;
 import cn.taketoday.util.MultiValueMap;
 import cn.taketoday.util.StringUtils;
 import cn.taketoday.web.util.UriComponentsBuilder;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
-
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 
 /**
  * Mock extension of {@link AbstractServerHttpRequest} for use in tests without
@@ -89,7 +90,6 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
     this.sslInfo = sslInfo;
     this.body = Flux.from(body);
   }
-
 
   @Override
   @Nullable
@@ -134,7 +134,6 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
   public <T> T getNativeRequest() {
     throw new IllegalStateException("This is a mock. No running server, no native request.");
   }
-
 
   // Static builder methods
 
@@ -261,7 +260,6 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
   private static URI toUri(String uri, Object[] vars) {
     return UriComponentsBuilder.fromUriString(uri).buildAndExpand(vars).encode().toUri();
   }
-
 
   /**
    * Request builder exposing properties not related to the body.
@@ -407,7 +405,6 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
     MockServerHttpRequest build();
   }
 
-
   /**
    * A builder that adds a body to the request.
    */
@@ -451,7 +448,6 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
      */
     MockServerHttpRequest body(String body);
   }
-
 
   private static class DefaultBodyBuilder implements BodyBuilder {
 
@@ -618,7 +614,7 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
     public MockServerHttpRequest body(Publisher<? extends DataBuffer> body) {
       applyCookiesIfNecessary();
       return new MockServerHttpRequest(this.methodValue, getUrlToUse(), this.contextPath,
-              this.headers, this.cookies, this.localAddress, this.remoteAddress, this.sslInfo, body);
+                                       this.headers, this.cookies, this.localAddress, this.remoteAddress, this.sslInfo, body);
     }
 
     private void applyCookiesIfNecessary() {

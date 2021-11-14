@@ -35,12 +35,10 @@ public class EntityExchangeResult<T> extends ExchangeResult {
   @Nullable
   private final T body;
 
-
   EntityExchangeResult(ExchangeResult result, @Nullable T body) {
     super(result);
     this.body = body;
   }
-
 
   /**
    * Return the entity extracted from the response body.

@@ -20,14 +20,14 @@
 
 package cn.taketoday.test.web.servlet.setup;
 
+import java.nio.charset.Charset;
+
 import cn.taketoday.test.web.servlet.DispatcherServletCustomizer;
 import cn.taketoday.test.web.servlet.MockMvcBuilder;
 import cn.taketoday.test.web.servlet.RequestBuilder;
 import cn.taketoday.test.web.servlet.ResultHandler;
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import jakarta.servlet.Filter;
-
-import java.nio.charset.Charset;
 
 /**
  * Defines common methods for building a {@code MockMvc}.
@@ -41,12 +41,12 @@ public interface ConfigurableMockMvcBuilder<B extends ConfigurableMockMvcBuilder
   /**
    * Add filters mapped to any request (i.e. "/*"). For example:
    * <pre class="code">
-   * mockMvcBuilder.addFilters(springSecurityFilterChain);
+   * mockMvcBuilder.addFilters(TodaySecurityFilterChain);
    * </pre>
    * <p>It is the equivalent of the following web.xml configuration:
    * <pre class="code">
    * &lt;filter-mapping&gt;
-   *     &lt;filter-name&gt;springSecurityFilterChain&lt;/filter-name&gt;
+   *     &lt;filter-name&gt;TodaySecurityFilterChain&lt;/filter-name&gt;
    *     &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
    * &lt;/filter-mapping&gt;
    * </pre>
@@ -140,7 +140,7 @@ public interface ConfigurableMockMvcBuilder<B extends ConfigurableMockMvcBuilder
    * configures it for some specific purpose (e.g. security).
    * <p>There is a built-in {@link SharedHttpSessionConfigurer} that can be
    * used to re-use the HTTP session across requests. 3rd party frameworks
-   * like Spring Security also use this mechanism to provide configuration
+   * like Today Security also use this mechanism to provide configuration
    * shortcuts.
    *
    * @see SharedHttpSessionConfigurer

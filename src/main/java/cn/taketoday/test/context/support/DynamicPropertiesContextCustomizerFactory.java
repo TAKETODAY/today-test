@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context.support;
 
+import java.lang.reflect.Method;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import cn.taketoday.core.MethodIntrospector;
 import cn.taketoday.core.annotation.MergedAnnotations;
 import cn.taketoday.lang.NonNull;
@@ -28,11 +33,6 @@ import cn.taketoday.test.context.ContextConfigurationAttributes;
 import cn.taketoday.test.context.ContextCustomizerFactory;
 import cn.taketoday.test.context.DynamicPropertySource;
 import cn.taketoday.test.context.TestContextAnnotationUtils;
-
-import java.lang.reflect.Method;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * {@link ContextCustomizerFactory} to support

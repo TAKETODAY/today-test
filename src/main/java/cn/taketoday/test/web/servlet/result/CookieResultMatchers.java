@@ -20,10 +20,11 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import jakarta.servlet.http.Cookie;
-import org.hamcrest.Matcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertNotNull;
@@ -47,7 +48,6 @@ public class CookieResultMatchers {
    */
   protected CookieResultMatchers() {
   }
-
 
   /**
    * Assert a cookie value with the given Hamcrest {@link Matcher}.
@@ -207,7 +207,6 @@ public class CookieResultMatchers {
       assertEquals("Response cookie '" + name + "' httpOnly", httpOnly, cookie.isHttpOnly());
     };
   }
-
 
   private static Cookie getCookie(MvcResult result, String name) {
     Cookie cookie = result.getResponse().getCookie(name);

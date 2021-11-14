@@ -144,7 +144,7 @@ public abstract class AssertionErrors {
   public static void assertNotEquals(String message, @Nullable Object expected, @Nullable Object actual) {
     if (ObjectUtils.nullSafeEquals(expected, actual)) {
       throw new AssertionError(message + " was not expected to be:" +
-              "<" + ObjectUtils.nullSafeToString(actual) + ">");
+                                       "<" + ObjectUtils.nullSafeToString(actual) + ">");
     }
   }
 

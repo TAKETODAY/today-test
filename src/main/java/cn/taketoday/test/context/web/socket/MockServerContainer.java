@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context.web.socket;
 
+import java.io.IOException;
+import java.net.URI;
+import java.util.Collections;
+import java.util.Set;
+
 import jakarta.websocket.ClientEndpointConfig;
 import jakarta.websocket.DeploymentException;
 import jakarta.websocket.Endpoint;
@@ -27,11 +32,6 @@ import jakarta.websocket.Extension;
 import jakarta.websocket.Session;
 import jakarta.websocket.server.ServerContainer;
 import jakarta.websocket.server.ServerEndpointConfig;
-
-import java.io.IOException;
-import java.net.URI;
-import java.util.Collections;
-import java.util.Set;
 
 /**
  * Mock implementation of the {@link jakarta.websocket.server.ServerContainer} interface.
@@ -47,7 +47,6 @@ class MockServerContainer implements ServerContainer {
   private int defaultMaxBinaryMessageBufferSize;
 
   private int defaultMaxTextMessageBufferSize;
-
 
   // WebSocketContainer
 
@@ -121,7 +120,6 @@ class MockServerContainer implements ServerContainer {
     throw new UnsupportedOperationException(
             "MockServerContainer does not support connectToServer(Class, ClientEndpointConfig, URI)");
   }
-
 
   // ServerContainer
 

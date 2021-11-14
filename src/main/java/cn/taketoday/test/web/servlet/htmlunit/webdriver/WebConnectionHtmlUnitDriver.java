@@ -20,12 +20,14 @@
 
 package cn.taketoday.test.web.servlet.htmlunit.webdriver;
 
-import cn.taketoday.lang.Assert;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebConnection;
+
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
+import cn.taketoday.lang.Assert;
 
 /**
  * {@code WebConnectionHtmlUnitDriver} enables configuration of the
@@ -56,7 +58,6 @@ public class WebConnectionHtmlUnitDriver extends HtmlUnitDriver {
   public WebConnectionHtmlUnitDriver(Capabilities capabilities) {
     super(capabilities);
   }
-
 
   /**
    * Modify the supplied {@link WebClient} and retain a reference to it so that its

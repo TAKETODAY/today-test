@@ -20,6 +20,14 @@
 
 package cn.taketoday.test.context.support;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
+
 import cn.taketoday.context.ConfigurableApplicationContext;
 import cn.taketoday.core.env.PropertySources;
 import cn.taketoday.lang.Assert;
@@ -29,14 +37,6 @@ import cn.taketoday.test.context.DynamicPropertyRegistry;
 import cn.taketoday.test.context.DynamicPropertySource;
 import cn.taketoday.test.context.MergedContextConfiguration;
 import cn.taketoday.util.ReflectionUtils;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * {@link ContextCustomizer} to support
@@ -57,13 +57,12 @@ class DynamicPropertiesContextCustomizer implements ContextCustomizer {
     this.methods = methods;
   }
 
-
   private void assertValid(Method method) {
     Assert.state(Modifier.isStatic(method.getModifiers()),
-            () -> "@DynamicPropertySource method '" + method.getName() + "' must be static");
+                 () -> "@DynamicPropertySource method '" + method.getName() + "' must be static");
     Class<?>[] types = method.getParameterTypes();
     Assert.state(types.length == 1 && types[0] == DynamicPropertyRegistry.class,
-            () -> "@DynamicPropertySource method '" + method.getName() + "' must accept a single DynamicPropertyRegistry argument");
+                 () -> "@DynamicPropertySource method '" + method.getName() + "' must accept a single DynamicPropertyRegistry argument");
   }
 
   @Override

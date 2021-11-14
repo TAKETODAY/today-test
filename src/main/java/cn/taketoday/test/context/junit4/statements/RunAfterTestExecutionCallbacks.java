@@ -20,7 +20,6 @@
 
 package cn.taketoday.test.context.junit4.statements;
 
-import cn.taketoday.test.context.TestContextManager;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
@@ -28,9 +27,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.taketoday.test.context.TestContextManager;
+
 /**
  * {@code RunAfterTestExecutionCallbacks} is a custom JUnit {@link Statement}
- * which allows the <em>Spring TestContext Framework</em> to be plugged into the
+ * which allows the <em>TestContext Framework</em> to be plugged into the
  * JUnit 4 execution chain by calling {@link TestContextManager#afterTestExecution
  * afterTestExecution()} on the supplied {@link TestContextManager}.
  *
@@ -49,7 +50,6 @@ public class RunAfterTestExecutionCallbacks extends Statement {
   private final Method testMethod;
 
   private final TestContextManager testContextManager;
-
 
   /**
    * Construct a new {@code RunAfterTestExecutionCallbacks} statement.

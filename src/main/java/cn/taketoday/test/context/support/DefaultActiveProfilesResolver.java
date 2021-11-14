@@ -45,7 +45,6 @@ public class DefaultActiveProfilesResolver implements ActiveProfilesResolver {
 
   private static final Logger logger = LoggerFactory.getLogger(DefaultActiveProfilesResolver.class);
 
-
   /**
    * Resolve the <em>bean definition profiles</em> for the given {@linkplain
    * Class test class} based on profiles configured declaratively via
@@ -73,7 +72,7 @@ public class DefaultActiveProfilesResolver implements ActiveProfilesResolver {
       ActiveProfiles annotation = descriptor.getAnnotation();
       if (logger.isTraceEnabled()) {
         logger.trace(String.format("Retrieved @ActiveProfiles [%s] for declaring class [%s].", annotation,
-                descriptor.getDeclaringClass().getName()));
+                                   descriptor.getDeclaringClass().getName()));
       }
       return annotation.profiles();
     }

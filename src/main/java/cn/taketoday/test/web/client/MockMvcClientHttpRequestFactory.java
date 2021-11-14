@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.client;
 
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.HttpStatus;
@@ -32,12 +36,7 @@ import cn.taketoday.mock.http.client.MockClientHttpResponse;
 import cn.taketoday.mock.web.MockHttpServletResponse;
 import cn.taketoday.test.web.servlet.MockMvc;
 
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-
 import static cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders.request;
-
 
 /**
  * A {@link ClientHttpRequestFactory} for requests executed via {@link MockMvc}.
@@ -48,12 +47,10 @@ public class MockMvcClientHttpRequestFactory implements ClientHttpRequestFactory
 
   private final MockMvc mockMvc;
 
-
   public MockMvcClientHttpRequestFactory(MockMvc mockMvc) {
     Assert.notNull(mockMvc, "MockMvc must not be null");
     this.mockMvc = mockMvc;
   }
-
 
   @Override
   public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {

@@ -20,6 +20,16 @@
 
 package cn.taketoday.test.web.servlet.request;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.MediaType;
 import cn.taketoday.lang.Assert;
@@ -33,16 +43,6 @@ import cn.taketoday.util.MultiValueMap;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.Part;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 /**
  * Default builder for {@link MockMultipartHttpServletRequest}.
  *
@@ -54,7 +54,6 @@ public class MockMultipartHttpServletRequestBuilder extends MockHttpServletReque
   private final List<MockMultipartFile> files = new ArrayList<>();
 
   private final MultiValueMap<String, Part> parts = new DefaultMultiValueMap<>();
-
 
   /**
    * Package-private constructor. Use static factory methods in
@@ -84,7 +83,6 @@ public class MockMultipartHttpServletRequestBuilder extends MockHttpServletReque
     super(HttpMethod.POST, uri);
     super.contentType(MediaType.MULTIPART_FORM_DATA);
   }
-
 
   /**
    * Create a new MockMultipartFile with the given content.
@@ -130,7 +128,7 @@ public class MockMultipartHttpServletRequestBuilder extends MockHttpServletReque
       if (parent instanceof MockMultipartHttpServletRequestBuilder parentBuilder) {
         this.files.addAll(parentBuilder.files);
         parentBuilder.parts.keySet().forEach(name ->
-                this.parts.putIfAbsent(name, parentBuilder.parts.get(name)));
+                                                     this.parts.putIfAbsent(name, parentBuilder.parts.get(name)));
       }
 
     }
@@ -149,7 +147,7 @@ public class MockMultipartHttpServletRequestBuilder extends MockHttpServletReque
   protected final MockHttpServletRequest createServletRequest(ServletContext servletContext) {
     MockMultipartHttpServletRequest request = new MockMultipartHttpServletRequest(servletContext);
     Charset defaultCharset = (request.getCharacterEncoding() != null ?
-            Charset.forName(request.getCharacterEncoding()) : StandardCharsets.UTF_8);
+                              Charset.forName(request.getCharacterEncoding()) : StandardCharsets.UTF_8);
 
     this.files.forEach(request::addFile);
     this.parts.values().stream().flatMap(Collection::stream).forEach(part -> {

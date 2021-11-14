@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.web.servlet.htmlunit.webdriver;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.MockMvc;
@@ -27,9 +32,6 @@ import cn.taketoday.test.web.servlet.htmlunit.MockMvcWebConnectionBuilderSupport
 import cn.taketoday.test.web.servlet.htmlunit.WebRequestMatcher;
 import cn.taketoday.test.web.servlet.setup.MockMvcConfigurer;
 import cn.taketoday.web.context.WebApplicationContext;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 /**
  * {@code MockMvcHtmlUnitDriverBuilder} simplifies the building of an
@@ -56,7 +58,6 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
 
   private boolean javascriptEnabled = true;
 
-
   protected MockMvcHtmlUnitDriverBuilder(MockMvc mockMvc) {
     super(mockMvc);
   }
@@ -68,7 +69,6 @@ public class MockMvcHtmlUnitDriverBuilder extends MockMvcWebConnectionBuilderSup
   protected MockMvcHtmlUnitDriverBuilder(WebApplicationContext context, MockMvcConfigurer configurer) {
     super(context, configurer);
   }
-
 
   /**
    * Create a new {@code MockMvcHtmlUnitDriverBuilder} based on the supplied

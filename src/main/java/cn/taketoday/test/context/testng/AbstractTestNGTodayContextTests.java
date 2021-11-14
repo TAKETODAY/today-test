@@ -20,8 +20,19 @@
 
 package cn.taketoday.test.context.testng;
 
+import org.testng.IHookCallBack;
+import org.testng.IHookable;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import cn.taketoday.context.ApplicationContext;
-import cn.taketoday.context.ApplicationContextAware;
+import cn.taketoday.context.aware.ApplicationContextAware;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
@@ -35,19 +46,9 @@ import cn.taketoday.test.context.support.DependencyInjectionTestExecutionListene
 import cn.taketoday.test.context.support.DirtiesContextBeforeModesTestExecutionListener;
 import cn.taketoday.test.context.support.DirtiesContextTestExecutionListener;
 import cn.taketoday.test.context.web.ServletTestExecutionListener;
-import org.testng.IHookCallBack;
-import org.testng.IHookable;
-import org.testng.ITestResult;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
- * Abstract base test class which integrates the <em>Spring TestContext Framework</em>
+ * Abstract base test class which integrates the <em>TestContext Framework</em>
  * with explicit {@link ApplicationContext} testing support in a <strong>TestNG</strong>
  * environment.
  *
@@ -86,13 +87,11 @@ import java.lang.reflect.Method;
  * @see DependencyInjectionTestExecutionListener
  * @see DirtiesContextTestExecutionListener
  * @see EventPublishingTestExecutionListener
- * @see AbstractTransactionalTestNGSpringContextTests
- * @see cn.taketoday.test.context.junit4.AbstractJUnit4SpringContextTests
  */
 @TestExecutionListeners({ ServletTestExecutionListener.class, DirtiesContextBeforeModesTestExecutionListener.class,
         ApplicationEventsTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class, EventPublishingTestExecutionListener.class })
-public abstract class AbstractTestNGSpringContextTests implements IHookable, ApplicationContextAware {
+public abstract class AbstractTestNGTodayContextTests implements IHookable, ApplicationContextAware {
 
   /** Logger available to subclasses. */
   protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -109,12 +108,11 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
   @Nullable
   private Throwable testException;
 
-
   /**
-   * Construct a new {@code AbstractTestNGSpringContextTests} instance and initialize
+   * Construct a new {@code AbstractTestNGTodayContextTests} instance and initialize
    * the internal {@link TestContextManager} for the current test class.
    */
-  public AbstractTestNGSpringContextTests() {
+  public AbstractTestNGTodayContextTests() {
     this.testContextManager = new TestContextManager(getClass());
   }
 
@@ -129,7 +127,6 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
     this.applicationContext = applicationContext;
   }
 
-
   /**
    * Delegates to the configured {@link TestContextManager} to call
    * {@linkplain TestContextManager#beforeTestClass() 'before test class'} callbacks.
@@ -137,7 +134,7 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
    * @throws Exception if a registered TestExecutionListener throws an exception
    */
   @BeforeClass(alwaysRun = true)
-  protected void springTestContextBeforeTestClass() throws Exception {
+  protected void todayTestContextBeforeTestClass() throws Exception {
     this.testContextManager.beforeTestClass();
   }
 
@@ -149,8 +146,8 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
    *
    * @throws Exception if a registered TestExecutionListener throws an exception
    */
-  @BeforeClass(alwaysRun = true, dependsOnMethods = "springTestContextBeforeTestClass")
-  protected void springTestContextPrepareTestInstance() throws Exception {
+  @BeforeClass(alwaysRun = true, dependsOnMethods = "todayTestContextBeforeTestClass")
+  protected void todayTestContextPrepareTestInstance() throws Exception {
     this.testContextManager.prepareTestInstance(this);
   }
 
@@ -163,7 +160,7 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
    * @throws Exception allows all exceptions to propagate
    */
   @BeforeMethod(alwaysRun = true)
-  protected void springTestContextBeforeTestMethod(Method testMethod) throws Exception {
+  protected void todayTestContextBeforeTestMethod(Method testMethod) throws Exception {
     this.testContextManager.beforeTestMethod(this, testMethod);
   }
 
@@ -216,7 +213,7 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
    * @throws Exception allows all exceptions to propagate
    */
   @AfterMethod(alwaysRun = true)
-  protected void springTestContextAfterTestMethod(Method testMethod) throws Exception {
+  protected void todayTestContextAfterTestMethod(Method testMethod) throws Exception {
     try {
       this.testContextManager.afterTestMethod(this, testMethod, this.testException);
     }
@@ -232,10 +229,9 @@ public abstract class AbstractTestNGSpringContextTests implements IHookable, App
    * @throws Exception if a registered TestExecutionListener throws an exception
    */
   @AfterClass(alwaysRun = true)
-  protected void springTestContextAfterTestClass() throws Exception {
+  protected void todayTestContextAfterTestClass() throws Exception {
     this.testContextManager.afterTestClass();
   }
-
 
   private Throwable getTestResultException(ITestResult testResult) {
     Throwable testResultException = testResult.getThrowable();

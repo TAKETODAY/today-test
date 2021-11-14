@@ -20,17 +20,17 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.MediaType;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import jakarta.servlet.http.Part;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
+
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.http.MediaType;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import jakarta.servlet.http.Part;
 
 /**
  * Mock implementation of {@code jakarta.servlet.http.Part}.
@@ -50,7 +50,6 @@ public class MockPart implements Part {
   private final byte[] content;
 
   private final HttpHeaders headers = HttpHeaders.create();
-
 
   /**
    * Constructor for a part with byte[] content only.
@@ -73,7 +72,6 @@ public class MockPart implements Part {
     this.content = (content != null ? content : new byte[0]);
     this.headers.setContentDispositionFormData(name, filename);
   }
-
 
   @Override
   public String getName() {

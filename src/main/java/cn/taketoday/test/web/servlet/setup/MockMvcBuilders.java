@@ -41,12 +41,11 @@ public final class MockMvcBuilders {
   private MockMvcBuilders() {
   }
 
-
   /**
    * Build a {@link MockMvc} instance using the given, fully initialized
    * (i.e., <em>refreshed</em>) {@link WebApplicationContext}.
    * <p>The {@link cn.taketoday.web.servlet.DispatcherServlet DispatcherServlet}
-   * will use the context to discover Spring MVC infrastructure and application
+   * will use the context to discover Today MVC infrastructure and application
    * controllers in it. The context must have been configured with a
    * {@link jakarta.servlet.ServletContext ServletContext}.
    */
@@ -56,7 +55,7 @@ public final class MockMvcBuilders {
 
   /**
    * Build a {@link MockMvc} instance by registering one or more
-   * {@code @Controller} instances and configuring Spring MVC infrastructure
+   * {@code @Controller} instances and configuring Today MVC infrastructure
    * programmatically.
    * <p>This allows full control over the instantiation and initialization of
    * controllers and their dependencies, similar to plain unit tests while
@@ -66,12 +65,12 @@ public final class MockMvcBuilders {
    * to serve requests with annotated controllers is created automatically
    * and can be customized, resulting in configuration that is equivalent to
    * what MVC Java configuration provides except using builder-style methods.
-   * <p>If the Spring MVC configuration of an application is relatively
+   * <p>If the Today MVC configuration of an application is relatively
    * straight-forward &mdash; for example, when using the MVC namespace in
    * XML or MVC Java config &mdash; then using this builder might be a good
    * option for testing a majority of controllers. In such cases, a much
    * smaller number of tests can be used to focus on testing and verifying
-   * the actual Spring MVC configuration.
+   * the actual Today MVC configuration.
    *
    * @param controllers one or more {@code @Controller} instances to test
    * (specified {@code Class} will be turned into instance)

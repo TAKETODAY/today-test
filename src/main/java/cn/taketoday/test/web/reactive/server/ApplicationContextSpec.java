@@ -34,12 +34,10 @@ class ApplicationContextSpec extends AbstractMockServerSpec<ApplicationContextSp
 
   private final ApplicationContext applicationContext;
 
-
   ApplicationContextSpec(ApplicationContext applicationContext) {
     Assert.notNull(applicationContext, "ApplicationContext is required");
     this.applicationContext = applicationContext;
   }
-
 
   @Override
   protected WebHttpHandlerBuilder initHttpHandlerBuilder() {

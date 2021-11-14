@@ -42,7 +42,6 @@ public class MockRequestDispatcher implements RequestDispatcher {
 
   private final String resource;
 
-
   /**
    * Create a new MockRequestDispatcher for the given resource.
    *
@@ -53,7 +52,6 @@ public class MockRequestDispatcher implements RequestDispatcher {
     Assert.notNull(resource, "Resource must not be null");
     this.resource = resource;
   }
-
 
   @Override
   public void forward(ServletRequest request, ServletResponse response) {

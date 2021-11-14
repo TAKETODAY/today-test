@@ -20,6 +20,13 @@
 
 package cn.taketoday.test.context;
 
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.core.style.ToStringBuilder;
@@ -27,13 +34,6 @@ import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * {@code MergedContextConfiguration} encapsulates the <em>merged</em>
@@ -160,7 +160,7 @@ public class MergedContextConfiguration implements Serializable {
                                     @Nullable MergedContextConfiguration parent) {
 
     this(testClass, locations, classes, contextInitializerClasses, activeProfiles, null, null,
-            contextLoader, cacheAwareContextLoaderDelegate, parent);
+         contextLoader, cacheAwareContextLoaderDelegate, parent);
   }
 
   /**
@@ -169,9 +169,9 @@ public class MergedContextConfiguration implements Serializable {
    */
   public MergedContextConfiguration(MergedContextConfiguration mergedConfig) {
     this(mergedConfig.testClass, mergedConfig.locations, mergedConfig.classes,
-            mergedConfig.contextInitializerClasses, mergedConfig.activeProfiles, mergedConfig.propertySourceLocations,
-            mergedConfig.propertySourceProperties, mergedConfig.contextCustomizers,
-            mergedConfig.contextLoader, mergedConfig.cacheAwareContextLoaderDelegate, mergedConfig.parent);
+         mergedConfig.contextInitializerClasses, mergedConfig.activeProfiles, mergedConfig.propertySourceLocations,
+         mergedConfig.propertySourceProperties, mergedConfig.contextCustomizers,
+         mergedConfig.contextLoader, mergedConfig.cacheAwareContextLoaderDelegate, mergedConfig.parent);
   }
 
   /**
@@ -205,9 +205,9 @@ public class MergedContextConfiguration implements Serializable {
                                     @Nullable MergedContextConfiguration parent) {
 
     this(testClass, locations, classes, contextInitializerClasses, activeProfiles,
-            propertySourceLocations, propertySourceProperties,
-            EMPTY_CONTEXT_CUSTOMIZERS, contextLoader,
-            cacheAwareContextLoaderDelegate, parent);
+         propertySourceLocations, propertySourceProperties,
+         EMPTY_CONTEXT_CUSTOMIZERS, contextLoader,
+         cacheAwareContextLoaderDelegate, parent);
   }
 
   /**
@@ -253,7 +253,6 @@ public class MergedContextConfiguration implements Serializable {
     this.cacheAwareContextLoaderDelegate = cacheAwareContextLoaderDelegate;
     this.parent = parent;
   }
-
 
   /**
    * Get the {@linkplain Class test class} associated with this
@@ -401,10 +400,9 @@ public class MergedContextConfiguration implements Serializable {
       return null;
     }
     Assert.state(this.cacheAwareContextLoaderDelegate != null,
-            "Cannot retrieve a parent application context without access to the CacheAwareContextLoaderDelegate");
+                 "Cannot retrieve a parent application context without access to the CacheAwareContextLoaderDelegate");
     return this.cacheAwareContextLoaderDelegate.loadContext(this.parent);
   }
-
 
   /**
    * Determine if the supplied object is equal to this {@code MergedContextConfiguration}
@@ -506,7 +504,6 @@ public class MergedContextConfiguration implements Serializable {
             .append("parent", this.parent)
             .toString();
   }
-
 
   private static String[] processStrings(@Nullable String[] array) {
     return (array != null ? array : EMPTY_STRING_ARRAY);

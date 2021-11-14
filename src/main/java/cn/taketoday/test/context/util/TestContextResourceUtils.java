@@ -20,21 +20,20 @@
 
 package cn.taketoday.test.context.util;
 
-import cn.taketoday.core.io.Resource;
-import cn.taketoday.core.io.ResourceLoader;
-import cn.taketoday.core.io.support.ResourcePatternUtils;
-import cn.taketoday.util.ClassUtils;
-import cn.taketoday.util.ResourceUtils;
-import cn.taketoday.util.StringUtils;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import cn.taketoday.core.io.Resource;
+import cn.taketoday.core.io.ResourceLoader;
+import cn.taketoday.util.ClassUtils;
+import cn.taketoday.util.ResourceUtils;
+import cn.taketoday.util.StringUtils;
+
 /**
- * Utility methods for working with resources within the <em>Spring TestContext
+ * Utility methods for working with resources within the <em>TestContext
  * Framework</em>. Mainly for internal use within the framework.
  *
  * @author Sam Brannen
@@ -42,8 +41,7 @@ import java.util.stream.Stream;
  * @see cn.taketoday.util.ResourceUtils
  * @see cn.taketoday.core.io.Resource
  * @see cn.taketoday.core.io.ClassPathResource
- * @see cn.taketoday.core.io.FileSystemResource
- * @see cn.taketoday.core.io.UrlResource
+ * @see cn.taketoday.core.io.UrlBasedResource
  * @see cn.taketoday.core.io.ResourceLoader
  */
 public abstract class TestContextResourceUtils {
@@ -51,7 +49,6 @@ public abstract class TestContextResourceUtils {
   private static final String SLASH = "/";
 
   private static final Pattern PLACEHOLDER_PATTERN = Pattern.compile(".*\\$\\{[^}]+\\}.*");
-
 
   /**
    * Convert the supplied paths to classpath resource paths.
@@ -92,7 +89,7 @@ public abstract class TestContextResourceUtils {
    * @param paths the paths to be converted
    * @return a new array of converted resource paths
    * @see #convertToResources
-   * @see ResourceUtils#CLASSPATH_URL_PREFIX
+   * @see ResourceLoader#CLASSPATH_URL_PREFIX
    * @see ResourceUtils#FILE_URL_PREFIX
    */
   public static String[] convertToClasspathResourcePaths(Class<?> clazz, boolean preservePlaceholders, String... paths) {
@@ -102,11 +99,11 @@ public abstract class TestContextResourceUtils {
 
       // Absolute path
       if (path.startsWith(SLASH)) {
-        convertedPaths[i] = ResourceUtils.CLASSPATH_URL_PREFIX + path;
+        convertedPaths[i] = ResourceLoader.CLASSPATH_URL_PREFIX + path;
       }
       // Relative path
-      else if (!ResourcePatternUtils.isUrl(path)) {
-        convertedPaths[i] = ResourceUtils.CLASSPATH_URL_PREFIX + SLASH +
+      else if (!ResourceUtils.isUrl(path)) {
+        convertedPaths[i] = ResourceLoader.CLASSPATH_URL_PREFIX + SLASH +
                 ClassUtils.classPackageAsResourcePath(clazz) + SLASH + path;
       }
       // URL

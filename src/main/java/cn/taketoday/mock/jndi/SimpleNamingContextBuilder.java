@@ -20,19 +20,20 @@
 
 package cn.taketoday.mock.jndi;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-import cn.taketoday.util.ClassUtils;
-import cn.taketoday.util.ReflectionUtils;
+import java.util.Hashtable;
 
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
 import javax.naming.spi.InitialContextFactoryBuilder;
 import javax.naming.spi.NamingManager;
-import java.util.Hashtable;
+
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+import cn.taketoday.util.ClassUtils;
+import cn.taketoday.util.ReflectionUtils;
 
 /**
  * Simple implementation of a JNDI naming context builder.
@@ -83,7 +84,7 @@ import java.util.Hashtable;
  * @see SimpleNamingContext
  * @see cn.taketoday.jdbc.datasource.SingleConnectionDataSource
  * @see cn.taketoday.jdbc.datasource.DriverManagerDataSource
- * @deprecated Deprecated as of Spring Framework 5.2 in favor of complete solutions from
+ * @deprecated Deprecated in favor of complete solutions from
  * third parties such as <a href="https://github.com/h-thurow/Simple-JNDI">Simple-JNDI</a>
  */
 @Deprecated
@@ -96,7 +97,6 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
   private static boolean initialized = false;
 
   private static final Object initializationLock = new Object();
-
 
   /**
    * Checks if a SimpleNamingContextBuilder is active.
@@ -134,11 +134,9 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
     return builder;
   }
 
-
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   private final Hashtable<String, Object> boundObjects = new Hashtable<>();
-
 
   /**
    * Register the context builder by registering it with the JNDI NamingManager.
@@ -154,9 +152,9 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
     synchronized(initializationLock) {
       if (!initialized) {
         Assert.state(!NamingManager.hasInitialContextFactoryBuilder(),
-                "Cannot activate SimpleNamingContextBuilder: there is already a JNDI provider registered. " +
-                        "Note that JNDI is a JVM-wide service, shared at the JVM system class loader level, " +
-                        "with no reset option. As a consequence, a JNDI provider must only be registered once per JVM.");
+                     "Cannot activate SimpleNamingContextBuilder: there is already a JNDI provider registered. " +
+                             "Note that JNDI is a JVM-wide service, shared at the JVM system class loader level, " +
+                             "with no reset option. As a consequence, a JNDI provider must only be registered once per JVM.");
         NamingManager.setInitialContextFactoryBuilder(this);
         initialized = true;
       }
@@ -200,7 +198,6 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
     this.boundObjects.put(name, obj);
   }
 
-
   /**
    * Simple InitialContextFactoryBuilder implementation,
    * creating a new SimpleNamingContext instance.
@@ -222,7 +219,7 @@ public class SimpleNamingContextBuilder implements InitialContextFactoryBuilder 
         }
         else {
           throw new IllegalArgumentException("Invalid value type for environment key [" +
-                  Context.INITIAL_CONTEXT_FACTORY + "]: " + icf.getClass().getName());
+                                                     Context.INITIAL_CONTEXT_FACTORY + "]: " + icf.getClass().getName());
         }
         if (!InitialContextFactory.class.isAssignableFrom(icfClass)) {
           throw new IllegalArgumentException(

@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
+import java.lang.reflect.Method;
+
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import cn.taketoday.util.ClassUtils;
@@ -28,9 +32,6 @@ import cn.taketoday.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import cn.taketoday.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.MethodInvocationInfo;
 import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.hamcrest.Matcher;
-
-import java.lang.reflect.Method;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertNotNull;
@@ -47,7 +48,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * <p><strong>Note:</strong> Expectations that assert the controller method
  * used to process the request work only for requests processed with
  * {@link RequestMappingHandlerMapping} and {@link RequestMappingHandlerAdapter}
- * which is used by default with the Spring MVC Java config and XML namespace.
+ * which is used by default with the Today MVC Java config and XML namespace.
  *
  * @author Rossen Stoyanchev
  * @author Sam Brannen
@@ -60,7 +61,6 @@ public class HandlerResultMatchers {
    */
   protected HandlerResultMatchers() {
   }
-
 
   /**
    * Assert the type of the handler that processed the request.
@@ -106,8 +106,8 @@ public class HandlerResultMatchers {
     return result -> {
       if (!(obj instanceof MethodInvocationInfo)) {
         fail(String.format("The supplied object [%s] is not an instance of %s. " +
-                        "Ensure that you invoke the handler method via MvcUriComponentsBuilder.on().",
-                obj, MethodInvocationInfo.class.getName()));
+                                   "Ensure that you invoke the handler method via MvcUriComponentsBuilder.on().",
+                           obj, MethodInvocationInfo.class.getName()));
       }
       MethodInvocationInfo invocationInfo = (MethodInvocationInfo) obj;
       Method expected = invocationInfo.getControllerMethod();
@@ -146,7 +146,6 @@ public class HandlerResultMatchers {
       assertEquals("Handler method", method, handlerMethod.getMethod());
     };
   }
-
 
   private static HandlerMethod getHandlerMethod(MvcResult result) {
     Object handler = result.getHandler();

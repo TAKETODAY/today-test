@@ -20,6 +20,22 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.InvalidPathException;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import cn.taketoday.core.io.DefaultResourceLoader;
 import cn.taketoday.core.io.Resource;
 import cn.taketoday.core.io.ResourceLoader;
@@ -43,22 +59,6 @@ import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.SessionCookieConfig;
 import jakarta.servlet.SessionTrackingMode;
 import jakarta.servlet.descriptor.JspConfigDescriptor;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.InvalidPathException;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * Mock implementation of the {@link jakarta.servlet.ServletContext} interface.
@@ -96,7 +96,6 @@ public class MockServletContext implements ServletContext {
     DEFAULT_SESSION_TRACKING_MODES.add(SessionTrackingMode.URL);
     DEFAULT_SESSION_TRACKING_MODES.add(SessionTrackingMode.SSL);
   }
-
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -142,7 +141,6 @@ public class MockServletContext implements ServletContext {
   private String responseCharacterEncoding;
 
   private final Map<String, MediaType> mimeTypes = new LinkedHashMap<>();
-
 
   /**
    * Create a new {@code MockServletContext}, using no base path and a
@@ -319,7 +317,7 @@ public class MockServletContext implements ServletContext {
     catch (InvalidPathException | IOException ex) {
       if (logger.isDebugEnabled()) {
         logger.debug("Could not get resource paths for " +
-                (resource != null ? resource : resourceLocation), ex);
+                             (resource != null ? resource : resourceLocation), ex);
       }
       return null;
     }
@@ -343,7 +341,7 @@ public class MockServletContext implements ServletContext {
     catch (InvalidPathException | IOException ex) {
       if (logger.isDebugEnabled()) {
         logger.debug("Could not get URL for resource " +
-                (resource != null ? resource : resourceLocation), ex);
+                             (resource != null ? resource : resourceLocation), ex);
       }
       return null;
     }
@@ -364,7 +362,7 @@ public class MockServletContext implements ServletContext {
     catch (InvalidPathException | IOException ex) {
       if (logger.isDebugEnabled()) {
         logger.debug("Could not open InputStream for resource " +
-                (resource != null ? resource : resourceLocation), ex);
+                             (resource != null ? resource : resourceLocation), ex);
       }
       return null;
     }
@@ -373,7 +371,7 @@ public class MockServletContext implements ServletContext {
   @Override
   public RequestDispatcher getRequestDispatcher(String path) {
     Assert.isTrue(path.startsWith("/"),
-            () -> "RequestDispatcher path [" + path + "] at ServletContext level must start with '/'");
+                  () -> "RequestDispatcher path [" + path + "] at ServletContext level must start with '/'");
     return new MockRequestDispatcher(path);
   }
 
@@ -484,7 +482,7 @@ public class MockServletContext implements ServletContext {
     catch (InvalidPathException | IOException ex) {
       if (logger.isDebugEnabled()) {
         logger.debug("Could not determine real path of resource " +
-                (resource != null ? resource : resourceLocation), ex);
+                             (resource != null ? resource : resourceLocation), ex);
       }
       return null;
     }
@@ -631,7 +629,6 @@ public class MockServletContext implements ServletContext {
   public String getResponseCharacterEncoding() {
     return this.responseCharacterEncoding;
   }
-
 
   //---------------------------------------------------------------------
   // Unsupported Servlet 3.0 registration methods

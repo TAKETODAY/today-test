@@ -20,15 +20,15 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletContext;
-
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletContext;
 
 /**
  * Mock implementation of the {@link jakarta.servlet.FilterConfig} interface.
@@ -47,7 +47,6 @@ public class MockFilterConfig implements FilterConfig {
   private final String filterName;
 
   private final Map<String, String> initParameters = new LinkedHashMap<>();
-
 
   /**
    * Create a new MockFilterConfig with a default {@link MockServletContext}.
@@ -84,7 +83,6 @@ public class MockFilterConfig implements FilterConfig {
     this.servletContext = (servletContext != null ? servletContext : new MockServletContext());
     this.filterName = filterName;
   }
-
 
   @Override
   public String getFilterName() {

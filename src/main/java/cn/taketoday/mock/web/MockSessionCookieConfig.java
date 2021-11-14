@@ -49,7 +49,6 @@ public class MockSessionCookieConfig implements SessionCookieConfig {
 
   private int maxAge = -1;
 
-
   @Override
   public void setName(@Nullable String name) {
     this.name = name;

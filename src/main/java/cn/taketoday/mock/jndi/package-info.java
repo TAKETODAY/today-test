@@ -1,5 +1,5 @@
 /**
- * <strong>Deprecated</strong> as of Spring Framework 5.2 in favor of complete
+ * <strong>Deprecated</strong> favor of complete
  * solutions from third parties such as
  * <a href="https://github.com/h-thurow/Simple-JNDI">Simple-JNDI</a>.
  *
@@ -14,3 +14,5 @@
 @NonNullFields
 package cn.taketoday.mock.jndi;
 
+import cn.taketoday.lang.NonNullApi;
+import cn.taketoday.lang.NonNullFields;

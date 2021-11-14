@@ -20,19 +20,21 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+import org.w3c.dom.Node;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
+
 import cn.taketoday.http.MediaType;
 import cn.taketoday.test.util.JsonExpectationsHelper;
 import cn.taketoday.test.util.XmlExpectationsHelper;
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hamcrest.Matcher;
-import org.w3c.dom.Node;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertNotNull;
@@ -54,7 +56,6 @@ public class ContentResultMatchers {
 
   private final JsonExpectationsHelper jsonHelper;
 
-
   /**
    * Protected constructor.
    * Use {@link MockMvcResultMatchers#content()}.
@@ -63,7 +64,6 @@ public class ContentResultMatchers {
     this.xmlHelper = new XmlExpectationsHelper();
     this.jsonHelper = new JsonExpectationsHelper();
   }
-
 
   /**
    * Assert the ServletResponse content type. The given content type must
@@ -106,7 +106,7 @@ public class ContentResultMatchers {
       assertNotNull("Content type not set", actual);
       MediaType actualContentType = MediaType.parseMediaType(actual);
       assertTrue("Content type [" + actual + "] is not compatible with [" + contentType + "]",
-              actualContentType.isCompatibleWith(contentType));
+                 actualContentType.isCompatibleWith(contentType));
     };
   }
 

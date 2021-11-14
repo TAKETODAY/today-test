@@ -34,7 +34,6 @@ class ApplicationContextMockMvcSpec extends AbstractMockMvcServerSpec<Applicatio
 
   private final DefaultMockMvcBuilder mockMvcBuilder;
 
-
   public ApplicationContextMockMvcSpec(WebApplicationContext context) {
     this.mockMvcBuilder = MockMvcBuilders.webAppContextSetup(context);
   }

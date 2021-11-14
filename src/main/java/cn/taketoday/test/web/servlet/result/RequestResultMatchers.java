@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
+import java.util.concurrent.Callable;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletRequest;
@@ -28,9 +32,6 @@ import cn.taketoday.web.context.request.async.DeferredResult;
 import cn.taketoday.web.context.request.async.WebAsyncTask;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.hamcrest.Matcher;
-
-import java.util.concurrent.Callable;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertFalse;
@@ -55,7 +56,6 @@ public class RequestResultMatchers {
    */
   protected RequestResultMatchers() {
   }
-
 
   /**
    * Assert whether asynchronous processing started, usually as a result of a

@@ -20,9 +20,10 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.ResultMatcher;
-import org.hamcrest.Matcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertNotNull;
@@ -44,7 +45,6 @@ public class FlashAttributeResultMatchers {
    */
   protected FlashAttributeResultMatchers() {
   }
-
 
   /**
    * Assert a flash attribute's value with the given Hamcrest {@link Matcher}.

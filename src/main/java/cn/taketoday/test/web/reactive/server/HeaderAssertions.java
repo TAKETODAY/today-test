@@ -20,13 +20,6 @@
 
 package cn.taketoday.test.web.reactive.server;
 
-import cn.taketoday.http.CacheControl;
-import cn.taketoday.http.ContentDisposition;
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.http.MediaType;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.test.util.AssertionErrors;
-import cn.taketoday.util.CollectionUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 
@@ -34,6 +27,14 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import cn.taketoday.http.CacheControl;
+import cn.taketoday.http.ContentDisposition;
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.http.MediaType;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.util.AssertionErrors;
+import cn.taketoday.util.CollectionUtils;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertNotNull;
@@ -53,12 +54,10 @@ public class HeaderAssertions {
 
   private final WebTestClient.ResponseSpec responseSpec;
 
-
   HeaderAssertions(ExchangeResult result, WebTestClient.ResponseSpec spec) {
     this.exchangeResult = result;
     this.responseSpec = spec;
   }
-
 
   /**
    * Expect a header with the given name to match the specified values.
@@ -73,7 +72,7 @@ public class HeaderAssertions {
   public WebTestClient.ResponseSpec valueEquals(String headerName, long value) {
     String actual = getHeaders().getFirst(headerName);
     this.exchangeResult.assertWithDiagnostics(() ->
-            assertTrue("Response does not contain header '" + headerName + "'", actual != null));
+                                                      assertTrue("Response does not contain header '" + headerName + "'", actual != null));
     return assertHeader(headerName, value, Long.parseLong(actual));
   }
 
@@ -94,8 +93,8 @@ public class HeaderAssertions {
       headers.set("actual", headerValue);
 
       assertEquals("Response header '" + headerName + "'='" + headerValue + "' " +
-                      "does not match expected value '" + headers.getFirst("expected") + "'",
-              headers.getFirstDate("expected"), headers.getFirstDate("actual"));
+                           "does not match expected value '" + headers.getFirst("expected") + "'",
+                   headers.getFirstDate("expected"), headers.getFirstDate("actual"));
     });
     return this.responseSpec;
   }
@@ -202,7 +201,7 @@ public class HeaderAssertions {
     List<String> values = getHeaders().get(name);
     if (CollectionUtils.isEmpty(values)) {
       this.exchangeResult.assertWithDiagnostics(() ->
-              AssertionErrors.fail(getMessage(name) + " not found"));
+                                                        AssertionErrors.fail(getMessage(name) + " not found"));
     }
     return values;
   }
@@ -271,7 +270,7 @@ public class HeaderAssertions {
     MediaType actual = getHeaders().getContentType();
     String message = getMessage("Content-Type") + "=[" + actual + "] is not compatible with [" + mediaType + "]";
     this.exchangeResult.assertWithDiagnostics(() ->
-            AssertionErrors.assertTrue(message, (actual != null && actual.isCompatibleWith(mediaType))));
+                                                      AssertionErrors.assertTrue(message, (actual != null && actual.isCompatibleWith(mediaType))));
     return this.responseSpec;
   }
 
@@ -302,7 +301,6 @@ public class HeaderAssertions {
   public WebTestClient.ResponseSpec location(String location) {
     return assertHeader("Location", URI.create(location), getHeaders().getLocation());
   }
-
 
   private HttpHeaders getHeaders() {
     return this.exchangeResult.getResponseHeaders();

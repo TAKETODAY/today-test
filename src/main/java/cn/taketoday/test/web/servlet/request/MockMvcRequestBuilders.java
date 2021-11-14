@@ -20,21 +20,21 @@
 
 package cn.taketoday.test.web.servlet.request;
 
+import java.net.URI;
+
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.mock.web.MockHttpServletRequest;
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.RequestBuilder;
 import jakarta.servlet.DispatcherType;
 
-import java.net.URI;
-
 /**
  * Static factory methods for {@link RequestBuilder RequestBuilders}.
  *
- * <h3>Integration with the Spring TestContext Framework</h3>
+ * <h3>Integration with the TestContext Framework</h3>
  * <p>Methods in this class will reuse a
  * {@link cn.taketoday.mock.web.MockServletContext MockServletContext}
- * that was created by the Spring TestContext Framework.
+ * that was created by the TestContext Framework.
  *
  * <h3>Eclipse Users</h3>
  * <p>Consider adding this class as a Java editor favorite. To navigate to
@@ -254,7 +254,6 @@ public abstract class MockMvcRequestBuilders {
   public static MockMultipartHttpServletRequestBuilder fileUpload(URI uri) {
     return new MockMultipartHttpServletRequestBuilder(uri);
   }
-
 
   /**
    * Create a {@link RequestBuilder} for an async dispatch from the

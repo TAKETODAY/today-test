@@ -20,6 +20,20 @@
 
 package cn.taketoday.mock.web.reactive.function.server;
 
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalLong;
+import java.util.concurrent.ConcurrentHashMap;
+
 import cn.taketoday.core.ParameterizedTypeReference;
 import cn.taketoday.http.HttpCookie;
 import cn.taketoday.http.HttpHeaders;
@@ -44,20 +58,6 @@ import cn.taketoday.web.util.UriBuilder;
 import cn.taketoday.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalLong;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Mock implementation of {@link ServerRequest}.
@@ -102,7 +102,6 @@ public final class MockServerRequest implements ServerRequest {
   @Nullable
   private final ServerWebExchange exchange;
 
-
   private MockServerRequest(HttpMethod method, URI uri, String contextPath, MockHeaders headers,
                             MultiValueMap<String, HttpCookie> cookies, @Nullable Object body,
                             Map<String, Object> attributes, MultiValueMap<String, String> queryParams,
@@ -126,7 +125,6 @@ public final class MockServerRequest implements ServerRequest {
     this.messageReaders = messageReaders;
     this.exchange = exchange;
   }
-
 
   @Override
   public HttpMethod method() {
@@ -325,7 +323,6 @@ public final class MockServerRequest implements ServerRequest {
     MockServerRequest build();
   }
 
-
   private static class BuilderImpl implements Builder {
 
     private HttpMethod method = HttpMethod.GET;
@@ -511,20 +508,19 @@ public final class MockServerRequest implements ServerRequest {
     public MockServerRequest body(Object body) {
       this.body = body;
       return new MockServerRequest(this.method, this.uri, this.contextPath, this.headers,
-              this.cookies, this.body, this.attributes, this.queryParams, this.pathVariables,
-              this.session, this.principal, this.remoteAddress, this.localAddress,
-              this.messageReaders, this.exchange);
+                                   this.cookies, this.body, this.attributes, this.queryParams, this.pathVariables,
+                                   this.session, this.principal, this.remoteAddress, this.localAddress,
+                                   this.messageReaders, this.exchange);
     }
 
     @Override
     public MockServerRequest build() {
       return new MockServerRequest(this.method, this.uri, this.contextPath, this.headers,
-              this.cookies, null, this.attributes, this.queryParams, this.pathVariables,
-              this.session, this.principal, this.remoteAddress, this.localAddress,
-              this.messageReaders, this.exchange);
+                                   this.cookies, null, this.attributes, this.queryParams, this.pathVariables,
+                                   this.session, this.principal, this.remoteAddress, this.localAddress,
+                                   this.messageReaders, this.exchange);
     }
   }
-
 
   private static class MockHeaders implements Headers {
 

@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.context;
 
+import java.util.Arrays;
+
 import cn.taketoday.context.ApplicationContextInitializer;
 import cn.taketoday.core.annotation.AnnotationAttributes;
 import cn.taketoday.core.style.ToStringBuilder;
@@ -29,8 +31,6 @@ import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
-
-import java.util.Arrays;
 
 /**
  * {@code ContextConfigurationAttributes} encapsulates the context configuration
@@ -47,7 +47,6 @@ public class ContextConfigurationAttributes {
   private static final String[] EMPTY_LOCATIONS = new String[0];
 
   private static final Class<?>[] EMPTY_CLASSES = new Class<?>[0];
-
 
   private static final Logger logger = LoggerFactory.getLogger(ContextConfigurationAttributes.class);
 
@@ -67,7 +66,6 @@ public class ContextConfigurationAttributes {
   private final String name;
 
   private final Class<? extends ContextLoader> contextLoaderClass;
-
 
   /**
    * Construct a new {@link ContextConfigurationAttributes} instance with default values.
@@ -90,8 +88,8 @@ public class ContextConfigurationAttributes {
    */
   public ContextConfigurationAttributes(Class<?> declaringClass, ContextConfiguration contextConfiguration) {
     this(declaringClass, contextConfiguration.locations(), contextConfiguration.classes(),
-            contextConfiguration.inheritLocations(), contextConfiguration.initializers(),
-            contextConfiguration.inheritInitializers(), contextConfiguration.name(), contextConfiguration.loader());
+         contextConfiguration.inheritLocations(), contextConfiguration.initializers(),
+         contextConfiguration.inheritInitializers(), contextConfiguration.name(), contextConfiguration.loader());
   }
 
   /**
@@ -106,9 +104,9 @@ public class ContextConfigurationAttributes {
   @SuppressWarnings("unchecked")
   public ContextConfigurationAttributes(Class<?> declaringClass, AnnotationAttributes annAttrs) {
     this(declaringClass, annAttrs.getStringArray("locations"), annAttrs.getClassArray("classes"),
-            annAttrs.getBoolean("inheritLocations"),
-            annAttrs.getClassArray("initializers"),
-            annAttrs.getBoolean("inheritInitializers"), annAttrs.getString("name"), annAttrs.getClass("loader"));
+         annAttrs.getBoolean("inheritLocations"),
+         annAttrs.getClassArray("initializers"),
+         annAttrs.getBoolean("inheritInitializers"), annAttrs.getString("name"), annAttrs.getClass("loader"));
   }
 
   /**
@@ -133,7 +131,7 @@ public class ContextConfigurationAttributes {
           boolean inheritInitializers, Class<? extends ContextLoader> contextLoaderClass) {
 
     this(declaringClass, locations, classes, inheritLocations, initializers, inheritInitializers, null,
-            contextLoaderClass);
+         contextLoaderClass);
   }
 
   /**
@@ -179,7 +177,6 @@ public class ContextConfigurationAttributes {
     this.name = (StringUtils.hasText(name) ? name : null);
     this.contextLoaderClass = contextLoaderClass;
   }
-
 
   /**
    * Get the {@linkplain Class class} that declared the
@@ -333,7 +330,6 @@ public class ContextConfigurationAttributes {
   public Class<? extends ContextLoader> getContextLoaderClass() {
     return this.contextLoaderClass;
   }
-
 
   /**
    * Determine if the supplied object is equal to this

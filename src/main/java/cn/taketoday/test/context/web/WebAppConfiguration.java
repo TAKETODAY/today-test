@@ -45,7 +45,7 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link cn.taketoday.test.context.NestedTestConfiguration @NestedTestConfiguration}
  * for details.
@@ -63,7 +63,7 @@ public @interface WebAppConfiguration {
 
   /**
    * The resource path to the root directory of the web application.
-   * <p>A path that does not include a Spring resource prefix (e.g., {@code classpath:},
+   * <p>A path that does not include a resource prefix (e.g., {@code classpath:},
    * {@code file:}, etc.) will be interpreted as a file system resource, and a
    * path should not end with a slash.
    * <p>Defaults to {@code "src/main/webapp"} as a file system resource. Note

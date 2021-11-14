@@ -20,21 +20,22 @@
 
 package cn.taketoday.test.context.junit4.statements;
 
-import cn.taketoday.core.annotation.AnnotatedElementUtils;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.test.annotation.IfProfileValue;
-import cn.taketoday.test.annotation.ProfileValueUtils;
 import org.junit.AssumptionViolatedException;
 import org.junit.runners.model.Statement;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import cn.taketoday.core.annotation.AnnotatedElementUtils;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.annotation.IfProfileValue;
+import cn.taketoday.test.annotation.ProfileValueUtils;
+
 /**
  * {@code ProfileValueChecker} is a custom JUnit {@link Statement} that checks
  * whether a test class or test method is enabled in the current environment
- * via Spring's {@link IfProfileValue @IfProfileValue} annotation.
+ * via  {@link IfProfileValue @IfProfileValue} annotation.
  *
  * @author Sam Brannen
  * @author Philippe Marschall
@@ -50,7 +51,6 @@ public class ProfileValueChecker extends Statement {
 
   @Nullable
   private final Method testMethod;
-
 
   /**
    * Construct a new {@code ProfileValueChecker} statement.
@@ -68,7 +68,6 @@ public class ProfileValueChecker extends Statement {
     this.testClass = testClass;
     this.testMethod = testMethod;
   }
-
 
   /**
    * Determine if the test specified by arguments to the

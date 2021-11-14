@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.logging.Logger;
@@ -30,18 +35,13 @@ import cn.taketoday.test.context.TestContextAnnotationUtils.AnnotationDescriptor
 import cn.taketoday.util.ObjectUtils;
 import cn.taketoday.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import static cn.taketoday.test.context.TestContextAnnotationUtils.findAnnotationDescriptor;
 
 /**
  * Utility methods for working with {@link ActiveProfiles @ActiveProfiles} and
  * {@link ActiveProfilesResolver ActiveProfilesResolvers}.
  *
- * <p>Although {@code ActiveProfilesUtils} was first introduced in Spring Framework
+ * <p>Although {@code ActiveProfilesUtils} was first introduced in TODAY Framework
  * 4.1, the initial implementations of methods in this class were based on the
  * existing code base in {@code ContextLoaderUtils}.
  *
@@ -55,7 +55,6 @@ abstract class ActiveProfilesUtils {
   private static final Logger logger = LoggerFactory.getLogger(ActiveProfilesUtils.class);
 
   private static final DefaultActiveProfilesResolver defaultActiveProfilesResolver = new DefaultActiveProfilesResolver();
-
 
   /**
    * Resolve <em>active bean definition profiles</em> for the supplied {@link Class}.
@@ -90,7 +89,7 @@ abstract class ActiveProfilesUtils {
 
       if (logger.isTraceEnabled()) {
         logger.trace(String.format("Retrieved @ActiveProfiles [%s] for declaring class [%s]",
-                annotation, descriptor.getDeclaringClass().getName()));
+                                   annotation, descriptor.getDeclaringClass().getName()));
       }
 
       ActiveProfilesResolver resolver;
@@ -104,7 +103,7 @@ abstract class ActiveProfilesUtils {
         }
         catch (Exception ex) {
           String msg = String.format("Could not instantiate ActiveProfilesResolver of type [%s] " +
-                  "for test class [%s]", resolverClass.getName(), rootDeclaringClass.getName());
+                                             "for test class [%s]", resolverClass.getName(), rootDeclaringClass.getName());
           logger.error(msg);
           throw new IllegalStateException(msg, ex);
         }

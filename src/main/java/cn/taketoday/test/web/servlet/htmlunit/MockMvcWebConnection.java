@@ -20,6 +20,20 @@
 
 package cn.taketoday.test.web.servlet.htmlunit;
 
+import com.gargoylesoftware.htmlunit.CookieManager;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebConnection;
+import com.gargoylesoftware.htmlunit.WebRequest;
+import com.gargoylesoftware.htmlunit.WebResponse;
+import com.gargoylesoftware.htmlunit.util.Cookie;
+
+import org.apache.http.impl.cookie.BasicClientCookie;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockHttpServletResponse;
@@ -27,18 +41,6 @@ import cn.taketoday.mock.web.MockHttpSession;
 import cn.taketoday.test.web.servlet.MockMvc;
 import cn.taketoday.test.web.servlet.RequestBuilder;
 import cn.taketoday.test.web.servlet.ResultActions;
-import com.gargoylesoftware.htmlunit.CookieManager;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebConnection;
-import com.gargoylesoftware.htmlunit.WebRequest;
-import com.gargoylesoftware.htmlunit.WebResponse;
-import com.gargoylesoftware.htmlunit.util.Cookie;
-import org.apache.http.impl.cookie.BasicClientCookie;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * {@code MockMvcWebConnection} enables {@link MockMvc} to transform a
@@ -69,7 +71,6 @@ public final class MockMvcWebConnection implements WebConnection {
   private final String contextPath;
 
   private WebClient webClient;
-
 
   /**
    * Create a new instance that assumes the context path of the application
@@ -123,12 +124,10 @@ public final class MockMvcWebConnection implements WebConnection {
     Assert.isTrue(!contextPath.endsWith("/"), () -> "contextPath '" + contextPath + "' must not end with '/'.");
   }
 
-
   public void setWebClient(WebClient webClient) {
     Assert.notNull(webClient, "WebClient must not be null");
     this.webClient = webClient;
   }
-
 
   @Override
   public WebResponse getResponse(WebRequest webRequest) throws IOException {

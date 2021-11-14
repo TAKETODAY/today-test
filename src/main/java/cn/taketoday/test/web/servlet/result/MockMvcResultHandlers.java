@@ -20,17 +20,17 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.ResultHandler;
 import cn.taketoday.util.CollectionUtils;
-
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 
 /**
  * Static factory methods for {@link ResultHandler}-based result actions.
@@ -45,7 +45,6 @@ import java.io.Writer;
 public abstract class MockMvcResultHandlers {
 
   private static final Logger logger = LoggerFactory.getLogger("cn.taketoday.test.web.servlet.result");
-
 
   /**
    * Log {@link MvcResult} details as a {@code DEBUG} log message via
@@ -94,7 +93,6 @@ public abstract class MockMvcResultHandlers {
     return new PrintWriterPrintingResultHandler(new PrintWriter(writer, true));
   }
 
-
   /**
    * A {@link PrintingResultHandler} that writes to a {@link PrintWriter}.
    */
@@ -118,7 +116,6 @@ public abstract class MockMvcResultHandlers {
       });
     }
   }
-
 
   /**
    * A {@link ResultHandler} that logs {@link MvcResult} details at

@@ -20,38 +20,39 @@
 
 package cn.taketoday.test.context.junit4;
 
-import cn.taketoday.test.context.junit4.rules.TodayClassRule;
-import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
 import org.junit.runners.model.InitializationError;
 
+import cn.taketoday.test.context.junit4.rules.TodayClassRule;
+import cn.taketoday.test.context.junit4.rules.TodayMethodRule;
+
 /**
- * {@code SpringRunner} is an <em>alias</em> for the {@link SpringJUnit4ClassRunner}.
+ * {@code TodayRunner} is an <em>alias</em> for the {@link TodayJUnit4ClassRunner}.
  *
  * <p>To use this class, simply annotate a JUnit 4 based test class with
- * {@code @RunWith(SpringRunner.class)}.
+ * {@code @RunWith(TodayRunner.class)}.
  *
- * <p>If you would like to use the Spring TestContext Framework with a runner other than
+ * <p>If you would like to use the TestContext Framework with a runner other than
  * this one, use {@link TodayClassRule}
  * and {@link TodayMethodRule}.
  *
  * <p><strong>NOTE:</strong> This class requires JUnit 4.12 or higher.
  *
  * @author Sam Brannen
- * @see SpringJUnit4ClassRunner
+ * @see TodayJUnit4ClassRunner
  * @see TodayClassRule
  * @see TodayMethodRule
  */
-public final class SpringRunner extends SpringJUnit4ClassRunner {
+public final class TodayRunner extends TodayJUnit4ClassRunner {
 
   /**
-   * Construct a new {@code SpringRunner} and initialize a
+   * Construct a new {@code TodayRunner} and initialize a
    * {@link cn.taketoday.test.context.TestContextManager TestContextManager}
-   * to provide Spring testing functionality to standard JUnit 4 tests.
+   * to provide Today testing functionality to standard JUnit 4 tests.
    *
    * @param clazz the test class to be run
    * @see #createTestContextManager(Class)
    */
-  public SpringRunner(Class<?> clazz) throws InitializationError {
+  public TodayRunner(Class<?> clazz) throws InitializationError {
     super(clazz);
   }
 

@@ -21,8 +21,7 @@
 package cn.taketoday.test.context;
 
 /**
- * {@code BootstrapContext} encapsulates the context in which the <em>Spring
- * TestContext Framework</em> is bootstrapped.
+ * {@code BootstrapContext} encapsulates the context in which the <em> * TestContext Framework</em> is bootstrapped.
  *
  * @author Sam Brannen
  * @see BootstrapWith

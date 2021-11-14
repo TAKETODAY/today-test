@@ -20,12 +20,13 @@
 
 package cn.taketoday.test.web.reactive.server;
 
-import cn.taketoday.http.HttpStatus;
-import cn.taketoday.test.util.AssertionErrors;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 
 import java.util.function.Consumer;
+
+import cn.taketoday.http.HttpStatus;
+import cn.taketoday.test.util.AssertionErrors;
 
 /**
  * Assertions on the response status.
@@ -39,12 +40,10 @@ public class StatusAssertions {
 
   private final WebTestClient.ResponseSpec responseSpec;
 
-
   StatusAssertions(ExchangeResult result, WebTestClient.ResponseSpec spec) {
     this.exchangeResult = result;
     this.responseSpec = spec;
   }
-
 
   /**
    * Assert the response status as an {@link HttpStatus}.
@@ -159,7 +158,7 @@ public class StatusAssertions {
   public WebTestClient.ResponseSpec reasonEquals(String reason) {
     String actual = this.exchangeResult.getStatus().getReasonPhrase();
     this.exchangeResult.assertWithDiagnostics(() ->
-            AssertionErrors.assertEquals("Response status reason", reason, actual));
+                                                      AssertionErrors.assertEquals("Response status reason", reason, actual));
     return this.responseSpec;
   }
 
@@ -220,7 +219,6 @@ public class StatusAssertions {
     return this.responseSpec;
   }
 
-
   private WebTestClient.ResponseSpec assertStatusAndReturn(HttpStatus expected) {
     HttpStatus actual = this.exchangeResult.getStatus();
     this.exchangeResult.assertWithDiagnostics(() -> AssertionErrors.assertEquals("Status", expected, actual));
@@ -230,7 +228,7 @@ public class StatusAssertions {
   private WebTestClient.ResponseSpec assertSeriesAndReturn(HttpStatus.Series expected) {
     HttpStatus status = this.exchangeResult.getStatus();
     this.exchangeResult.assertWithDiagnostics(() ->
-            AssertionErrors.assertEquals("Range for response status value " + status, expected, status.series()));
+                                                      AssertionErrors.assertEquals("Range for response status value " + status, expected, status.series()));
     return this.responseSpec;
   }
 

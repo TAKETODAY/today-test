@@ -21,6 +21,7 @@
 package cn.taketoday.test.context.support;
 
 import cn.taketoday.context.ApplicationContext;
+import cn.taketoday.lang.NonNull;
 import cn.taketoday.test.annotation.DirtiesContext;
 import cn.taketoday.test.annotation.DirtiesContext.ClassMode;
 import cn.taketoday.test.annotation.DirtiesContext.MethodMode;
@@ -77,7 +78,7 @@ public class DirtiesContextBeforeModesTestExecutionListener extends AbstractDirt
    * {@code true}.
    */
   @Override
-  public void beforeTestClass(TestContext testContext) throws Exception {
+  public void beforeTestClass(@NonNull TestContext testContext) throws Exception {
     beforeOrAfterTestClass(testContext, BEFORE_CLASS);
   }
 

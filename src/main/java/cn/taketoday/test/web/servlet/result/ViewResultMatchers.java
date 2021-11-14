@@ -20,9 +20,10 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
 import cn.taketoday.test.web.servlet.ResultMatcher;
 import cn.taketoday.web.servlet.ModelAndView;
-import org.hamcrest.Matcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.fail;
@@ -44,7 +45,6 @@ public class ViewResultMatchers {
    */
   protected ViewResultMatchers() {
   }
-
 
   /**
    * Assert the selected view name with the given Hamcrest {@link Matcher}.

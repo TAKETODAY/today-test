@@ -20,14 +20,14 @@
 
 package cn.taketoday.test.web.client.response;
 
+import java.io.IOException;
+import java.net.URI;
+
 import cn.taketoday.core.io.Resource;
 import cn.taketoday.http.HttpStatus;
 import cn.taketoday.http.MediaType;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.client.ResponseCreator;
-
-import java.io.IOException;
-import java.net.URI;
 
 /**
  * Static factory methods for obtaining a {@link ResponseCreator} instance.

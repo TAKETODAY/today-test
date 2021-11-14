@@ -20,10 +20,6 @@
 
 package cn.taketoday.test.context;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.logging.Logger;
-import cn.taketoday.logging.LoggerFactory;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -31,9 +27,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.logging.Logger;
+import cn.taketoday.logging.LoggerFactory;
+
 /**
  * {@code @NestedTestConfiguration} is a type-level annotation that is used to
- * configure how Spring test configuration annotations are processed within
+ * configure how test configuration annotations are processed within
  * enclosing class hierarchies (i.e., for <em>inner</em> test classes).
  *
  * <p>If {@code @NestedTestConfiguration} is not <em>present</em> or
@@ -49,7 +49,7 @@ import java.lang.annotation.Target;
  * configuration from an enclosing test class will be inherited by inner test
  * classes, analogous to the semantics within a test class inheritance hierarchy.
  * When the {@link EnclosingConfiguration#OVERRIDE OVERRIDE} mode is in use,
- * inner test classes will have to declare their own Spring test configuration
+ * inner test classes will have to declare their own test configuration
  * annotations. If you wish to explicitly configure the mode, annotate either
  * the inner test class or one of its enclosing classes with
  * {@code @NestedTestConfiguration(...)}. Note that a
@@ -61,13 +61,13 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, the use of this annotation typically only makes
+ * <p> the use of this annotation typically only makes
  * sense in conjunction with {@link org.junit.jupiter.api.Nested @Nested} test
  * classes in JUnit Jupiter; however, there may be other testing frameworks with
  * support for nested test classes that could also make use of this annotation.
  *
  * <h3>Supported Annotations</h3>
- * <p>The <em>Spring TestContext Framework</em> honors {@code @NestedTestConfiguration}
+ * <p>The <em>TestContext Framework</em> honors {@code @NestedTestConfiguration}
  * semantics for the following annotations.
  * <ul>
  * <li>{@link BootstrapWith @BootstrapWith}</li>
@@ -105,7 +105,7 @@ public @interface NestedTestConfiguration {
    * {@link EnclosingConfiguration}, ignoring case. For example, the default
    * may be changed to {@link EnclosingConfiguration#OVERRIDE} by supplying
    * the following JVM system property via the command line.
-   * <pre style="code">-Dspring.test.enclosing.configuration=override</pre>
+   * <pre style="code">-Dtoday.test.enclosing.configuration=override</pre>
    * <p>If the property is not set to {@code OVERRIDE}, test configuration for
    * an inner test class will be <em>inherited</em> according to
    * {@link EnclosingConfiguration#INHERIT} semantics by default.
@@ -115,8 +115,7 @@ public @interface NestedTestConfiguration {
    *
    * @see #value
    */
-  String ENCLOSING_CONFIGURATION_PROPERTY_NAME = "spring.test.enclosing.configuration";
-
+  String ENCLOSING_CONFIGURATION_PROPERTY_NAME = "today.test.enclosing.configuration";
 
   /**
    * Configures the {@link EnclosingConfiguration} mode.
@@ -125,7 +124,6 @@ public @interface NestedTestConfiguration {
    * @see EnclosingConfiguration#OVERRIDE
    */
   EnclosingConfiguration value();
-
 
   /**
    * Enumeration of <em>modes</em> that dictate how test configuration from
@@ -149,7 +147,6 @@ public @interface NestedTestConfiguration {
      * {@linkplain Class#getEnclosingClass() enclosing class}.
      */
     OVERRIDE;
-
 
     /**
      * Get the {@code EnclosingConfiguration} enum constant with the supplied

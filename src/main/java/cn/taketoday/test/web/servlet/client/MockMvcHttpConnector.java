@@ -20,6 +20,14 @@
 
 package cn.taketoday.test.web.servlet.client;
 
+import java.io.StringWriter;
+import java.net.URI;
+import java.time.Duration;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+
 import cn.taketoday.core.ResolvableType;
 import cn.taketoday.core.io.buffer.DataBufferUtils;
 import cn.taketoday.core.io.buffer.DefaultDataBuffer;
@@ -59,14 +67,6 @@ import cn.taketoday.web.servlet.ModelAndView;
 import jakarta.servlet.http.Cookie;
 import reactor.core.publisher.Mono;
 
-import java.io.StringWriter;
-import java.net.URI;
-import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
-
 import static cn.taketoday.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 
 /**
@@ -81,14 +81,11 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
 
   private static final Duration TIMEOUT = Duration.ofSeconds(5);
 
-
   private final MockMvc mockMvc;
-
 
   public MockMvcHttpConnector(MockMvc mockMvc) {
     this.mockMvc = mockMvc;
   }
-
 
   @Override
   public Mono<ClientHttpResponse> connect(
@@ -115,14 +112,14 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
 
     AtomicReference<byte[]> contentRef = new AtomicReference<>();
     httpRequest.setWriteHandler(dataBuffers ->
-            DataBufferUtils.join(dataBuffers)
-                    .doOnNext(buffer -> {
-                      byte[] bytes = new byte[buffer.readableByteCount()];
-                      buffer.read(bytes);
-                      DataBufferUtils.release(buffer);
-                      contentRef.set(bytes);
-                    })
-                    .then());
+                                        DataBufferUtils.join(dataBuffers)
+                                                .doOnNext(buffer -> {
+                                                  byte[] bytes = new byte[buffer.readableByteCount()];
+                                                  buffer.read(bytes);
+                                                  DataBufferUtils.release(buffer);
+                                                  contentRef.set(bytes);
+                                                })
+                                                .then());
 
     // Initialize the client request
     requestCallback.apply(httpRequest).block(TIMEOUT);
@@ -162,19 +159,19 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
 
     MULTIPART_READER.read(ResolvableType.forClass(Part.class), inputMessage, Collections.emptyMap())
             .flatMap(part ->
-                    DataBufferUtils.join(part.content())
-                            .doOnNext(buffer -> {
-                              byte[] partBytes = new byte[buffer.readableByteCount()];
-                              buffer.read(partBytes);
-                              DataBufferUtils.release(buffer);
+                             DataBufferUtils.join(part.content())
+                                     .doOnNext(buffer -> {
+                                       byte[] partBytes = new byte[buffer.readableByteCount()];
+                                       buffer.read(partBytes);
+                                       DataBufferUtils.release(buffer);
 
-                              // Adapt to jakarta.servlet.http.Part...
-                              MockPart mockPart = (part instanceof FilePart ?
-                                      new MockPart(part.name(), ((FilePart) part).filename(), partBytes) :
-                                      new MockPart(part.name(), partBytes));
-                              mockPart.getHeaders().putAll(part.headers());
-                              requestBuilder.part(mockPart);
-                            }))
+                                       // Adapt to jakarta.servlet.http.Part...
+                                       MockPart mockPart = (part instanceof FilePart ?
+                                                            new MockPart(part.name(), ((FilePart) part).filename(), partBytes) :
+                                                            new MockPart(part.name(), partBytes));
+                                       mockPart.getHeaders().putAll(part.headers());
+                                       requestBuilder.part(mockPart);
+                                     }))
             .blockLast(TIMEOUT);
 
     return requestBuilder;
@@ -208,12 +205,10 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
     return clientResponse;
   }
 
-
   private static class MockMvcServerClientHttpResponse
           extends MockClientHttpResponse implements MockServerClientHttpResponse {
 
     private final MvcResult mvcResult;
-
 
     public MockMvcServerClientHttpResponse(MvcResult result) {
       super(result.getResponse().getStatus());
@@ -225,7 +220,6 @@ public class MockMvcHttpConnector implements ClientHttpConnector {
       return this.mvcResult;
     }
   }
-
 
   private static class PrintingMvcResult implements MvcResult {
 

@@ -20,6 +20,24 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
+import org.reactivestreams.Publisher;
+
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import cn.taketoday.core.ParameterizedTypeReference;
 import cn.taketoday.core.io.ByteArrayResource;
 import cn.taketoday.http.HttpHeaders;
@@ -44,24 +62,7 @@ import cn.taketoday.web.reactive.function.client.ClientResponse;
 import cn.taketoday.web.reactive.function.client.ExchangeFunction;
 import cn.taketoday.web.util.UriBuilder;
 import cn.taketoday.web.util.UriBuilderFactory;
-import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
-
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Default implementation of {@link WebTestClient}.
@@ -92,7 +93,6 @@ class DefaultWebTestClient implements WebTestClient {
 
   private final AtomicLong requestIndex = new AtomicLong();
 
-
   DefaultWebTestClient(ClientHttpConnector connector,
                        Function<ClientHttpConnector, ExchangeFunction> exchangeFactory, UriBuilderFactory uriBuilderFactory,
                        @Nullable HttpHeaders headers, @Nullable MultiValueMap<String, String> cookies,
@@ -109,11 +109,9 @@ class DefaultWebTestClient implements WebTestClient {
     this.builder = clientBuilder;
   }
 
-
   private Duration getResponseTimeout() {
     return this.responseTimeout;
   }
-
 
   @Override
   public RequestHeadersUriSpec<?> get() {
@@ -168,7 +166,6 @@ class DefaultWebTestClient implements WebTestClient {
   public WebTestClient mutateWith(WebTestClientConfigurer configurer) {
     return mutate().apply(configurer).build();
   }
-
 
   private class DefaultRequestBodyUriSpec implements RequestBodyUriSpec {
 
@@ -357,8 +354,8 @@ class DefaultWebTestClient implements WebTestClient {
     @Override
     public ResponseSpec exchange() {
       ClientRequest request = (this.inserter != null ?
-              initRequestBuilder().body(this.inserter).build() :
-              initRequestBuilder().build());
+                               initRequestBuilder().body(this.inserter).build() :
+                               initRequestBuilder().build());
 
       ClientResponse response = exchangeFunction.exchange(request).block(getResponseTimeout());
       Assert.state(response != null, "No ClientResponse");
@@ -367,7 +364,7 @@ class DefaultWebTestClient implements WebTestClient {
               this.requestId, this.uriTemplate, getResponseTimeout());
 
       return new DefaultResponseSpec(result, response,
-              DefaultWebTestClient.this.entityResultConsumer, getResponseTimeout());
+                                     DefaultWebTestClient.this.entityResultConsumer, getResponseTimeout());
     }
 
     private ClientRequest.Builder initRequestBuilder() {
@@ -411,7 +408,6 @@ class DefaultWebTestClient implements WebTestClient {
     }
   }
 
-
   private static class DefaultResponseSpec implements ResponseSpec {
 
     private final ExchangeResult exchangeResult;
@@ -421,7 +417,6 @@ class DefaultWebTestClient implements WebTestClient {
     private final Consumer<EntityExchangeResult<?>> entityResultConsumer;
 
     private final Duration timeout;
-
 
     DefaultResponseSpec(
             ExchangeResult exchangeResult, ClientResponse response,
@@ -537,7 +532,6 @@ class DefaultWebTestClient implements WebTestClient {
     }
   }
 
-
   private static class DefaultBodySpec<B, S extends BodySpec<B, S>> implements BodySpec<B, S> {
 
     private final EntityExchangeResult<B> result;
@@ -553,7 +547,7 @@ class DefaultWebTestClient implements WebTestClient {
     @Override
     public <T extends S> T isEqualTo(B expected) {
       this.result.assertWithDiagnostics(() ->
-              AssertionErrors.assertEquals("Response body", expected, this.result.getResponseBody()));
+                                                AssertionErrors.assertEquals("Response body", expected, this.result.getResponseBody()));
       return self();
     }
 
@@ -595,7 +589,6 @@ class DefaultWebTestClient implements WebTestClient {
     }
   }
 
-
   private static class DefaultListBodySpec<E> extends DefaultBodySpec<List<E>, ListBodySpec<E>>
           implements ListBodySpec<E> {
 
@@ -608,7 +601,7 @@ class DefaultWebTestClient implements WebTestClient {
       List<E> actual = getResult().getResponseBody();
       String message = "Response body does not contain " + size + " elements";
       getResult().assertWithDiagnostics(() ->
-              AssertionErrors.assertEquals(message, size, (actual != null ? actual.size() : 0)));
+                                                AssertionErrors.assertEquals(message, size, (actual != null ? actual.size() : 0)));
       return this;
     }
 
@@ -619,7 +612,7 @@ class DefaultWebTestClient implements WebTestClient {
       List<E> actual = getResult().getResponseBody();
       String message = "Response body does not contain " + expected;
       getResult().assertWithDiagnostics(() ->
-              AssertionErrors.assertTrue(message, (actual != null && actual.containsAll(expected))));
+                                                AssertionErrors.assertTrue(message, (actual != null && actual.containsAll(expected))));
       return this;
     }
 
@@ -630,7 +623,7 @@ class DefaultWebTestClient implements WebTestClient {
       List<E> actual = getResult().getResponseBody();
       String message = "Response body should not have contained " + expected;
       getResult().assertWithDiagnostics(() ->
-              AssertionErrors.assertTrue(message, (actual == null || !actual.containsAll(expected))));
+                                                AssertionErrors.assertTrue(message, (actual == null || !actual.containsAll(expected))));
       return this;
     }
 
@@ -639,7 +632,6 @@ class DefaultWebTestClient implements WebTestClient {
       return getResult();
     }
   }
-
 
   private static class DefaultBodyContentSpec implements BodyContentSpec {
 
@@ -655,7 +647,7 @@ class DefaultWebTestClient implements WebTestClient {
     @Override
     public EntityExchangeResult<Void> isEmpty() {
       this.result.assertWithDiagnostics(() ->
-              AssertionErrors.assertTrue("Expected empty body", this.isEmpty));
+                                                AssertionErrors.assertTrue("Expected empty body", this.isEmpty));
       return new EntityExchangeResult<>(this.result, null);
     }
 

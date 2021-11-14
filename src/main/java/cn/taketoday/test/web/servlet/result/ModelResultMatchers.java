@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.web.servlet.result;
 
+import org.hamcrest.Matcher;
+
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.MvcResult;
 import cn.taketoday.test.web.servlet.ResultMatcher;
@@ -28,7 +30,6 @@ import cn.taketoday.validation.BindingResult;
 import cn.taketoday.validation.Errors;
 import cn.taketoday.validation.FieldError;
 import cn.taketoday.web.servlet.ModelAndView;
-import org.hamcrest.Matcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertFalse;
@@ -54,7 +55,6 @@ public class ModelResultMatchers {
    */
   protected ModelResultMatchers() {
   }
-
 
   /**
    * Assert a model attribute value with the given Hamcrest {@link Matcher}.
@@ -109,7 +109,7 @@ public class ModelResultMatchers {
       ModelAndView mav = getModelAndView(result);
       Errors errors = getBindingResult(mav, name);
       assertEquals("Binding/validation error count for attribute '" + name + "',",
-              expectedCount, errors.getErrorCount());
+                   expectedCount, errors.getErrorCount());
     };
   }
 
@@ -135,7 +135,7 @@ public class ModelResultMatchers {
       for (String name : names) {
         BindingResult result = getBindingResult(mav, name);
         assertFalse("Unexpected errors for attribute '" + name + "': " + result.getAllErrors(),
-                result.hasErrors());
+                    result.hasErrors());
       }
     };
   }

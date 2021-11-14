@@ -20,6 +20,18 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import org.hamcrest.Matcher;
+import org.reactivestreams.Publisher;
+
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.core.ParameterizedTypeReference;
 import cn.taketoday.core.ReactiveAdapterRegistry;
@@ -52,17 +64,6 @@ import cn.taketoday.web.server.WebHandler;
 import cn.taketoday.web.server.session.WebSessionManager;
 import cn.taketoday.web.util.UriBuilder;
 import cn.taketoday.web.util.UriBuilderFactory;
-import org.hamcrest.Matcher;
-import org.reactivestreams.Publisher;
-
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * Client for testing web servers that uses {@link WebClient} internally to
@@ -78,14 +79,6 @@ import java.util.function.Function;
  * <li>{@link #bindToServer()}
  * <li>...
  * </ul>
- *
- * <p><strong>Warning</strong>: {@code WebTestClient} is not usable yet in
- * Kotlin due to a <a href="https://youtrack.jetbrains.com/issue/KT-5464">type inference issue</a>
- * which is expected to be fixed as of Kotlin 1.3. You can watch
- * <a href="https://github.com/spring-projects/spring-framework/issues/20606">gh-20606</a>
- * for up-to-date information. Meanwhile, the proposed alternative is to use
- * directly {@link WebClient} with its Reactor and Spring Kotlin extensions to
- * perform integration tests on an embedded WebFlux server.
  *
  * @author Rossen Stoyanchev
  * @author Brian Clozel
@@ -105,7 +98,6 @@ public interface WebTestClient {
    * that information once an {@link ExchangeResult} is available.
    */
   String WEBTESTCLIENT_REQUEST_ID = "WebTestClient-Request-Id";
-
 
   /**
    * Prepare an HTTP GET request.
@@ -163,7 +155,6 @@ public interface WebTestClient {
    */
   RequestBodyUriSpec method(HttpMethod method);
 
-
   /**
    * Return a builder to mutate properties of this web test client.
    */
@@ -180,7 +171,6 @@ public interface WebTestClient {
    * @return the mutated test client
    */
   WebTestClient mutateWith(WebTestClientConfigurer configurer);
-
 
   // Static factory methods
 
@@ -216,17 +206,17 @@ public interface WebTestClient {
   }
 
   /**
-   * Use this option to setup a server from the Spring configuration of your
+   * Use this option to setup a server from the configuration of your
    * application, or some subset of it. Internally the provided configuration
    * is passed to {@code WebHttpHandlerBuilder} to set up the request
    * processing chain. The resulting WebFlux application will be tested
    * without an HTTP server using a mock request and response.
    * <p>Consider using the TestContext framework and
    * {@link cn.taketoday.test.context.ContextConfiguration @ContextConfiguration}
-   * in order to efficiently load and inject the Spring configuration into the
+   * in order to efficiently load and inject the  configuration into the
    * test class.
    *
-   * @param applicationContext the Spring context
+   * @param applicationContext the context
    * @return chained API to customize server and client config; use
    * {@link MockServerSpec#configureClient()} to transition to client config
    */
@@ -269,7 +259,6 @@ public interface WebTestClient {
     return new DefaultWebTestClientBuilder(connector);
   }
 
-
   /**
    * Base specification for setting up tests without a server.
    *
@@ -311,7 +300,6 @@ public interface WebTestClient {
      */
     WebTestClient build();
   }
-
 
   /**
    * Specification for customizing controller configuration equivalent to, and
@@ -382,7 +370,6 @@ public interface WebTestClient {
     ControllerSpec viewResolvers(Consumer<ViewResolverRegistry> consumer);
   }
 
-
   /**
    * Specification for customizing router function configuration.
    */
@@ -393,7 +380,6 @@ public interface WebTestClient {
      */
     RouterFunctionSpec handlerStrategies(HandlerStrategies handlerStrategies);
   }
-
 
   /**
    * Steps for customizing the {@link WebClient} used to test with,
@@ -554,7 +540,6 @@ public interface WebTestClient {
     WebTestClient build();
   }
 
-
   /**
    * Specification for providing the URI of a request.
    *
@@ -595,7 +580,6 @@ public interface WebTestClient {
      */
     S uri(Function<UriBuilder, URI> uriFunction);
   }
-
 
   /**
    * Specification for adding request headers and performing an exchange.
@@ -709,7 +693,6 @@ public interface WebTestClient {
     ResponseSpec exchange();
   }
 
-
   /**
    * Specification for providing body of a request.
    */
@@ -819,7 +802,6 @@ public interface WebTestClient {
     RequestHeadersSpec<?> syncBody(Object body);
   }
 
-
   /**
    * Specification for providing request headers and the URI of a request.
    *
@@ -833,7 +815,6 @@ public interface WebTestClient {
    */
   interface RequestBodyUriSpec extends RequestBodySpec, RequestHeadersUriSpec<RequestBodySpec> {
   }
-
 
   /**
    * Chained API for applying assertions to a response.
@@ -944,7 +925,6 @@ public interface WebTestClient {
 
   }
 
-
   /**
    * Spec for expectations on the response body decoded to a single Object.
    *
@@ -986,7 +966,6 @@ public interface WebTestClient {
     EntityExchangeResult<B> returnResult();
   }
 
-
   /**
    * Spec for expectations on the response body decoded to a List.
    *
@@ -1017,7 +996,6 @@ public interface WebTestClient {
     @SuppressWarnings("unchecked")
     ListBodySpec<E> doesNotContain(E... elements);
   }
-
 
   /**
    * Spec for expectations on the response body content.

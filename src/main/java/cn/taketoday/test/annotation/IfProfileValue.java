@@ -27,6 +27,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import cn.taketoday.test.context.junit4.TodayJUnit4ClassRunner;
+
 /**
  * Test annotation for use with JUnit 4 to indicate whether a test is enabled or
  * disabled for a specific testing profile.
@@ -92,8 +94,8 @@ import java.lang.annotation.Target;
  * @see SystemProfileValueSource
  * @see ProfileValueSourceConfiguration
  * @see ProfileValueUtils
- * @see cn.taketoday.test.context.junit4.AbstractJUnit4SpringContextTests
- * @see cn.taketoday.test.context.junit4.SpringJUnit4ClassRunner
+ * @see cn.taketoday.test.context.junit4.AbstractJUnit4TodayContextTests
+ * @see TodayJUnit4ClassRunner
  * @see cn.taketoday.test.context.junit4.statements.ProfileValueChecker
  * @see cn.taketoday.context.annotation.Profile
  * @see cn.taketoday.test.context.ActiveProfiles
@@ -123,6 +125,6 @@ public @interface IfProfileValue {
    * <p>Note: Assigning values to both {@link #value} and {@code #values}
    * will lead to a configuration conflict.
    */
-  String[] values() default { };
+  String[] values() default {};
 
 }

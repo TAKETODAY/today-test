@@ -47,7 +47,7 @@ import java.lang.annotation.Target;
  * <p>This annotation may be used as a <em>meta-annotation</em> to create custom
  * <em>composed annotations</em>.
  *
- * <p>As of Spring Framework 5.3, this annotation will be inherited from an
+ * <p>this annotation will be inherited from an
  * enclosing test class by default. See
  * {@link cn.taketoday.test.context.NestedTestConfiguration @NestedTestConfiguration}
  * for details.
@@ -116,7 +116,6 @@ public @interface DirtiesContext {
    */
   HierarchyMode hierarchyMode() default HierarchyMode.EXHAUSTIVE;
 
-
   /**
    * Defines <i>modes</i> which determine how {@code @DirtiesContext} is
    * interpreted when used to annotate a test method.
@@ -135,7 +134,6 @@ public @interface DirtiesContext {
      */
     AFTER_METHOD
   }
-
 
   /**
    * Defines <i>modes</i> which determine how {@code @DirtiesContext} is
@@ -167,7 +165,6 @@ public @interface DirtiesContext {
      */
     AFTER_CLASS
   }
-
 
   /**
    * Defines <i>modes</i> which determine how the context cache is cleared

@@ -26,9 +26,9 @@ import cn.taketoday.test.annotation.DirtiesContext.HierarchyMode;
 import cn.taketoday.test.context.MergedContextConfiguration;
 
 /**
- * {@code ContextCache} defines the SPI for caching Spring
+ * {@code ContextCache} defines the SPI for caching
  * {@link ApplicationContext ApplicationContexts} within the
- * <em>Spring TestContext Framework</em>.
+ * <em>TestContext Framework</em>.
  *
  * <p>A {@code ContextCache} maintains a cache of {@code ApplicationContexts}
  * keyed by {@link MergedContextConfiguration} instances, potentially configured
@@ -37,7 +37,7 @@ import cn.taketoday.test.context.MergedContextConfiguration;
  *
  * <h3>Rationale</h3>
  * <p>Context caching can have significant performance benefits if context
- * initialization is complex. Although the initialization of a Spring context
+ * initialization is complex. Although the initialization of a context
  * itself is typically very quick, some beans in a context &mdash; for example,
  * an embedded database or a {@code LocalContainerEntityManagerFactoryBean} for
  * working with JPA &mdash; may take several seconds to initialize. Hence it
@@ -73,8 +73,7 @@ public interface ContextCache {
    *
    * @see #DEFAULT_MAX_CONTEXT_CACHE_SIZE
    */
-  String MAX_CONTEXT_CACHE_SIZE_PROPERTY_NAME = "spring.test.context.cache.maxSize";
-
+  String MAX_CONTEXT_CACHE_SIZE_PROPERTY_NAME = "today.test.context.cache.maxSize";
 
   /**
    * Determine whether there is a cached context for the given key.

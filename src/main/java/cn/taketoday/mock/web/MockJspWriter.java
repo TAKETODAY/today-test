@@ -20,13 +20,13 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.lang.Nullable;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.jsp.JspWriter;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+
+import cn.taketoday.lang.Nullable;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.jsp.JspWriter;
 
 /**
  * Mock implementation of the {@link jakarta.servlet.jsp.JspWriter} class.
@@ -40,7 +40,6 @@ public class MockJspWriter extends JspWriter {
 
   @Nullable
   private PrintWriter targetWriter;
-
 
   /**
    * Create a MockJspWriter for the given response,
@@ -87,7 +86,6 @@ public class MockJspWriter extends JspWriter {
     }
     return this.targetWriter;
   }
-
 
   @Override
   public void clear() throws IOException {

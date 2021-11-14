@@ -20,9 +20,9 @@
 
 package cn.taketoday.test.web.reactive.server;
 
-import reactor.core.publisher.Flux;
-
 import java.util.function.Consumer;
+
+import reactor.core.publisher.Flux;
 
 /**
  * {@code ExchangeResult} variant with the response body decoded as
@@ -36,12 +36,10 @@ public class FluxExchangeResult<T> extends ExchangeResult {
 
   private final Flux<T> body;
 
-
   FluxExchangeResult(ExchangeResult result, Flux<T> body) {
     super(result);
     this.body = body;
   }
-
 
   /**
    * Return the response body as a {@code Flux<T>} of decoded elements.

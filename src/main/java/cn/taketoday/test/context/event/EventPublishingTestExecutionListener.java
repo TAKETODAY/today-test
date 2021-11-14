@@ -46,7 +46,7 @@ import cn.taketoday.test.context.support.AbstractTestExecutionListener;
  * <p>These events may be consumed for various reasons, such as resetting <em>mock</em>
  * beans or tracing test execution. One advantage of consuming test events rather
  * than implementing a custom {@link TestExecutionListener} is that test events
- * may be consumed by any Spring bean registered in the test {@code ApplicationContext},
+ * may be consumed by any bean registered in the test {@code ApplicationContext},
  * and such beans may benefit directly from dependency injection and other features
  * of the {@code ApplicationContext}. In contrast, a {@link TestExecutionListener}
  * is not a bean in the {@code ApplicationContext}.
@@ -63,7 +63,7 @@ import cn.taketoday.test.context.support.AbstractTestExecutionListener;
  *
  * <h3>Asynchronous Listeners</h3>
  * <p>If you want a particular test event listener to process events asynchronously,
- * you can use Spring's {@link cn.taketoday.scheduling.annotation.Async @Async}
+ * you can use {@link cn.taketoday.scheduling.annotation.Async @Async}
  * support. For further details, consult the class-level Javadoc for
  * {@link cn.taketoday.context.event.EventListener @EventListener}.
  *

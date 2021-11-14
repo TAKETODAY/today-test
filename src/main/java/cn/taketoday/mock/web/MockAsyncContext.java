@@ -20,6 +20,10 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
@@ -33,10 +37,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mock implementation of the {@link AsyncContext} interface.
@@ -59,12 +59,10 @@ public class MockAsyncContext implements AsyncContext {
 
   private final List<Runnable> dispatchHandlers = new ArrayList<>();
 
-
   public MockAsyncContext(ServletRequest request, @Nullable ServletResponse response) {
     this.request = (HttpServletRequest) request;
     this.response = (HttpServletResponse) response;
   }
-
 
   public void addDispatchHandler(Runnable handler) {
     Assert.notNull(handler, "Dispatch handler must not be null");

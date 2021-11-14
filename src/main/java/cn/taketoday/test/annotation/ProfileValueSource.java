@@ -32,7 +32,7 @@ import cn.taketoday.lang.Nullable;
  * constructor.
  * </p>
  * <p>
- * Spring provides the following out-of-the-box implementations:
+ * provides the following out-of-the-box implementations:
  * </p>
  * <ul>
  * <li>{@link SystemProfileValueSource}</li>

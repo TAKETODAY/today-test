@@ -20,12 +20,12 @@
 
 package cn.taketoday.test.annotation;
 
-import cn.taketoday.core.annotation.AnnotatedElementUtils;
-
 import java.lang.reflect.Method;
 
+import cn.taketoday.core.annotation.AnnotatedElementUtils;
+
 /**
- * Collection of utility methods for working with Spring's core testing annotations.
+ * Collection of utility methods for working with Today's core testing annotations.
  *
  * @author Sam Brannen
  */

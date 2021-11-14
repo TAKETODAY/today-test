@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.context.support;
 
+import java.lang.reflect.Method;
+
 import cn.taketoday.context.ApplicationContext;
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.lang.Assert;
@@ -33,8 +35,6 @@ import cn.taketoday.test.annotation.DirtiesContext.MethodMode;
 import cn.taketoday.test.context.TestContext;
 import cn.taketoday.test.context.TestContextAnnotationUtils;
 
-import java.lang.reflect.Method;
-
 /**
  * Abstract base class for {@code TestExecutionListener} implementations that
  * provide support for marking the {@code ApplicationContext} associated with
@@ -42,7 +42,7 @@ import java.lang.reflect.Method;
  * with the {@link DirtiesContext @DirtiesContext} annotation.
  *
  * <p>The core functionality for this class was extracted from
- * {@link DirtiesContextTestExecutionListener} in Spring Framework 4.2.
+ * {@link DirtiesContextTestExecutionListener}
  *
  * @author Sam Brannen
  * @author Juergen Hoeller
@@ -51,7 +51,6 @@ import java.lang.reflect.Method;
 public abstract class AbstractDirtiesContextTestExecutionListener extends AbstractTestExecutionListener {
 
   private static final Logger logger = LoggerFactory.getLogger(AbstractDirtiesContextTestExecutionListener.class);
-
 
   @Override
   public abstract int getOrder();
@@ -86,8 +85,8 @@ public abstract class AbstractDirtiesContextTestExecutionListener extends Abstra
    * @throws Exception allows any exception to propagate
    * @see #dirtyContext
    */
-  protected void beforeOrAfterTestMethod(TestContext testContext, MethodMode requiredMethodMode,
-                                         ClassMode requiredClassMode) throws Exception {
+  protected void beforeOrAfterTestMethod(
+          TestContext testContext, MethodMode requiredMethodMode, ClassMode requiredClassMode) throws Exception {
 
     Assert.notNull(testContext, "TestContext must not be null");
     Assert.notNull(requiredMethodMode, "requiredMethodMode must not be null");
@@ -108,8 +107,8 @@ public abstract class AbstractDirtiesContextTestExecutionListener extends Abstra
     if (logger.isDebugEnabled()) {
       String phase = (requiredClassMode.name().startsWith("BEFORE") ? "Before" : "After");
       logger.debug(String.format("%s test method: context %s, class annotated with @DirtiesContext [%s] "
-                      + "with mode [%s], method annotated with @DirtiesContext [%s] with mode [%s].", phase, testContext,
-              classAnnotated, classMode, methodAnnotated, methodMode));
+                                         + "with mode [%s], method annotated with @DirtiesContext [%s] with mode [%s].", phase, testContext,
+                                 classAnnotated, classMode, methodAnnotated, methodMode));
     }
 
     if ((methodMode == requiredMethodMode) || (classMode == requiredClassMode)) {

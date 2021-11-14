@@ -20,16 +20,16 @@
 
 package cn.taketoday.mock.web.server;
 
+import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Map;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.web.server.WebSession;
 import cn.taketoday.web.server.session.InMemoryWebSessionStore;
 import reactor.core.publisher.Mono;
-
-import java.time.Clock;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Map;
 
 /**
  * Implementation of {@code WebSession} that delegates to a session instance
@@ -46,7 +46,6 @@ public class MockWebSession implements WebSession {
 
   private final WebSession delegate;
 
-
   public MockWebSession() {
     this(null);
   }
@@ -60,7 +59,6 @@ public class MockWebSession implements WebSession {
     Assert.state(session != null, "WebSession must not be null");
     this.delegate = session;
   }
-
 
   @Override
   public String getId() {

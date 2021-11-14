@@ -20,13 +20,14 @@
 
 package cn.taketoday.test.web.servlet.result;
 
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.mock.web.MockHttpServletResponse;
-import cn.taketoday.test.web.servlet.ResultMatcher;
 import org.hamcrest.Matcher;
 
 import java.util.Arrays;
 import java.util.List;
+
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.mock.web.MockHttpServletResponse;
+import cn.taketoday.test.web.servlet.ResultMatcher;
 
 import static cn.taketoday.test.util.AssertionErrors.assertEquals;
 import static cn.taketoday.test.util.AssertionErrors.assertFalse;
@@ -52,7 +53,6 @@ public class HeaderResultMatchers {
    */
   protected HeaderResultMatchers() {
   }
-
 
   /**
    * Assert the primary value of the response header with the given Hamcrest
@@ -95,7 +95,7 @@ public class HeaderResultMatchers {
    */
   public ResultMatcher exists(String name) {
     return result -> assertTrue("Response should contain header '" + name + "'",
-            result.getResponse().containsHeader(name));
+                                result.getResponse().containsHeader(name));
   }
 
   /**
@@ -103,7 +103,7 @@ public class HeaderResultMatchers {
    */
   public ResultMatcher doesNotExist(String name) {
     return result -> assertFalse("Response should not contain header '" + name + "'",
-            result.getResponse().containsHeader(name));
+                                 result.getResponse().containsHeader(name));
   }
 
   /**
@@ -143,8 +143,8 @@ public class HeaderResultMatchers {
       headers.set("actual", headerValue);
 
       assertEquals("Response header '" + name + "'='" + headerValue + "' " +
-                      "does not match expected value '" + headers.getFirst("expected") + "'",
-              headers.getFirstDate("expected"), headers.getFirstDate("actual"));
+                           "does not match expected value '" + headers.getFirst("expected") + "'",
+                   headers.getFirstDate("expected"), headers.getFirstDate("actual"));
     };
   }
 

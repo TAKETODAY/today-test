@@ -20,16 +20,17 @@
 
 package cn.taketoday.test.context.junit4.statements;
 
-import cn.taketoday.lang.Assert;
-import cn.taketoday.test.annotation.TestAnnotationUtils;
 import org.junit.runners.model.Statement;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeoutException;
 
+import cn.taketoday.lang.Assert;
+import cn.taketoday.test.annotation.TestAnnotationUtils;
+
 /**
- * {@code SpringFailOnTimeout} is a custom JUnit {@link Statement} which adds
- * support for Spring's {@link cn.taketoday.test.annotation.Timed @Timed}
+ * {@code TodayFailOnTimeout} is a custom JUnit {@link Statement} which adds
+ * support for Today's {@link cn.taketoday.test.annotation.Timed @Timed}
  * annotation by throwing an exception if the next statement in the execution
  * chain takes more than the specified number of milliseconds.
  *
@@ -41,15 +42,14 @@ import java.util.concurrent.TimeoutException;
  * @author Sam Brannen
  * @see #evaluate()
  */
-public class SpringFailOnTimeout extends Statement {
+public class TodayFailOnTimeout extends Statement {
 
   private final Statement next;
 
   private final long timeout;
 
-
   /**
-   * Construct a new {@code SpringFailOnTimeout} statement for the supplied
+   * Construct a new {@code TodayFailOnTimeout} statement for the supplied
    * {@code testMethod}, retrieving the configured timeout from the
    * {@code @Timed} annotation on the supplied method.
    *
@@ -57,12 +57,12 @@ public class SpringFailOnTimeout extends Statement {
    * @param testMethod the current test method
    * @see TestAnnotationUtils#getTimeout(Method)
    */
-  public SpringFailOnTimeout(Statement next, Method testMethod) {
+  public TodayFailOnTimeout(Statement next, Method testMethod) {
     this(next, TestAnnotationUtils.getTimeout(testMethod));
   }
 
   /**
-   * Construct a new {@code SpringFailOnTimeout} statement for the supplied
+   * Construct a new {@code TodayFailOnTimeout} statement for the supplied
    * {@code timeout}.
    * <p>If the supplied {@code timeout} is {@code 0}, the execution of the
    * {@code next} statement will not be timed.
@@ -71,17 +71,16 @@ public class SpringFailOnTimeout extends Statement {
    * @param timeout the configured {@code timeout} for the current test, in milliseconds;
    * never negative
    */
-  public SpringFailOnTimeout(Statement next, long timeout) {
+  public TodayFailOnTimeout(Statement next, long timeout) {
     Assert.notNull(next, "next statement must not be null");
     Assert.isTrue(timeout >= 0, "timeout must be non-negative");
     this.next = next;
     this.timeout = timeout;
   }
 
-
   /**
    * Evaluate the next {@link Statement statement} in the execution chain
-   * (typically an instance of {@link SpringRepeat}) and throw a
+   * (typically an instance of {@link TodayRepeat}) and throw a
    * {@link TimeoutException} if the next {@code statement} executes longer
    * than the specified {@code timeout}.
    */

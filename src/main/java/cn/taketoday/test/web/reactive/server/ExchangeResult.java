@@ -20,6 +20,14 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
 import cn.taketoday.http.HttpStatus;
@@ -33,14 +41,6 @@ import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
 import cn.taketoday.util.MultiValueMap;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Container for request and response details for exchanges performed through
@@ -64,7 +64,6 @@ public class ExchangeResult {
           MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML,
           MediaType.parseMediaType("text/*"), MediaType.APPLICATION_FORM_URLENCODED);
 
-
   private final ClientHttpRequest request;
 
   private final ClientHttpResponse response;
@@ -83,7 +82,6 @@ public class ExchangeResult {
 
   /** Ensure single logging, e.g. for expectAll. */
   private boolean diagnosticsLogged;
-
 
   /**
    * Create an instance with an HTTP request and response along with promises
@@ -129,7 +127,6 @@ public class ExchangeResult {
     this.diagnosticsLogged = other.diagnosticsLogged;
   }
 
-
   /**
    * Return the method of the request.
    */
@@ -170,7 +167,6 @@ public class ExchangeResult {
   public byte[] getRequestBodyContent() {
     return this.requestBody.block(this.timeout);
   }
-
 
   /**
    * Return the HTTP status code as an {@link HttpStatus} enum value.
@@ -241,7 +237,6 @@ public class ExchangeResult {
       throw ex;
     }
   }
-
 
   @Override
   public String toString() {

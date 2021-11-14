@@ -20,6 +20,10 @@
 
 package cn.taketoday.test.web.servlet;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockFilterChain;
@@ -38,12 +42,8 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletResponseWrapper;
 
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * <strong>Main entry point for server-side Spring MVC test support.</strong>
+ * <strong>Main entry point for server-side MVC test support.</strong>
  *
  * <h3>Example</h3>
  *
@@ -87,7 +87,6 @@ public final class MockMvc {
   private List<ResultMatcher> defaultResultMatchers = new ArrayList<>();
 
   private List<ResultHandler> defaultResultHandlers = new ArrayList<>();
-
 
   /**
    * Private constructor, not for direct instantiation.
@@ -155,7 +154,6 @@ public final class MockMvc {
   public DispatcherServlet getDispatcherServlet() {
     return this.servlet;
   }
-
 
   /**
    * Perform a request and return a type that allows chaining further

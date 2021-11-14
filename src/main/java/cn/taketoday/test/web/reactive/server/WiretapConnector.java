@@ -20,6 +20,15 @@
 
 package cn.taketoday.test.web.reactive.server;
 
+import org.reactivestreams.Publisher;
+
+import java.net.URI;
+import java.time.Duration;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DefaultDataBufferFactory;
 import cn.taketoday.http.HttpMethod;
@@ -30,18 +39,10 @@ import cn.taketoday.http.client.reactive.ClientHttpResponse;
 import cn.taketoday.http.client.reactive.ClientHttpResponseDecorator;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
-import org.reactivestreams.Publisher;
 import reactor.core.Scannable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
-
-import java.net.URI;
-import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 
 /**
  * Decorate another {@link ClientHttpConnector} with the purpose of
@@ -57,11 +58,9 @@ class WiretapConnector implements ClientHttpConnector {
 
   private final Map<String, ClientExchangeInfo> exchanges = new ConcurrentHashMap<>();
 
-
   WiretapConnector(ClientHttpConnector delegate) {
     this.delegate = delegate;
   }
-
 
   @Override
   public Mono<ClientHttpResponse> connect(HttpMethod method, URI uri,
@@ -96,12 +95,11 @@ class WiretapConnector implements ClientHttpConnector {
       return "No match for " + header + "=" + requestId;
     });
     return new ExchangeResult(clientInfo.getRequest(), clientInfo.getResponse(),
-            clientInfo.getRequest().getRecorder().getContent(),
-            clientInfo.getResponse().getRecorder().getContent(),
-            timeout, uriTemplate,
-            clientInfo.getResponse().getMockServerResult());
+                              clientInfo.getRequest().getRecorder().getContent(),
+                              clientInfo.getResponse().getRecorder().getContent(),
+                              timeout, uriTemplate,
+                              clientInfo.getResponse().getMockServerResult());
   }
-
 
   /**
    * Holder for {@link WiretapClientHttpRequest} and {@link WiretapClientHttpResponse}.
@@ -126,7 +124,6 @@ class WiretapConnector implements ClientHttpConnector {
     }
   }
 
-
   /**
    * Tap into a Publisher of data buffers to save the content.
    */
@@ -145,7 +142,6 @@ class WiretapConnector implements ClientHttpConnector {
 
     private boolean hasContentConsumer;
 
-
     public WiretapRecorder(@Nullable Publisher<? extends DataBuffer> publisher,
                            @Nullable Publisher<? extends Publisher<? extends DataBuffer>> publisherNested) {
 
@@ -154,26 +150,25 @@ class WiretapConnector implements ClientHttpConnector {
       }
 
       this.publisher = publisher != null ?
-              Flux.from(publisher)
-                      .doOnSubscribe(s -> this.hasContentConsumer = true)
-                      .doOnNext(this.buffer::write)
-                      .doOnError(this::handleOnError)
-                      .doOnCancel(this::handleOnComplete)
-                      .doOnComplete(this::handleOnComplete) : null;
+                       Flux.from(publisher)
+                               .doOnSubscribe(s -> this.hasContentConsumer = true)
+                               .doOnNext(this.buffer::write)
+                               .doOnError(this::handleOnError)
+                               .doOnCancel(this::handleOnComplete)
+                               .doOnComplete(this::handleOnComplete) : null;
 
       this.publisherNested = publisherNested != null ?
-              Flux.from(publisherNested)
-                      .doOnSubscribe(s -> this.hasContentConsumer = true)
-                      .map(p -> Flux.from(p).doOnNext(this.buffer::write).doOnError(this::handleOnError))
-                      .doOnError(this::handleOnError)
-                      .doOnCancel(this::handleOnComplete)
-                      .doOnComplete(this::handleOnComplete) : null;
+                             Flux.from(publisherNested)
+                                     .doOnSubscribe(s -> this.hasContentConsumer = true)
+                                     .map(p -> Flux.from(p).doOnNext(this.buffer::write).doOnError(this::handleOnError))
+                                     .doOnError(this::handleOnError)
+                                     .doOnCancel(this::handleOnComplete)
+                                     .doOnComplete(this::handleOnComplete) : null;
 
       if (publisher == null && publisherNested == null) {
         this.content.tryEmitEmpty();
       }
     }
-
 
     public Publisher<? extends DataBuffer> getPublisherToUse() {
       Assert.notNull(this.publisher, "Publisher not in use.");
@@ -205,7 +200,6 @@ class WiretapConnector implements ClientHttpConnector {
       });
     }
 
-
     private void handleOnError(Throwable ex) {
       // Ignore result: signals cannot compete
       this.content.tryEmitError(ex);
@@ -219,7 +213,6 @@ class WiretapConnector implements ClientHttpConnector {
     }
   }
 
-
   /**
    * ClientHttpRequestDecorator that intercepts and saves the request body.
    */
@@ -227,7 +220,6 @@ class WiretapConnector implements ClientHttpConnector {
 
     @Nullable
     private WiretapRecorder recorder;
-
 
     public WiretapClientHttpRequest(ClientHttpRequest delegate) {
       super(delegate);
@@ -257,7 +249,6 @@ class WiretapConnector implements ClientHttpConnector {
     }
   }
 
-
   /**
    * ClientHttpResponseDecorator that intercepts and saves the response body.
    */
@@ -265,12 +256,10 @@ class WiretapConnector implements ClientHttpConnector {
 
     private final WiretapRecorder recorder;
 
-
     public WiretapClientHttpResponse(ClientHttpResponse delegate) {
       super(delegate);
       this.recorder = new WiretapRecorder(super.getBody(), null);
     }
-
 
     public WiretapRecorder getRecorder() {
       return this.recorder;

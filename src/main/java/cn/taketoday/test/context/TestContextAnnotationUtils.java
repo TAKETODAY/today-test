@@ -20,6 +20,12 @@
 
 package cn.taketoday.test.context;
 
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Predicate;
+
 import cn.taketoday.core.annotation.AnnotatedElementUtils;
 import cn.taketoday.core.annotation.AnnotationUtils;
 import cn.taketoday.core.annotation.MergedAnnotation;
@@ -37,19 +43,13 @@ import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.ConcurrentLruCache;
 import cn.taketoday.util.ObjectUtils;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.function.Predicate;
-
 /**
  * {@code TestContextAnnotationUtils} is a collection of utility methods that
  * complements the standard support already available in {@link AnnotationUtils}
  * and {@link AnnotatedElementUtils}, while transparently honoring
  * {@link NestedTestConfiguration @NestedTestConfiguration} semantics.
  *
- * <p>Mainly for internal use within the <em>Spring TestContext Framework</em>.
+ * <p>Mainly for internal use within the <em>TestContext Framework</em>.
  *
  * <p>Whereas {@code AnnotationUtils} and {@code AnnotatedElementUtils} provide
  * utilities for <em>getting</em> or <em>finding</em> annotations,
@@ -59,7 +59,7 @@ import java.util.function.Predicate;
  * additional information is encapsulated in an {@link AnnotationDescriptor}.
  *
  * <p>The additional information provided by an {@code AnnotationDescriptor} is
- * required by the <em>Spring TestContext Framework</em> in order to be able to
+ * required by the <em>TestContext Framework</em> in order to be able to
  * support class inheritance and enclosing class hierarchy traversals for
  * annotations such as {@link ContextConfiguration @ContextConfiguration},
  * {@link TestExecutionListeners @TestExecutionListeners}, and
@@ -79,7 +79,6 @@ public abstract class TestContextAnnotationUtils {
 
   @Nullable
   private static volatile EnclosingConfiguration defaultEnclosingConfigurationMode;
-
 
   /**
    * Determine if an annotation of the specified {@code annotationType} is
@@ -218,7 +217,7 @@ public abstract class TestContextAnnotationUtils {
 
     Assert.notNull(annotationType, "Annotation type must not be null");
     return findAnnotationDescriptor(clazz, annotationType, TestContextAnnotationUtils::searchEnclosingClass,
-            new HashSet<>());
+                                    new HashSet<>());
   }
 
   /**
@@ -360,7 +359,7 @@ public abstract class TestContextAnnotationUtils {
                 composedAnnotation.annotationType(), annotationTypes, visited);
         if (descriptor != null) {
           return new UntypedAnnotationDescriptor(clazz, descriptor.getDeclaringClass(),
-                  descriptor.getAnnotation(), annotationTypes);
+                                                 descriptor.getAnnotation(), annotationTypes);
         }
       }
     }
@@ -370,7 +369,7 @@ public abstract class TestContextAnnotationUtils {
       UntypedAnnotationDescriptor descriptor = findAnnotationDescriptorForTypes(ifc, annotationTypes, visited);
       if (descriptor != null) {
         return new UntypedAnnotationDescriptor(clazz, descriptor.getDeclaringClass(),
-                descriptor.getAnnotation(), annotationTypes);
+                                               descriptor.getAnnotation(), annotationTypes);
       }
     }
 
@@ -392,7 +391,7 @@ public abstract class TestContextAnnotationUtils {
 
   /**
    * Determine if annotations on the enclosing class of the supplied class
-   * should be searched by annotation search algorithms within the <em>Spring
+   * should be searched by annotation search algorithms within the <em>
    * TestContext Framework</em>.
    *
    * @param clazz the class whose enclosing class should potentially be searched
@@ -455,7 +454,6 @@ public abstract class TestContextAnnotationUtils {
     }
   }
 
-
   /**
    * Descriptor for an {@link Annotation}, including the {@linkplain
    * #getDeclaringClass() class} on which the annotation is <em>declared</em>
@@ -508,8 +506,7 @@ public abstract class TestContextAnnotationUtils {
       this(rootDeclaringClass, rootDeclaringClass, annotation);
     }
 
-    @SuppressWarnings("unchecked")
-    AnnotationDescriptor(Class<?> rootDeclaringClass, Class<?> declaringClass, T annotation) {
+    @SuppressWarnings("unchecked") AnnotationDescriptor(Class<?> rootDeclaringClass, Class<?> declaringClass, T annotation) {
       Assert.notNull(rootDeclaringClass, "'rootDeclaringClass' must not be null");
       Assert.notNull(declaringClass, "'declaringClass' must not be null");
       Assert.notNull(annotation, "Annotation must not be null");
@@ -518,7 +515,7 @@ public abstract class TestContextAnnotationUtils {
       T mergedAnnotation = (T) AnnotatedElementUtils.findMergedAnnotation(
               rootDeclaringClass, annotation.annotationType());
       Assert.state(mergedAnnotation != null,
-              () -> "Failed to find merged annotation for " + annotation);
+                   () -> "Failed to find merged annotation for " + annotation);
       this.annotation = mergedAnnotation;
     }
 
@@ -596,7 +593,6 @@ public abstract class TestContextAnnotationUtils {
               .toString();
     }
   }
-
 
   /**
    * <em>Untyped</em> extension of {@link AnnotationDescriptor} that is used

@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * {@code TestContextBootstrapper} defines the SPI for bootstrapping the
- * <em>Spring TestContext Framework</em>.
+ * <em>TestContext Framework</em>.
  *
  * <p>A {@code TestContextBootstrapper} is used by the {@link TestContextManager} to
  * {@linkplain #getTestExecutionListeners get the TestExecutionListeners} for the
@@ -121,7 +121,7 @@ public interface TestContextBootstrapper {
    * {@link cn.taketoday.core.annotation.AnnotationAwareOrderComparator
    * AnnotationAwareOrderComparator}.
    * <p>Concrete implementations are free to determine what comprises the
-   * set of default listeners. However, by default, the Spring TestContext
+   * set of default listeners. However, by default, the TestContext
    * Framework will use the
    * {@link cn.taketoday.lang.TodayStrategies TodayStrategies}
    * mechanism to look up all {@code TestExecutionListener} class names

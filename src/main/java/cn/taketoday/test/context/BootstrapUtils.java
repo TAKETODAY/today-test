@@ -20,6 +20,11 @@
 
 package cn.taketoday.test.context;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.lang.TodayStrategies;
@@ -29,14 +34,9 @@ import cn.taketoday.test.context.TestContextAnnotationUtils.AnnotationDescriptor
 import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.StringUtils;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 /**
  * {@code BootstrapUtils} is a collection of utility methods to assist with
- * bootstrapping the <em>Spring TestContext Framework</em>.
+ * bootstrapping the <em>TestContext Framework</em>.
  *
  * @author Sam Brannen
  * @author Phillip Webb
@@ -64,7 +64,6 @@ abstract class BootstrapUtils {
   private static final Class<? extends Annotation> webAppConfigurationClass = loadWebAppConfigurationClass();
 
   private static final Logger logger = LoggerFactory.getLogger(BootstrapUtils.class);
-
 
   /**
    * Create the {@code BootstrapContext} for the specified {@linkplain Class test class}.
@@ -102,7 +101,7 @@ abstract class BootstrapUtils {
     String className = TodayStrategies.getProperty(
             CacheAwareContextLoaderDelegate.DEFAULT_CACHE_AWARE_CONTEXT_LOADER_DELEGATE_PROPERTY_NAME);
     className = (StringUtils.hasText(className) ? className.trim() :
-            DEFAULT_CACHE_AWARE_CONTEXT_LOADER_DELEGATE_CLASS_NAME);
+                 DEFAULT_CACHE_AWARE_CONTEXT_LOADER_DELEGATE_CLASS_NAME);
     try {
       Class<? extends CacheAwareContextLoaderDelegate> clazz =
               (Class<? extends CacheAwareContextLoaderDelegate>) ClassUtils.forName(
@@ -145,7 +144,7 @@ abstract class BootstrapUtils {
       }
       if (logger.isDebugEnabled()) {
         logger.debug(String.format("Instantiating TestContextBootstrapper for test class [%s] from class [%s]",
-                testClass.getName(), clazz.getName()));
+                                   testClass.getName(), clazz.getName()));
       }
       TestContextBootstrapper testContextBootstrapper = (TestContextBootstrapper) BeanUtils.newInstance(clazz); //TestContextBootstrapper.class
       testContextBootstrapper.setBootstrapContext(bootstrapContext);
@@ -156,8 +155,8 @@ abstract class BootstrapUtils {
     }
     catch (Throwable ex) {
       throw new IllegalStateException("Could not load TestContextBootstrapper [" + clazz +
-              "]. Specify @BootstrapWith's 'value' attribute or make the default bootstrapper class available.",
-              ex);
+                                              "]. Specify @BootstrapWith's 'value' attribute or make the default bootstrapper class available.",
+                                      ex);
     }
   }
 
@@ -192,7 +191,7 @@ abstract class BootstrapUtils {
   private static Class<?> resolveDefaultTestContextBootstrapper(Class<?> testClass) throws Exception {
     boolean webApp = TestContextAnnotationUtils.hasAnnotation(testClass, webAppConfigurationClass);
     String bootstrapperClassName = (webApp ? DEFAULT_WEB_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME :
-            DEFAULT_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME);
+                                    DEFAULT_TEST_CONTEXT_BOOTSTRAPPER_CLASS_NAME);
     return ClassUtils.forName(bootstrapperClassName, BootstrapUtils.class.getClassLoader());
   }
 
@@ -200,7 +199,7 @@ abstract class BootstrapUtils {
   private static Class<? extends Annotation> loadWebAppConfigurationClass() {
     try {
       return (Class<? extends Annotation>) ClassUtils.forName(WEB_APP_CONFIGURATION_ANNOTATION_CLASS_NAME,
-              BootstrapUtils.class.getClassLoader());
+                                                              BootstrapUtils.class.getClassLoader());
     }
     catch (ClassNotFoundException | LinkageError ex) {
       throw new IllegalStateException(

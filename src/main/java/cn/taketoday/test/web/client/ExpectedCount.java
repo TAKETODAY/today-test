@@ -47,7 +47,6 @@ public final class ExpectedCount {
 
   private final int maxCount;
 
-
   /**
    * Private constructor.
    * See static factory methods in this class.
@@ -58,7 +57,6 @@ public final class ExpectedCount {
     this.minCount = minCount;
     this.maxCount = maxCount;
   }
-
 
   /**
    * Return the {@code min} boundary of the expected count range.
@@ -73,7 +71,6 @@ public final class ExpectedCount {
   public int getMaxCount() {
     return this.maxCount;
   }
-
 
   /**
    * Exactly once.

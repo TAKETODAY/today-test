@@ -20,6 +20,13 @@
 
 package cn.taketoday.test.context.support;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.logging.Logger;
 import cn.taketoday.logging.LoggerFactory;
@@ -30,13 +37,6 @@ import cn.taketoday.test.context.SmartContextLoader;
 import cn.taketoday.test.context.TestContextAnnotationUtils.AnnotationDescriptor;
 import cn.taketoday.test.context.TestContextAnnotationUtils.UntypedAnnotationDescriptor;
 import cn.taketoday.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static cn.taketoday.core.annotation.AnnotationUtils.getAnnotation;
 import static cn.taketoday.core.annotation.AnnotationUtils.isAnnotationDeclaredLocally;
@@ -60,7 +60,6 @@ abstract class ContextLoaderUtils {
   static final String GENERATED_CONTEXT_HIERARCHY_LEVEL_PREFIX = "ContextHierarchyLevel#";
 
   private static final Logger logger = LoggerFactory.getLogger(ContextLoaderUtils.class);
-
 
   /**
    * Resolve the list of lists of {@linkplain ContextConfigurationAttributes context
@@ -119,8 +118,8 @@ abstract class ContextLoaderUtils {
 
       if (contextConfigDeclaredLocally && contextHierarchyDeclaredLocally) {
         String msg = String.format("Class [%s] has been configured with both @ContextConfiguration " +
-                "and @ContextHierarchy. Only one of these annotations may be declared on a test class " +
-                "or composed annotation.", declaringClass.getName());
+                                           "and @ContextHierarchy. Only one of these annotations may be declared on a test class " +
+                                           "or composed annotation.", declaringClass.getName());
         logger.error(msg);
         throw new IllegalStateException(msg);
       }
@@ -144,7 +143,7 @@ abstract class ContextLoaderUtils {
       else {
         // This should theoretically never happen...
         String msg = String.format("Test class [%s] has been configured with neither @ContextConfiguration " +
-                "nor @ContextHierarchy as a class-level annotation.", rootDeclaringClass.getName());
+                                           "nor @ContextHierarchy as a class-level annotation.", rootDeclaringClass.getName());
         logger.error(msg);
         throw new IllegalStateException(msg);
       }
@@ -208,8 +207,8 @@ abstract class ContextLoaderUtils {
     Set<List<ContextConfigurationAttributes>> set = new HashSet<>(map.values());
     if (set.size() != map.size()) {
       String msg = String.format("The @ContextConfiguration elements configured via @ContextHierarchy in " +
-                      "test class [%s] and its superclasses must define unique contexts per hierarchy level.",
-              testClass.getName());
+                                         "test class [%s] and its superclasses must define unique contexts per hierarchy level.",
+                                 testClass.getName());
       logger.error(msg);
       throw new IllegalStateException(msg);
     }
@@ -255,13 +254,13 @@ abstract class ContextLoaderUtils {
       if (currentAnnotation.equals(previousAnnotation) && hasResources(currentAnnotation)) {
         if (logger.isDebugEnabled()) {
           logger.debug(String.format("Ignoring duplicate %s declaration on [%s], "
-                          + "since it is also declared on [%s].", currentAnnotation,
-                  previousDeclaringClass.getName(), descriptor.getRootDeclaringClass().getName()));
+                                             + "since it is also declared on [%s].", currentAnnotation,
+                                     previousDeclaringClass.getName(), descriptor.getRootDeclaringClass().getName()));
         }
       }
       else {
         convertContextConfigToConfigAttributesAndAddToList(currentAnnotation,
-                descriptor.getRootDeclaringClass(), attributesList);
+                                                           descriptor.getRootDeclaringClass(), attributesList);
       }
       previousAnnotation = currentAnnotation;
       previousDeclaringClass = descriptor.getRootDeclaringClass();
@@ -284,7 +283,7 @@ abstract class ContextLoaderUtils {
 
     if (logger.isTraceEnabled()) {
       logger.trace(String.format("Retrieved @ContextConfiguration [%s] for declaring class [%s].",
-              contextConfiguration, declaringClass.getName()));
+                                 contextConfiguration, declaringClass.getName()));
     }
     ContextConfigurationAttributes attributes =
             new ContextConfigurationAttributes(declaringClass, contextConfiguration);

@@ -20,6 +20,8 @@
 
 package cn.taketoday.test.web.servlet.client;
 
+import java.util.function.Supplier;
+
 import cn.taketoday.format.support.FormattingConversionService;
 import cn.taketoday.http.client.reactive.ClientHttpConnector;
 import cn.taketoday.http.converter.HttpMessageConverter;
@@ -52,10 +54,8 @@ import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerMappi
 import cn.taketoday.web.util.pattern.PathPatternParser;
 import jakarta.servlet.Filter;
 
-import java.util.function.Supplier;
-
 /**
- * The main class for testing Spring MVC applications via {@link WebTestClient}
+ * The main class for testing MVC applications via {@link WebTestClient}
  * with {@link MockMvc} for server request handling.
  *
  * <p>Provides static factory methods and specs to initialize {@code MockMvc}
@@ -93,7 +93,7 @@ public interface MockMvcWebTestClient {
 
   /**
    * Begin creating a {@link WebTestClient} by providing a
-   * {@link WebApplicationContext} with Spring MVC infrastructure and
+   * {@link WebApplicationContext} with Today MVC infrastructure and
    * controllers.
    * <p>Internally this is delegated to and equivalent to using
    * {@link cn.taketoday.test.web.servlet.setup.MockMvcBuilders#webAppContextSetup(WebApplicationContext)}
@@ -163,7 +163,6 @@ public interface MockMvcWebTestClient {
       }
     };
   }
-
 
   /**
    * Base specification for configuring {@link MockMvc}, and a simple facade
@@ -235,7 +234,6 @@ public interface MockMvcWebTestClient {
      */
     WebTestClient build();
   }
-
 
   /**
    * Specification for configuring {@link MockMvc} to test one or more

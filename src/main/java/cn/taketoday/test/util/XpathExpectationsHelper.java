@@ -20,16 +20,16 @@
 
 package cn.taketoday.test.util;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.CollectionUtils;
-import cn.taketoday.util.StringUtils;
-import cn.taketoday.util.xml.SimpleNamespaceContext;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import java.io.ByteArrayInputStream;
+import java.util.Collections;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
@@ -39,9 +39,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-import java.io.ByteArrayInputStream;
-import java.util.Collections;
-import java.util.Map;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.CollectionUtils;
+import cn.taketoday.util.StringUtils;
 
 /**
  * A helper class for applying assertions via XPath expressions.
@@ -55,7 +56,6 @@ public class XpathExpectationsHelper {
   private final XPathExpression xpathExpression;
 
   private final boolean hasNamespaces;
-
 
   /**
    * XpathExpectationsHelper constructor.
@@ -74,8 +74,9 @@ public class XpathExpectationsHelper {
     this.hasNamespaces = !CollectionUtils.isEmpty(namespaces);
   }
 
-  private static XPathExpression compileXpathExpression(String expression,
-                                                        @Nullable Map<String, String> namespaces) throws XPathExpressionException {
+  private static XPathExpression compileXpathExpression(
+          String expression,
+          @Nullable Map<String, String> namespaces) throws XPathExpressionException {
 
     SimpleNamespaceContext namespaceContext = new SimpleNamespaceContext();
     namespaceContext.setBindings(namespaces != null ? namespaces : Collections.emptyMap());
@@ -84,14 +85,12 @@ public class XpathExpectationsHelper {
     return xpath.compile(expression);
   }
 
-
   /**
    * Return the compiled XPath expression.
    */
   protected XPathExpression getXpathExpression() {
     return this.xpathExpression;
   }
-
 
   /**
    * Parse the content, evaluate the XPath expression as a {@link Node},
@@ -158,7 +157,7 @@ public class XpathExpectationsHelper {
   public void assertNodeCount(byte[] content, @Nullable String encoding, int expectedCount) throws Exception {
     NodeList nodeList = evaluateXpath(content, encoding, NodeList.class);
     AssertionErrors.assertEquals("nodeCount for XPath " + this.expression, expectedCount,
-            (nodeList != null ? nodeList.getLength() : 0));
+                                 (nodeList != null ? nodeList.getLength() : 0));
   }
 
   /**
@@ -280,7 +279,7 @@ public class XpathExpectationsHelper {
     }
     else {
       throw new IllegalArgumentException("Unexpected target class " + expectedClass + ". " +
-              "Supported: numbers, strings, boolean, and org.w3c.Node and NodeList");
+                                                 "Supported: numbers, strings, boolean, and org.w3c.Node and NodeList");
     }
     return evaluationType;
   }

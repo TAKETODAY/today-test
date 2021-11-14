@@ -32,13 +32,13 @@ import cn.taketoday.test.context.junit.jupiter.TodayExtension;
  * the {@link ApplicationEventsTestExecutionListener}.
  *
  * <p>Although this class is {@code public}, it is only intended for use within
- * the <em>Spring TestContext Framework</em> or in the implementation of
+ * the <em>TestContext Framework</em> or in the implementation of
  * third-party extensions. Test authors should therefore allow the current
  * instance of {@code ApplicationEvents} to be
  * {@link cn.taketoday.lang.Autowired @Autowired}
  * into a field in the test class or injected via a parameter in test and
  * lifecycle methods when using JUnit Jupiter and the {@link
- * TodayExtension SpringExtension}.
+ * TodayExtension TodayExtension}.
  *
  * @author Sam Brannen
  * @author Oliver Drotbohm
@@ -50,11 +50,9 @@ public abstract class ApplicationEventsHolder {
 
   private static final ThreadLocal<DefaultApplicationEvents> applicationEvents = new ThreadLocal<>();
 
-
   private ApplicationEventsHolder() {
     // no-op to prevent instantiation of this holder class
   }
-
 
   /**
    * Get the {@link ApplicationEvents} for the current thread.
@@ -80,7 +78,6 @@ public abstract class ApplicationEventsHolder {
             "and that the ApplicationEventsTestExecutionListener is registered.");
     return events;
   }
-
 
   /**
    * Register a new {@link DefaultApplicationEvents} instance to be used for the

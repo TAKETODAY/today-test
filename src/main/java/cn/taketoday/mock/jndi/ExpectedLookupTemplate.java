@@ -20,11 +20,12 @@
 
 package cn.taketoday.mock.jndi;
 
-import cn.taketoday.jndi.JndiTemplate;
-
-import javax.naming.NamingException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import javax.naming.NamingException;
+
+import cn.taketoday.jndi.JndiTemplate;
 
 /**
  * Simple extension of the JndiTemplate class that always returns a given object.
@@ -33,14 +34,13 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
- * @deprecated Deprecated as of Spring Framework 5.2 in favor of complete solutions from
+ * @deprecated Deprecated favor of complete solutions from
  * third parties such as <a href="https://github.com/h-thurow/Simple-JNDI">Simple-JNDI</a>
  */
 @Deprecated
 public class ExpectedLookupTemplate extends JndiTemplate {
 
   private final Map<String, Object> jndiObjects = new ConcurrentHashMap<>(16);
-
 
   /**
    * Construct a new JndiTemplate that will always return given objects for
@@ -61,7 +61,6 @@ public class ExpectedLookupTemplate extends JndiTemplate {
   public ExpectedLookupTemplate(String name, Object object) {
     addObject(name, object);
   }
-
 
   /**
    * Add the given object to the list of JNDI objects that this template will expose.

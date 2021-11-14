@@ -20,6 +20,12 @@
 
 package cn.taketoday.mock.web;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import cn.taketoday.lang.Assert;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ObjectUtils;
@@ -30,12 +36,6 @@ import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Mock implementation of the {@link jakarta.servlet.FilterChain} interface.
@@ -63,7 +63,6 @@ public class MockFilterChain implements FilterChain {
 
   @Nullable
   private Iterator<Filter> iterator;
-
 
   /**
    * Register a single do-nothing {@link Filter} implementation. The first
@@ -99,7 +98,6 @@ public class MockFilterChain implements FilterChain {
     Filter[] allFilters = ObjectUtils.addObjectToArray(filters, new ServletFilterProxy(servlet));
     return Arrays.asList(allFilters);
   }
-
 
   /**
    * Return the request that {@link #doFilter} has been called with.
@@ -148,7 +146,6 @@ public class MockFilterChain implements FilterChain {
     this.response = null;
     this.iterator = null;
   }
-
 
   /**
    * A filter that simply delegates to a Servlet.

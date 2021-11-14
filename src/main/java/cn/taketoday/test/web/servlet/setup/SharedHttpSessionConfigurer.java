@@ -49,7 +49,6 @@ public class SharedHttpSessionConfigurer implements MockMvcConfigurer {
   @Nullable
   private HttpSession session;
 
-
   @Override
   public void afterConfigurerAdded(ConfigurableMockMvcBuilder<?> builder) {
     builder.alwaysDo(result -> this.session = result.getRequest().getSession(false));

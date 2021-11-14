@@ -20,11 +20,12 @@
 
 package cn.taketoday.test.web.reactive.server;
 
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.test.util.JsonPathExpectationsHelper;
 import org.hamcrest.Matcher;
 
 import java.util.function.Consumer;
+
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.test.util.JsonPathExpectationsHelper;
 
 /**
  * <a href="https://github.com/jayway/JsonPath">JsonPath</a> assertions.
@@ -41,13 +42,11 @@ public class JsonPathAssertions {
 
   private final JsonPathExpectationsHelper pathHelper;
 
-
   JsonPathAssertions(WebTestClient.BodyContentSpec spec, String content, String expression, Object... args) {
     this.bodySpec = spec;
     this.content = content;
     this.pathHelper = new JsonPathExpectationsHelper(expression, args);
   }
-
 
   /**
    * Applies {@link JsonPathExpectationsHelper#assertValue(String, Object)}.
@@ -173,11 +172,10 @@ public class JsonPathAssertions {
     return this.bodySpec;
   }
 
-
   @Override
   public boolean equals(@Nullable Object obj) {
     throw new AssertionError("Object#equals is disabled " +
-            "to avoid being used in error instead of JsonPathAssertions#isEqualTo(String).");
+                                     "to avoid being used in error instead of JsonPathAssertions#isEqualTo(String).");
   }
 
   @Override

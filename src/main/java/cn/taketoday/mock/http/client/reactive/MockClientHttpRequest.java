@@ -20,6 +20,15 @@
 
 package cn.taketoday.mock.http.client.reactive;
 
+import org.reactivestreams.Publisher;
+
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Function;
+
 import cn.taketoday.core.io.buffer.DataBuffer;
 import cn.taketoday.core.io.buffer.DataBufferFactory;
 import cn.taketoday.core.io.buffer.DataBufferUtils;
@@ -31,16 +40,8 @@ import cn.taketoday.http.client.reactive.ClientHttpRequest;
 import cn.taketoday.lang.Assert;
 import cn.taketoday.util.MimeType;
 import cn.taketoday.web.util.UriComponentsBuilder;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * Mock implementation of {@link ClientHttpRequest}.
@@ -56,10 +57,9 @@ public class MockClientHttpRequest extends AbstractClientHttpRequest {
 
   private Flux<DataBuffer> body = Flux.error(
           new IllegalStateException("The body is not set. " +
-                  "Did handling complete with success? Is a custom \"writeHandler\" configured?"));
+                                            "Did handling complete with success? Is a custom \"writeHandler\" configured?"));
 
   private Function<Flux<DataBuffer>, Mono<Void>> writeHandler;
-
 
   public MockClientHttpRequest(HttpMethod httpMethod, String urlTemplate, Object... vars) {
     this(httpMethod, UriComponentsBuilder.fromUriString(urlTemplate).buildAndExpand(vars).encode().toUri());
@@ -73,7 +73,6 @@ public class MockClientHttpRequest extends AbstractClientHttpRequest {
       return this.body.then();
     };
   }
-
 
   /**
    * Configure a custom handler for writing the request body.
@@ -89,7 +88,6 @@ public class MockClientHttpRequest extends AbstractClientHttpRequest {
     Assert.notNull(writeHandler, "'writeHandler' is required");
     this.writeHandler = writeHandler;
   }
-
 
   @Override
   public HttpMethod getMethod() {
@@ -136,7 +134,6 @@ public class MockClientHttpRequest extends AbstractClientHttpRequest {
   public Mono<Void> setComplete() {
     return writeWith(Flux.empty());
   }
-
 
   /**
    * Return the request body, or an error stream if the body was never set

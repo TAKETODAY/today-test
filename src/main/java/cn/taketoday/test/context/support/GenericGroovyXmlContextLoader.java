@@ -21,7 +21,7 @@
 package cn.taketoday.test.context.support;
 
 import cn.taketoday.beans.factory.groovy.GroovyBeanDefinitionReader;
-import cn.taketoday.context.support.GenericApplicationContext;
+import cn.taketoday.context.support.DefaultApplicationContext;
 import cn.taketoday.test.context.MergedContextConfiguration;
 
 /**
@@ -39,7 +39,7 @@ import cn.taketoday.test.context.MergedContextConfiguration;
 public class GenericGroovyXmlContextLoader extends GenericXmlContextLoader {
 
   /**
-   * Load bean definitions into the supplied {@link GenericApplicationContext context}
+   * Load bean definitions into the supplied {@link DefaultApplicationContext context}
    * from the locations in the supplied {@code MergedContextConfiguration} using a
    * {@link GroovyBeanDefinitionReader}.
    *
@@ -48,7 +48,7 @@ public class GenericGroovyXmlContextLoader extends GenericXmlContextLoader {
    * @see cn.taketoday.test.context.support.AbstractGenericContextLoader#loadBeanDefinitions
    */
   @Override
-  protected void loadBeanDefinitions(GenericApplicationContext context, MergedContextConfiguration mergedConfig) {
+  protected void loadBeanDefinitions(DefaultApplicationContext context, MergedContextConfiguration mergedConfig) {
     new GroovyBeanDefinitionReader(context).loadBeanDefinitions(mergedConfig.getLocations());
   }
 

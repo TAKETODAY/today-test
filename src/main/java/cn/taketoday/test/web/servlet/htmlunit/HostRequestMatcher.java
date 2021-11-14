@@ -61,7 +61,6 @@ public final class HostRequestMatcher implements WebRequestMatcher {
 
   private final Set<String> hosts = new HashSet<>();
 
-
   /**
    * Create a new {@code HostRequestMatcher} for the given hosts &mdash;
    * for example: {@code "localhost"}, {@code "example.com:443"}, etc.
@@ -71,7 +70,6 @@ public final class HostRequestMatcher implements WebRequestMatcher {
   public HostRequestMatcher(String... hosts) {
     Collections.addAll(this.hosts, hosts);
   }
-
 
   @Override
   public boolean matches(WebRequest request) {

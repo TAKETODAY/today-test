@@ -20,6 +20,15 @@
 
 package cn.taketoday.test.web.servlet.setup;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import cn.taketoday.beans.BeansException;
 import cn.taketoday.beans.factory.BeanInitializationException;
 import cn.taketoday.beans.factory.InitializingBean;
@@ -63,15 +72,6 @@ import cn.taketoday.web.servlet.view.DefaultRequestToViewNameTranslator;
 import cn.taketoday.web.servlet.view.InternalResourceViewResolver;
 import cn.taketoday.web.util.pattern.PathPatternParser;
 import jakarta.servlet.ServletContext;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * A {@code MockMvcBuilder} that accepts {@code @Controller} registrations
@@ -143,7 +143,6 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
   private Supplier<RequestMappingHandlerMapping> handlerMappingFactory = RequestMappingHandlerMapping::new;
 
-
   /**
    * Protected constructor. Not intended for direct instantiation.
    *
@@ -161,12 +160,11 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
     return instances;
   }
 
-
   /**
    * Register one or more {@link cn.taketoday.web.bind.annotation.ControllerAdvice}
    * instances to be used in tests (specified {@code Class} will be turned into instance).
    * <p>Normally {@code @ControllerAdvice} are auto-detected as long as they're declared
-   * as Spring beans. However since the standalone setup does not load any Spring config,
+   * as Today beans. However since the standalone setup does not load any Today config,
    * they need to be registered explicitly here instead much like controllers.
    */
   public StandaloneMockMvcBuilder setControllerAdvice(Object... controllerAdvice) {
@@ -233,7 +231,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
   }
 
   /**
-   * Specify the timeout value for async execution. In Spring MVC Test, this
+   * Specify the timeout value for async execution. In Today MVC Test, this
    * value is used to determine how to long to wait for async execution to
    * complete so that a test can verify the results synchronously.
    *
@@ -380,7 +378,6 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
     return this;
   }
 
-
   @Override
   protected WebApplicationContext initWebAppContext() {
     MockServletContext servletContext = new MockServletContext();
@@ -416,7 +413,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
     wac.addBean("requestMappingHandlerMapping", hm);
 
     RequestMappingHandlerAdapter ha = config.requestMappingHandlerAdapter(mvcContentNegotiationManager,
-            mvcConversionService, mvcValidator);
+                                                                          mvcConversionService, mvcValidator);
     if (sc != null) {
       ha.setServletContext(sc);
     }
@@ -439,7 +436,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
 
   private List<ViewResolver> initViewResolvers(WebApplicationContext wac) {
     this.viewResolvers = (this.viewResolvers != null ? this.viewResolvers :
-            Collections.singletonList(new InternalResourceViewResolver()));
+                          Collections.singletonList(new InternalResourceViewResolver()));
     for (Object viewResolver : this.viewResolvers) {
       if (viewResolver instanceof WebApplicationObjectSupport) {
         ((WebApplicationObjectSupport) viewResolver).setApplicationContext(wac);
@@ -449,7 +446,7 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
   }
 
   /**
-   * This method could be used from a sub-class to register additional Spring
+   * This method could be used from a sub-class to register additional Today
    * MVC infrastructure such as additional {@code HandlerMapping},
    * {@code HandlerAdapter}, and others.
    *
@@ -459,7 +456,6 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
   protected Map<String, Object> extendMvcSingletons(@Nullable ServletContext servletContext) {
     return Collections.emptyMap();
   }
-
 
   /** Using the MVC Java configuration as the starting point for the "standalone" setup. */
   private class StandaloneConfiguration extends WebMvcConfigurationSupport {
@@ -586,7 +582,6 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
       return this.helper.replacePlaceholders(strVal, this.resolver);
     }
   }
-
 
   /**
    * A {@link ViewResolver} that always returns same View.

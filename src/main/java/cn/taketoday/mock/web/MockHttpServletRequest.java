@@ -20,32 +20,6 @@
 
 package cn.taketoday.mock.web;
 
-import cn.taketoday.core.DefaultMultiValueMap;
-import cn.taketoday.core.MultiValueMap;
-import cn.taketoday.http.HttpHeaders;
-import cn.taketoday.lang.Assert;
-import cn.taketoday.lang.NonNull;
-import cn.taketoday.lang.Nullable;
-import cn.taketoday.util.LinkedCaseInsensitiveMap;
-import cn.taketoday.util.MediaType;
-import cn.taketoday.util.ObjectUtils;
-import cn.taketoday.util.StreamUtils;
-import cn.taketoday.util.StringUtils;
-import jakarta.servlet.AsyncContext;
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletInputStream;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpUpgradeHandler;
-import jakarta.servlet.http.Part;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -73,6 +47,32 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+import cn.taketoday.core.DefaultMultiValueMap;
+import cn.taketoday.core.MultiValueMap;
+import cn.taketoday.http.HttpHeaders;
+import cn.taketoday.lang.Assert;
+import cn.taketoday.lang.NonNull;
+import cn.taketoday.lang.Nullable;
+import cn.taketoday.util.LinkedCaseInsensitiveMap;
+import cn.taketoday.util.MediaType;
+import cn.taketoday.util.ObjectUtils;
+import cn.taketoday.util.StreamUtils;
+import cn.taketoday.util.StringUtils;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
+
 /**
  * Mock implementation of the {@link jakarta.servlet.http.HttpServletRequest} interface.
  *
@@ -80,7 +80,7 @@ import java.util.stream.Collectors;
  * is {@link Locale#ENGLISH}. This value can be changed via {@link #addPreferredLocale}
  * or {@link #setPreferredLocales}.
  *
- * <p>As of Spring Framework 5.0, this set of mocks is designed on a Servlet 4.0 baseline.
+ * <p> this set of mocks is designed on a Servlet 4.0 baseline.
  *
  * @author Juergen Hoeller
  * @author Rod Johnson
@@ -116,7 +116,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
           "EEE, dd-MMM-yy HH:mm:ss zzz",
           "EEE MMM dd HH:mm:ss yyyy"
   };
-
 
   // ---------------------------------------------------------------------
   // Public constants
@@ -157,7 +156,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
    */
   public static final String DEFAULT_REMOTE_HOST = "localhost";
 
-
   // ---------------------------------------------------------------------
   // Lifecycle properties
   // ---------------------------------------------------------------------
@@ -165,7 +163,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
   private final ServletContext servletContext;
 
   private boolean active = true;
-
 
   // ---------------------------------------------------------------------
   // ServletRequest properties
@@ -224,7 +221,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
 
   private DispatcherType dispatcherType = DispatcherType.REQUEST;
 
-
   // ---------------------------------------------------------------------
   // HttpServletRequest properties
   // ---------------------------------------------------------------------
@@ -274,7 +270,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
   private boolean requestedSessionIdFromURL = false;
 
   private final MultiValueMap<String, Part> parts = new DefaultMultiValueMap<>();
-
 
   // ---------------------------------------------------------------------
   // Constructors
@@ -336,7 +331,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
     this.locales.add(Locale.ENGLISH);
   }
 
-
   // ---------------------------------------------------------------------
   // Lifecycle methods
   // ---------------------------------------------------------------------
@@ -379,7 +373,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
   protected void checkActive() throws IllegalStateException {
     Assert.state(this.active, "Request is not active anymore");
   }
-
 
   // ---------------------------------------------------------------------
   // ServletRequest interface
@@ -461,8 +454,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
   @Nullable
   public String getContentAsString() throws IllegalStateException, UnsupportedEncodingException {
     Assert.state(this.characterEncoding != null,
-            "Cannot get content as a String for a null character encoding. " +
-                    "Consider setting the characterEncoding in the request.");
+                 "Cannot get content as a String for a null character encoding. " +
+                         "Consider setting the characterEncoding in the request.");
 
     if (this.content == null) {
       return null;
@@ -517,8 +510,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
     }
 
     this.inputStream = (this.content != null ?
-            new DelegatingServletInputStream(new ByteArrayInputStream(this.content)) :
-            EMPTY_SERVLET_INPUT_STREAM);
+                        new DelegatingServletInputStream(new ByteArrayInputStream(this.content)) :
+                        EMPTY_SERVLET_INPUT_STREAM);
     return this.inputStream;
   }
 
@@ -606,7 +599,7 @@ public class MockHttpServletRequest implements HttpServletRequest {
       }
       else {
         throw new IllegalArgumentException("Parameter map value must be single value " +
-                " or array of type [" + String.class.getName() + "]");
+                                                   " or array of type [" + String.class.getName() + "]");
       }
     });
   }
@@ -734,8 +727,8 @@ public class MockHttpServletRequest implements HttpServletRequest {
     if (this.content != null) {
       InputStream sourceStream = new ByteArrayInputStream(this.content);
       Reader sourceReader = (this.characterEncoding != null) ?
-              new InputStreamReader(sourceStream, this.characterEncoding) :
-              new InputStreamReader(sourceStream);
+                            new InputStreamReader(sourceStream, this.characterEncoding) :
+                            new InputStreamReader(sourceStream);
       this.reader = new BufferedReader(sourceReader);
     }
     else {
@@ -975,7 +968,6 @@ public class MockHttpServletRequest implements HttpServletRequest {
   public DispatcherType getDispatcherType() {
     return this.dispatcherType;
   }
-
 
   // ---------------------------------------------------------------------
   // HttpServletRequest interface
