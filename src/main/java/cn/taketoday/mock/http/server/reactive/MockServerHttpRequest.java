@@ -20,18 +20,6 @@
 
 package cn.taketoday.mock.http.server.reactive;
 
-import org.reactivestreams.Publisher;
-
-import java.net.InetSocketAddress;
-import java.net.URI;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
 import cn.taketoday.core.DefaultMultiValueMap;
 import cn.taketoday.core.MultiValueMap;
 import cn.taketoday.core.io.buffer.DataBuffer;
@@ -48,7 +36,18 @@ import cn.taketoday.util.MediaType;
 import cn.taketoday.util.MimeType;
 import cn.taketoday.util.StringUtils;
 import cn.taketoday.web.util.UriComponentsBuilder;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
+
+import java.net.InetSocketAddress;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Mock extension of {@link AbstractServerHttpRequest} for use in tests without
@@ -614,13 +613,15 @@ public final class MockServerHttpRequest extends AbstractServerHttpRequest {
     @Override
     public MockServerHttpRequest body(Publisher<? extends DataBuffer> body) {
       applyCookiesIfNecessary();
-      return new MockServerHttpRequest(this.methodValue, getUrlToUse(), this.contextPath,
-                                       this.headers, this.cookies, this.localAddress, this.remoteAddress, this.sslInfo, body);
+      return new MockServerHttpRequest(
+              this.methodValue, getUrlToUse(), this.contextPath, this.headers,
+              this.cookies, this.localAddress, this.remoteAddress, this.sslInfo, body);
     }
 
     private void applyCookiesIfNecessary() {
       if (this.headers.get(HttpHeaders.COOKIE) == null) {
-        this.cookies.values().stream().flatMap(Collection::stream)
+        this.cookies.values().stream()
+                .flatMap(Collection::stream)
                 .forEach(cookie -> this.headers.add(HttpHeaders.COOKIE, cookie.toString()));
       }
     }
