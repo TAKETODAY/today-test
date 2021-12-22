@@ -58,7 +58,7 @@ import jakarta.servlet.ServletContext;
 public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>>
         extends MockMvcBuilderSupport implements ConfigurableMockMvcBuilder<B> {
 
-  private final List<Filter> filters = new ArrayList<>();
+  private final ArrayList<Filter> filters = new ArrayList<>();
 
   @Nullable
   private RequestBuilder defaultRequestBuilder;
@@ -172,9 +172,10 @@ public abstract class AbstractMockMvcBuilder<B extends AbstractMockMvcBuilder<B>
 
     Filter[] filterArray = this.filters.toArray(new Filter[0]);
 
-    return super.createMockMvc(filterArray, mockServletConfig, wac, this.defaultRequestBuilder,
-                               this.defaultResponseCharacterEncoding, this.globalResultMatchers, this.globalResultHandlers,
-                               this.dispatcherServletCustomizers);
+    return super.createMockMvc(
+            filterArray, mockServletConfig, wac, this.defaultRequestBuilder,
+            this.defaultResponseCharacterEncoding, this.globalResultMatchers, this.globalResultHandlers,
+            this.dispatcherServletCustomizers);
   }
 
   /**

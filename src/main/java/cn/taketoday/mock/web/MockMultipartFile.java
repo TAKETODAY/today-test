@@ -115,7 +115,7 @@ public class MockMultipartFile implements MultipartFile {
 
   @Override
   @NonNull
-  public String getOriginalFilename() {
+  public String getFileName() {
     return this.originalFilename;
   }
 
@@ -141,12 +141,20 @@ public class MockMultipartFile implements MultipartFile {
   }
 
   @Override
+  public Object getOriginalResource() {
+    return content;
+  }
+
+  @Override
+  public void delete() throws IOException { }
+
+  @Override
   public InputStream getInputStream() throws IOException {
     return new ByteArrayInputStream(this.content);
   }
 
   @Override
-  public void transferTo(File dest) throws IOException, IllegalStateException {
+  public void save(File dest) throws IOException {
     FileCopyUtils.copy(this.content, dest);
   }
 

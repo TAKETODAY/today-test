@@ -22,7 +22,7 @@ package cn.taketoday.test.web.servlet.setup;
 
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.test.web.servlet.request.RequestPostProcessor;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -55,8 +55,8 @@ public class SharedHttpSessionConfigurer implements MockMvcConfigurer {
   }
 
   @Override
-  public RequestPostProcessor beforeMockMvcCreated(ConfigurableMockMvcBuilder<?> builder,
-                                                   WebApplicationContext context) {
+  public RequestPostProcessor beforeMockMvcCreated(
+          ConfigurableMockMvcBuilder<?> builder, WebApplicationContext context) {
 
     return request -> {
       if (this.session != null) {

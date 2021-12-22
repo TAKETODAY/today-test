@@ -49,21 +49,22 @@ public abstract class MockMvcBuilderSupport {
    * for creation of the {@link MockMvc} instance and configures that instance
    * with the supplied {@code defaultResponseCharacterEncoding}.
    */
-  protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
-                                        WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
-                                        @Nullable Charset defaultResponseCharacterEncoding,
-                                        List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
-                                        @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
+  protected final MockMvc createMockMvc(
+          Filter[] filters, MockServletConfig servletConfig,
+          WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
+          @Nullable Charset defaultResponseCharacterEncoding, List<ResultMatcher> globalResultMatchers,
+          List<ResultHandler> globalResultHandlers, @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
 
     MockMvc mockMvc = createMockMvc(filters, servletConfig, webAppContext, defaultRequestBuilder, globalResultMatchers, globalResultHandlers, dispatcherServletCustomizers);
     mockMvc.setDefaultResponseCharacterEncoding(defaultResponseCharacterEncoding);
     return mockMvc;
   }
 
-  protected final MockMvc createMockMvc(Filter[] filters, MockServletConfig servletConfig,
-                                        WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
-                                        List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
-                                        @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
+  protected final MockMvc createMockMvc(
+          Filter[] filters, MockServletConfig servletConfig,
+          WebServletApplicationContext webAppContext, @Nullable RequestBuilder defaultRequestBuilder,
+          List<ResultMatcher> globalResultMatchers, List<ResultHandler> globalResultHandlers,
+          @Nullable List<DispatcherServletCustomizer> dispatcherServletCustomizers) {
 
     TestDispatcherServlet dispatcherServlet = new TestDispatcherServlet(webAppContext);
     if (dispatcherServletCustomizers != null) {

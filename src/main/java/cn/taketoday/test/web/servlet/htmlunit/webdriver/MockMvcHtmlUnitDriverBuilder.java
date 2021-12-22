@@ -31,7 +31,7 @@ import cn.taketoday.test.web.servlet.MockMvc;
 import cn.taketoday.test.web.servlet.htmlunit.MockMvcWebConnectionBuilderSupport;
 import cn.taketoday.test.web.servlet.htmlunit.WebRequestMatcher;
 import cn.taketoday.test.web.servlet.setup.MockMvcConfigurer;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 
 /**
  * {@code MockMvcHtmlUnitDriverBuilder} simplifies the building of an

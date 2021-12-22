@@ -29,48 +29,27 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import cn.taketoday.beans.BeansException;
-import cn.taketoday.beans.factory.BeanInitializationException;
-import cn.taketoday.beans.factory.InitializingBean;
+import javax.swing.text.View;
+
+import cn.taketoday.beans.InitializingBean;
+import cn.taketoday.beans.factory.BeansException;
 import cn.taketoday.beans.support.BeanUtils;
 import cn.taketoday.context.ApplicationContext;
-import cn.taketoday.context.ApplicationContextAware;
-import cn.taketoday.format.support.DefaultFormattingConversionService;
-import cn.taketoday.format.support.FormattingConversionService;
+import cn.taketoday.context.aware.ApplicationContextAware;
+import cn.taketoday.core.StringValueResolver;
 import cn.taketoday.http.converter.HttpMessageConverter;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.mock.web.MockServletContext;
-import cn.taketoday.util.PropertyPlaceholderHelper;
-import cn.taketoday.util.PropertyPlaceholderHelper.PlaceholderResolver;
-import cn.taketoday.util.StringValueResolver;
-import cn.taketoday.validation.Validator;
-import cn.taketoday.web.accept.ContentNegotiationManager;
-import cn.taketoday.web.context.WebApplicationContext;
-import cn.taketoday.web.context.support.WebApplicationObjectSupport;
-import cn.taketoday.web.method.support.HandlerMethodArgumentResolver;
-import cn.taketoday.web.method.support.HandlerMethodReturnValueHandler;
+import cn.taketoday.util.PlaceholderResolver;
+import cn.taketoday.util.PropertyPlaceholderHandler;
+import cn.taketoday.web.WebApplicationContext;
+import cn.taketoday.web.interceptor.HandlerInterceptor;
+import cn.taketoday.web.interceptor.InterceptorRegistration;
+import cn.taketoday.web.interceptor.InterceptorRegistry;
 import cn.taketoday.web.servlet.DispatcherServlet;
-import cn.taketoday.web.servlet.FlashMapManager;
-import cn.taketoday.web.servlet.HandlerExceptionResolver;
-import cn.taketoday.web.servlet.HandlerInterceptor;
-import cn.taketoday.web.servlet.LocaleResolver;
-import cn.taketoday.web.servlet.View;
-import cn.taketoday.web.servlet.ViewResolver;
-import cn.taketoday.web.servlet.config.annotation.AsyncSupportConfigurer;
-import cn.taketoday.web.servlet.config.annotation.InterceptorRegistration;
-import cn.taketoday.web.servlet.config.annotation.InterceptorRegistry;
-import cn.taketoday.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import cn.taketoday.web.servlet.handler.AbstractHandlerMapping;
-import cn.taketoday.web.servlet.handler.MappedInterceptor;
-import cn.taketoday.web.servlet.i18n.AcceptHeaderLocaleResolver;
-import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
-import cn.taketoday.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import cn.taketoday.web.servlet.resource.ResourceUrlProvider;
-import cn.taketoday.web.servlet.support.SessionFlashMapManager;
-import cn.taketoday.web.servlet.theme.FixedThemeResolver;
-import cn.taketoday.web.servlet.view.DefaultRequestToViewNameTranslator;
-import cn.taketoday.web.servlet.view.InternalResourceViewResolver;
 import cn.taketoday.web.util.pattern.PathPatternParser;
+import cn.taketoday.web.validation.Validator;
+import cn.taketoday.web.view.HandlerMethodReturnValueHandler;
 import jakarta.servlet.ServletContext;
 
 /**
@@ -568,12 +547,12 @@ public class StandaloneMockMvcBuilder extends AbstractMockMvcBuilder<StandaloneM
    */
   private static class StaticStringValueResolver implements StringValueResolver {
 
-    private final PropertyPlaceholderHelper helper;
+    private final PropertyPlaceholderHandler helper;
 
     private final PlaceholderResolver resolver;
 
     public StaticStringValueResolver(Map<String, String> values) {
-      this.helper = new PropertyPlaceholderHelper("${", "}", ":", false);
+      this.helper = new PropertyPlaceholderHandler("${", "}", ":", false);
       this.resolver = values::get;
     }
 

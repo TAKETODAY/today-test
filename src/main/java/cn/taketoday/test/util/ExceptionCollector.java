@@ -98,8 +98,7 @@ public class ExceptionCollector {
       if (exception instanceof Exception ex) {
         throw ex;
       }
-      AssertionError assertionError = new AssertionError(exception.getMessage(), exception);
-      throw assertionError;
+      throw new AssertionError(exception.getMessage(), exception);
     }
 
     StringBuilder message = new StringBuilder();

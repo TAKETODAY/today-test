@@ -39,6 +39,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import cn.taketoday.core.ParameterizedTypeReference;
+import cn.taketoday.core.TypeReference;
 import cn.taketoday.core.io.ByteArrayResource;
 import cn.taketoday.http.HttpHeaders;
 import cn.taketoday.http.HttpMethod;
@@ -503,7 +504,7 @@ class DefaultWebTestClient implements WebTestClient {
     }
 
     @Override
-    public <T> FluxExchangeResult<T> returnResult(ParameterizedTypeReference<T> elementTypeRef) {
+    public <T> FluxExchangeResult<T> returnResult(TypeReference<T> elementTypeRef) {
       Flux<T> body = this.response.bodyToFlux(elementTypeRef);
       return new FluxExchangeResult<>(this.exchangeResult, body);
     }

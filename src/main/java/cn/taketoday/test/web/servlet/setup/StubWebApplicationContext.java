@@ -52,7 +52,7 @@ import cn.taketoday.core.io.support.ResourcePatternResolver;
 import cn.taketoday.lang.Nullable;
 import cn.taketoday.util.ClassUtils;
 import cn.taketoday.util.ObjectUtils;
-import cn.taketoday.web.context.WebApplicationContext;
+import cn.taketoday.web.WebApplicationContext;
 import cn.taketoday.web.context.support.ServletContextResourcePatternResolver;
 import jakarta.servlet.ServletContext;
 

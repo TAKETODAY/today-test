@@ -74,7 +74,7 @@ public interface MvcResult {
 
   /**
    * Return any exception raised by a handler and successfully resolved
-   * through a {@link HandlerExceptionResolver}.
+   * through a {@link cn.taketoday.web.handler.HandlerExceptionHandler}.
    *
    * @return an exception, or {@code null} if none
    */
